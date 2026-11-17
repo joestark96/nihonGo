@@ -6334,20 +6334,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb3-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Irá a Kioto el sábado.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb3-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Irá a Tokio el domingo."
               },
               {
                 "id": "opt-wb3-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Se quedará en casa el sábado."
               }
             ],
             "correctAnswerId": "opt-wb3-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Doyoubi ni Kyouto e ikimasu (El sábado iré a Kioto)."
           },
           {
             "id": "ex-wb3-bc-2",
@@ -6357,16 +6357,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb3-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Juega tenis a menudo los domingos)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb3-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Nunca hace deporte los domingos)"
               }
             ],
             "correctAnswerId": "opt-wb3-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Nichiyoubi ni yoku tenisu o shimasu (A menudo juego tenis los domingos)."
           },
           {
             "id": "ex-wb3-bc-3",
@@ -6621,20 +6621,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb3-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Irá a Kioto el sábado.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb3-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Irá a Tokio el domingo."
               },
               {
                 "id": "opt-wb3-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Se quedará en casa el sábado."
               }
             ],
             "correctAnswerId": "opt-wb3-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Doyoubi ni Kyouto e ikimasu (El sábado iré a Kioto)."
           },
           {
             "id": "ex-wb3-bc-2",
@@ -6644,16 +6644,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb3-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Juega tenis a menudo los domingos)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb3-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Nunca hace deporte los domingos)"
               }
             ],
             "correctAnswerId": "opt-wb3-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Nichiyoubi ni yoku tenisu o shimasu (A menudo juego tenis los domingos)."
           },
           {
             "id": "ex-wb3-bc-3",
@@ -7607,20 +7607,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb4-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Fue a Kioto ayer con un amigo.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb4-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Fue solo al cine ayer."
               },
               {
                 "id": "opt-wb4-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Irá a Kioto mañana con su familia."
               }
             ],
             "correctAnswerId": "opt-wb4-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kinou, tomodachi to Kyouto e ikimashita (Ayer fui a Kioto con un amigo)."
           },
           {
             "id": "ex-wb4-bc-2",
@@ -7630,16 +7630,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb4-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Esperó frente a McDonald's)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb4-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Esperó dentro de la estación de tren)"
               }
             ],
             "correctAnswerId": "opt-wb4-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Makudonarudo no mae de machimashita (Esperé frente a McDonald's)."
           },
           {
             "id": "ex-wb4-bc-3",
@@ -7894,20 +7894,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb4-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Fue a Kioto ayer con un amigo.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb4-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Fue solo al cine ayer."
               },
               {
                 "id": "opt-wb4-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Irá a Kioto mañana con su familia."
               }
             ],
             "correctAnswerId": "opt-wb4-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kinou, tomodachi to Kyouto e ikimashita (Ayer fui a Kioto con un amigo)."
           },
           {
             "id": "ex-wb4-bc-2",
@@ -7917,16 +7917,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb4-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Esperó frente a McDonald's)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb4-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Esperó dentro de la estación de tren)"
               }
             ],
             "correctAnswerId": "opt-wb4-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Makudonarudo no mae de machimashita (Esperé frente a McDonald's)."
           },
           {
             "id": "ex-wb4-bc-3",
@@ -8868,20 +8868,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb5-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "El mar de Okinawa era muy hermoso y azul.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb5-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Las montañas de Okinawa estaban nevadas."
               },
               {
                 "id": "opt-wb5-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "El mar de Okinawa estaba muy frío y sucio."
               }
             ],
             "correctAnswerId": "opt-wb5-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Okinawa no umi wa totemo kirei de, aokatta desu (El mar de Okinawa era muy hermoso y azul)."
           },
           {
             "id": "ex-wb5-bc-2",
@@ -8891,16 +8891,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb5-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (La comida estaba rica, pero un poco picante)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb5-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (La comida estaba muy dulce y mala)"
               }
             ],
             "correctAnswerId": "opt-wb5-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Ryouri wa oishikatta desu ga, chotto karakatta desu (La comida estuvo rica, pero un poco picante)."
           },
           {
             "id": "ex-wb5-bc-3",
@@ -9153,20 +9153,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb5-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "El mar de Okinawa era muy hermoso y azul.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb5-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Las montañas de Okinawa estaban nevadas."
               },
               {
                 "id": "opt-wb5-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "El mar de Okinawa estaba muy frío y sucio."
               }
             ],
             "correctAnswerId": "opt-wb5-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Okinawa no umi wa totemo kirei de, aokatta desu (El mar de Okinawa era muy hermoso y azul)."
           },
           {
             "id": "ex-wb5-bc-2",
@@ -9176,16 +9176,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb5-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (La comida estaba rica, pero un poco picante)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb5-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (La comida estaba muy dulce y mala)"
               }
             ],
             "correctAnswerId": "opt-wb5-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Ryouri wa oishikatta desu ga, chotto karakatta desu (La comida estuvo rica, pero un poco picante)."
           },
           {
             "id": "ex-wb5-bc-3",
@@ -10043,20 +10043,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb6-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Abran la página 60 del libro de texto y lean la siguiente oración.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb6-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Cierren el libro y escriban en el cuaderno."
               },
               {
                 "id": "opt-wb6-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Abran la página 16 y escuchen el audio."
               }
             ],
             "correctAnswerId": "opt-wb6-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kyoukasho no rokujuu peeji o akete, tsugi no bun o yonde kudasai."
           },
           {
             "id": "ex-wb6-bc-2",
@@ -10066,16 +10066,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb6-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Ya se va porque mañana debe madrugar)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb6-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Se quedará hasta medianoche porque mañana descansa)"
               }
             ],
             "correctAnswerId": "opt-wb6-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Ashita hayaku okinakereba ikemasen kara, mou kaerimasu (Como debo madrugar mañana, ya me regreso)."
           },
           {
             "id": "ex-wb6-bc-3",
@@ -10330,20 +10330,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb6-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Abran la página 60 del libro de texto y lean la siguiente oración.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb6-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Cierren el libro y escriban en el cuaderno."
               },
               {
                 "id": "opt-wb6-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Abran la página 16 y escuchen el audio."
               }
             ],
             "correctAnswerId": "opt-wb6-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kyoukasho no rokujuu peeji o akete, tsugi no bun o yonde kudasai."
           },
           {
             "id": "ex-wb6-bc-2",
@@ -10353,16 +10353,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb6-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Ya se va porque mañana debe madrugar)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb6-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Se quedará hasta medianoche porque mañana descansa)"
               }
             ],
             "correctAnswerId": "opt-wb6-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Ashita hayaku okinakereba ikemasen kara, mou kaerimasu (Como debo madrugar mañana, ya me regreso)."
           },
           {
             "id": "ex-wb6-bc-3",
@@ -11235,20 +11235,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb7-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Su hermana menor tiene ojos grandes y es muy linda.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb7-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Su hermano mayor es muy alto y delgado."
               },
               {
                 "id": "opt-wb7-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Su hermana mayor tiene el cabello corto."
               }
             ],
             "correctAnswerId": "opt-wb7-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Imouto wa me ga ookikute, totemo kawaii desu (Mi hermana menor tiene ojos grandes y es muy linda)."
           },
           {
             "id": "ex-wb7-bc-2",
@@ -11258,16 +11258,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb7-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Esta cafetería es tranquila y barata)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb7-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Esta cafetería es muy ruidosa y cara)"
               }
             ],
             "correctAnswerId": "opt-wb7-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kono kissaten wa shizuka de yasui desu (Esta cafetería es tranquila y barata)."
           },
           {
             "id": "ex-wb7-bc-3",
@@ -11450,20 +11450,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb7-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Su hermana menor tiene ojos grandes y es muy linda.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb7-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Su hermano mayor es muy alto y delgado."
               },
               {
                 "id": "opt-wb7-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Su hermana mayor tiene el cabello corto."
               }
             ],
             "correctAnswerId": "opt-wb7-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Imouto wa me ga ookikute, totemo kawaii desu (Mi hermana menor tiene ojos grandes y es muy linda)."
           },
           {
             "id": "ex-wb7-bc-2",
@@ -11473,16 +11473,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb7-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Esta cafetería es tranquila y barata)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb7-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Esta cafetería es muy ruidosa y cara)"
               }
             ],
             "correctAnswerId": "opt-wb7-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kono kissaten wa shizuka de yasui desu (Esta cafetería es tranquila y barata)."
           },
           {
             "id": "ex-wb7-bc-3",
@@ -12426,20 +12426,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb8-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Se invitan a cenar juntos esta noche y acuerdan decidir qué comer.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb8-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Rechaza la invitación porque tiene mucha tarea."
               },
               {
                 "id": "opt-wb8-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Deciden ir al cine en lugar de cenar."
               }
             ],
             "correctAnswerId": "opt-wb8-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Konban, issho ni gohan o tabenai? — Un, ii ne. Nani o taberu? (¿Cenamos juntos esta noche?)."
           },
           {
             "id": "ex-wb8-bc-2",
@@ -12449,16 +12449,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb8-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (No irá a ningún lado para estudiar para el examen)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb8-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Saldrá de paseo con amigos antes del examen)"
               }
             ],
             "correctAnswerId": "opt-wb8-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Ashita wa tesuto ga aru kara, doko ni mo ikanaide benkyou suru (Como mañana tengo examen, estudiaré sin salir)."
           },
           {
             "id": "ex-wb8-bc-3",
@@ -12641,20 +12641,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb8-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Se invitan a cenar juntos esta noche y acuerdan decidir qué comer.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb8-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Rechaza la invitación porque tiene mucha tarea."
               },
               {
                 "id": "opt-wb8-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Deciden ir al cine en lugar de cenar."
               }
             ],
             "correctAnswerId": "opt-wb8-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Konban, issho ni gohan o tabenai? — Un, ii ne. Nani o taberu? (¿Cenamos juntos esta noche?)."
           },
           {
             "id": "ex-wb8-bc-2",
@@ -12664,16 +12664,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb8-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (No irá a ningún lado para estudiar para el examen)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb8-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Saldrá de paseo con amigos antes del examen)"
               }
             ],
             "correctAnswerId": "opt-wb8-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Ashita wa tesuto ga aru kara, doko ni mo ikanaide benkyou suru (Como mañana tengo examen, estudiaré sin salir)."
           },
           {
             "id": "ex-wb8-bc-3",
@@ -13441,20 +13441,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb9-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Dice que el examen de ayer no estuvo muy difícil.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb9-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Dice que el examen de ayer fue extremadamente difícil."
               },
               {
                 "id": "opt-wb9-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Dice que olvidó presentar el examen de ayer."
               }
             ],
             "correctAnswerId": "opt-wb9-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kinou no shiken, amari muzukashikunakatta yo (El examen de ayer no estuvo muy difícil)."
           },
           {
             "id": "ex-wb9-bc-2",
@@ -13469,11 +13469,11 @@ export const genkiCurriculum: Unit[] = [
               },
               {
                 "id": "opt-wb9-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Se quedará en casa descansando)"
               }
             ],
             "correctAnswerId": "opt-wb9-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu (Este fin de semana iré al cine con amigos)."
           },
           {
             "id": "ex-wb9-bc-3",
@@ -13656,20 +13656,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb9-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Dice que el examen de ayer no estuvo muy difícil.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb9-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Dice que el examen de ayer fue extremadamente difícil."
               },
               {
                 "id": "opt-wb9-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Dice que olvidó presentar el examen de ayer."
               }
             ],
             "correctAnswerId": "opt-wb9-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kinou no shiken, amari muzukashikunakatta yo (El examen de ayer no estuvo muy difícil)."
           },
           {
             "id": "ex-wb9-bc-2",
@@ -13684,11 +13684,11 @@ export const genkiCurriculum: Unit[] = [
               },
               {
                 "id": "opt-wb9-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Se quedará en casa descansando)"
               }
             ],
             "correctAnswerId": "opt-wb9-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu (Este fin de semana iré al cine con amigos)."
           },
           {
             "id": "ex-wb9-bc-3",
@@ -14631,20 +14631,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb10-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Propone ir en avión porque es más rápido que el tren bala (Shinkansen).",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb10-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Prefiere viajar en tren bala porque el avión es muy caro."
               },
               {
                 "id": "opt-wb10-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Deciden viajar en autobús nocturno."
               }
             ],
             "correctAnswerId": "opt-wb10-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Hikouki no hou ga shinkansen yori hayai desu kara, hikouki de ikimashou."
           },
           {
             "id": "ex-wb10-bc-2",
@@ -14654,16 +14654,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb10-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Su estación favorita es el otoño por las hojas rojas)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb10-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Prefiere el verano porque le gusta el calor)"
               }
             ],
             "correctAnswerId": "opt-wb10-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kisetsu no naka de aki ga ichiban suki desu. Momiji ga kirei desu kara."
           },
           {
             "id": "ex-wb10-bc-3",
@@ -14916,20 +14916,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb10-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Propone ir en avión porque es más rápido que el tren bala (Shinkansen).",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb10-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Prefiere viajar en tren bala porque el avión es muy caro."
               },
               {
                 "id": "opt-wb10-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Deciden viajar en autobús nocturno."
               }
             ],
             "correctAnswerId": "opt-wb10-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Hikouki no hou ga shinkansen yori hayai desu kara, hikouki de ikimashou."
           },
           {
             "id": "ex-wb10-bc-2",
@@ -14939,16 +14939,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb10-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Su estación favorita es el otoño por las hojas rojas)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb10-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Prefiere el verano porque le gusta el calor)"
               }
             ],
             "correctAnswerId": "opt-wb10-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kisetsu no naka de aki ga ichiban suki desu. Momiji ga kirei desu kara."
           },
           {
             "id": "ex-wb10-bc-3",
@@ -15713,20 +15713,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb11-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "En estas vacaciones de verano quiere ir a Okinawa y nadar en el mar.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb11-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "En invierno quiere ir a Hokkaido a esquiar."
               },
               {
                 "id": "opt-wb11-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Ya fue a Okinawa el verano pasado y no quiere volver."
               }
             ],
             "correctAnswerId": "opt-wb11-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kotoshi no natsuyasumi wa Okinawa ni itte, umi de oyogitai desu."
           },
           {
             "id": "ex-wb11-bc-2",
@@ -15736,16 +15736,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb11-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Ayer limpió su cuarto y lavó la ropa)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb11-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Ayer no hizo ningún quehacer doméstico)"
               }
             ],
             "correctAnswerId": "opt-wb11-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kinou wa heya o souji shitari, sentaku shitari shimashita (Ayer limpié mi cuarto, lavé la ropa, etc.)."
           },
           {
             "id": "ex-wb11-bc-3",
@@ -15928,20 +15928,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb11-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "En estas vacaciones de verano quiere ir a Okinawa y nadar en el mar.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb11-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "En invierno quiere ir a Hokkaido a esquiar."
               },
               {
                 "id": "opt-wb11-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Ya fue a Okinawa el verano pasado y no quiere volver."
               }
             ],
             "correctAnswerId": "opt-wb11-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kotoshi no natsuyasumi wa Okinawa ni itte, umi de oyogitai desu."
           },
           {
             "id": "ex-wb11-bc-2",
@@ -15951,16 +15951,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb11-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Ayer limpió su cuarto y lavó la ropa)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb11-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Ayer no hizo ningún quehacer doméstico)"
               }
             ],
             "correctAnswerId": "opt-wb11-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kinou wa heya o souji shitari, sentaku shitari shimashita (Ayer limpié mi cuarto, lavé la ropa, etc.)."
           },
           {
             "id": "ex-wb11-bc-3",
@@ -16732,20 +16732,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb12-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Tiene dolor de cabeza desde ayer y también tiene fiebre.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb12-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Le duele el estómago desde esta mañana, pero no tiene fiebre."
               },
               {
                 "id": "opt-wb12-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Se siente perfectamente bien para ir a clase."
               }
             ],
             "correctAnswerId": "opt-wb12-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kinou kara atama ga itakute, netsu mo arun desu (Desde ayer me duele la cabeza y también tengo fiebre)."
           },
           {
             "id": "ex-wb12-bc-2",
@@ -16755,16 +16755,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb12-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Recomienda tomar medicina y acostarse temprano)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb12-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Sugiere salir a correr aunque esté enfermo)"
               }
             ],
             "correctAnswerId": "opt-wb12-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kyou wa kusuri o nonde, hayaku neta hou ga ii desu yo (Hoy es mejor que tomes medicina y te acuestes temprano)."
           },
           {
             "id": "ex-wb12-bc-3",
@@ -16947,20 +16947,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb12-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Tiene dolor de cabeza desde ayer y también tiene fiebre.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb12-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Le duele el estómago desde esta mañana, pero no tiene fiebre."
               },
               {
                 "id": "opt-wb12-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Se siente perfectamente bien para ir a clase."
               }
             ],
             "correctAnswerId": "opt-wb12-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kinou kara atama ga itakute, netsu mo arun desu (Desde ayer me duele la cabeza y también tengo fiebre)."
           },
           {
             "id": "ex-wb12-bc-2",
@@ -16970,16 +16970,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb12-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Recomienda tomar medicina y acostarse temprano)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb12-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Sugiere salir a correr aunque esté enfermo)"
               }
             ],
             "correctAnswerId": "opt-wb12-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kyou wa kusuri o nonde, hayaku neta hou ga ii desu yo (Hoy es mejor que tomes medicina y te acuestes temprano)."
           },
           {
             "id": "ex-wb12-bc-3",
@@ -17756,20 +17756,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb13-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Como parece que hará buen tiempo este fin de semana, propone ir todos al mar.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb13-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Como parece que va a llover, sugiere quedarse en casa."
               },
               {
                 "id": "opt-wb13-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Irá solo a la montaña este fin de semana."
               }
             ],
             "correctAnswerId": "opt-wb13-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Konshuumatsu wa tenki ga yosasou desu kara, minna de umi e ikimashou."
           },
           {
             "id": "ex-wb13-bc-2",
@@ -17779,16 +17779,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb13-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (El tren llegará al andén 2 y pide retroceder tras la línea amarilla)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb13-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (El tren fue cancelado y deben salir de la estación)"
               }
             ],
             "correctAnswerId": "opt-wb13-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Mamonaku ni-bansen ni densha ga mairimasu. Kiiroi sen no ushiro made osagari kudasai."
           },
           {
             "id": "ex-wb13-bc-3",
@@ -18043,20 +18043,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb13-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Como parece que hará buen tiempo este fin de semana, propone ir todos al mar.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb13-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Como parece que va a llover, sugiere quedarse en casa."
               },
               {
                 "id": "opt-wb13-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Irá solo a la montaña este fin de semana."
               }
             ],
             "correctAnswerId": "opt-wb13-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Konshuumatsu wa tenki ga yosasou desu kara, minna de umi e ikimashou."
           },
           {
             "id": "ex-wb13-bc-2",
@@ -18066,16 +18066,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb13-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (El tren llegará al andén 2 y pide retroceder tras la línea amarilla)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb13-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (El tren fue cancelado y deben salir de la estación)"
               }
             ],
             "correctAnswerId": "opt-wb13-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Mamonaku ni-bansen ni densha ga mairimasu. Kiiroi sen no ushiro made osagari kudasai."
           },
           {
             "id": "ex-wb13-bc-3",
@@ -18842,20 +18842,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb14-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "En San Valentín, Mary le dio chocolates a Takeshi y él se puso muy contento.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb14-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Takeshi le regaló flores a Mary y ella se sorprendió."
               },
               {
                 "id": "opt-wb14-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Mary olvidó comprar chocolates para San Valentín."
               }
             ],
             "correctAnswerId": "opt-wb14-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Mary-san wa Takeshi-san ni chokoreeto o agemashita. Takeshi-san wa totemo yorokonde imashita."
           },
           {
             "id": "ex-wb14-bc-2",
@@ -18865,16 +18865,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb14-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Sugiere tomar medicina y dormir temprano si le duele la cabeza)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb14-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Sugiere tomar café fuerte y estudiar toda la noche)"
               }
             ],
             "correctAnswerId": "opt-wb14-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Atama ga itai nara, kusuri o nonde, kyou wa hayaku netara dou desu ka."
           },
           {
             "id": "ex-wb14-bc-3",
@@ -19130,20 +19130,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb14-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "En San Valentín, Mary le dio chocolates a Takeshi y él se puso muy contento.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb14-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Takeshi le regaló flores a Mary y ella se sorprendió."
               },
               {
                 "id": "opt-wb14-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Mary olvidó comprar chocolates para San Valentín."
               }
             ],
             "correctAnswerId": "opt-wb14-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Mary-san wa Takeshi-san ni chokoreeto o agemashita. Takeshi-san wa totemo yorokonde imashita."
           },
           {
             "id": "ex-wb14-bc-2",
@@ -19153,16 +19153,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb14-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Sugiere tomar medicina y dormir temprano si le duele la cabeza)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb14-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Sugiere tomar café fuerte y estudiar toda la noche)"
               }
             ],
             "correctAnswerId": "opt-wb14-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Atama ga itai nara, kusuri o nonde, kyou wa hayaku netara dou desu ka."
           },
           {
             "id": "ex-wb14-bc-3",
@@ -19931,20 +19931,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb15-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Piensa ir a esquiar a Nagano en las próximas vacaciones y ya reservó el hotel.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb15-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Todavía no decide a dónde viajar y no ha reservado hotel."
               },
               {
                 "id": "opt-wb15-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Canceló su viaje a Nagano por falta de nieve."
               }
             ],
             "correctAnswerId": "opt-wb15-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kondo no yasumi ni, Nagano e sukii ni iku to omotte imasu. Hoteru mo mou yoyaku shite okimashita."
           },
           {
             "id": "ex-wb15-bc-2",
@@ -19954,16 +19954,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb15-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Planea cenar mañana con amigos en el restaurante que halló ayer)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb15-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Comió solo ayer en casa)"
               }
             ],
             "correctAnswerId": "opt-wb15-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kinou mitsuketa ano mise de, ashita tomodachi to bangohan o taberu tsumori desu."
           },
           {
             "id": "ex-wb15-bc-3",
@@ -20219,20 +20219,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb15-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Piensa ir a esquiar a Nagano en las próximas vacaciones y ya reservó el hotel.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb15-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Todavía no decide a dónde viajar y no ha reservado hotel."
               },
               {
                 "id": "opt-wb15-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Canceló su viaje a Nagano por falta de nieve."
               }
             ],
             "correctAnswerId": "opt-wb15-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kondo no yasumi ni, Nagano e sukii ni iku to omotte imasu. Hoteru mo mou yoyaku shite okimashita."
           },
           {
             "id": "ex-wb15-bc-2",
@@ -20242,16 +20242,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb15-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Planea cenar mañana con amigos en el restaurante que halló ayer)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb15-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Comió solo ayer en casa)"
               }
             ],
             "correctAnswerId": "opt-wb15-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kinou mitsuketa ano mise de, ashita tomodachi to bangohan o taberu tsumori desu."
           },
           {
             "id": "ex-wb15-bc-3",
@@ -21021,20 +21021,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb16-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "¡Qué problema! Olvidó su bolso en el tren y su cartera está adentro.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb16-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Perdió su boleto del tren, pero su cartera está en su bolsillo."
               },
               {
                 "id": "opt-wb16-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Encontró un bolso olvidado en el andén del tren."
               }
             ],
             "correctAnswerId": "opt-wb16-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Densha no naka ni kaban o wasurete shimaimashita. Saifu mo haitte imasu."
           },
           {
             "id": "ex-wb16-bc-2",
@@ -21044,16 +21044,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb16-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Se arrepiente de no haber ido a la fiesta de ayer)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb16-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Fue a la fiesta y dice que estuvo muy aburrida)"
               }
             ],
             "correctAnswerId": "opt-wb16-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kinou no paatii ni ikeba yokatta desu (Ojalá hubiera ido a la fiesta de ayer)."
           },
           {
             "id": "ex-wb16-bc-3",
@@ -21309,20 +21309,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb16-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "¡Qué problema! Olvidó su bolso en el tren y su cartera está adentro.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb16-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Perdió su boleto del tren, pero su cartera está en su bolsillo."
               },
               {
                 "id": "opt-wb16-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Encontró un bolso olvidado en el andén del tren."
               }
             ],
             "correctAnswerId": "opt-wb16-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Densha no naka ni kaban o wasurete shimaimashita. Saifu mo haitte imasu."
           },
           {
             "id": "ex-wb16-bc-2",
@@ -21332,16 +21332,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb16-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Se arrepiente de no haber ido a la fiesta de ayer)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb16-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Fue a la fiesta y dice que estuvo muy aburrida)"
               }
             ],
             "correctAnswerId": "opt-wb16-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kinou no paatii ni ikeba yokatta desu (Ojalá hubiera ido a la fiesta de ayer)."
           },
           {
             "id": "ex-wb16-bc-3",
@@ -22104,20 +22104,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb17-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Escuchó que Takeshi estudiará en Inglaterra el próximo mes y ya empezó a prepararse.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb17-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Escuchó que Takeshi regresó de Inglaterra la semana pasada."
               },
               {
                 "id": "opt-wb17-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Takeshi decidió no ir a Inglaterra por el momento."
               }
             ],
             "correctAnswerId": "opt-wb17-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Takeshi-san wa raigetsu, Igirisu e ryuugaku suru sou desu yo. Mou junbi o hajimeta sou desu."
           },
           {
             "id": "ex-wb17-bc-2",
@@ -22127,16 +22127,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb17-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Si llueve mañana, cancelarán la barbacoa y verán una película en casa)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb17-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Harán la barbacoa en el parque aunque llueva fuerte)"
               }
             ],
             "correctAnswerId": "opt-wb17-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Ashita ame ga futtara, baabekyuu wa yamete, uchi de eiga o mimashou."
           },
           {
             "id": "ex-wb17-bc-3",
@@ -22392,20 +22392,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb17-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Escuchó que Takeshi estudiará en Inglaterra el próximo mes y ya empezó a prepararse.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb17-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Escuchó que Takeshi regresó de Inglaterra la semana pasada."
               },
               {
                 "id": "opt-wb17-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Takeshi decidió no ir a Inglaterra por el momento."
               }
             ],
             "correctAnswerId": "opt-wb17-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Takeshi-san wa raigetsu, Igirisu e ryuugaku suru sou desu yo. Mou junbi o hajimeta sou desu."
           },
           {
             "id": "ex-wb17-bc-2",
@@ -22415,16 +22415,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb17-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Si llueve mañana, cancelarán la barbacoa y verán una película en casa)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb17-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Harán la barbacoa en el parque aunque llueva fuerte)"
               }
             ],
             "correctAnswerId": "opt-wb17-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Ashita ame ga futtara, baabekyuu wa yamete, uchi de eiga o mimashou."
           },
           {
             "id": "ex-wb17-bc-3",
@@ -23185,20 +23185,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb18-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Le asegura que la ventana del cuarto está bien cerrada durante su ausencia.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb18-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Le pide que regrese pronto porque dejó la ventana abierta."
               },
               {
                 "id": "opt-wb18-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Le avisa que olvidó cerrar la puerta con llave."
               }
             ],
             "correctAnswerId": "opt-wb18-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Rusu no aida ni, heya no mado wa chanto shimete arimasu kara, anshin shite kudasai."
           },
           {
             "id": "ex-wb18-bc-2",
@@ -23208,16 +23208,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb18-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Leyó el libro varias veces por adelantado para el examen)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb18-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (No ha abierto el libro de texto todavía)"
               }
             ],
             "correctAnswerId": "opt-wb18-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Raishuu no tesuto no tame ni, kyoukasho o nankai mo yonde okimashita."
           },
           {
             "id": "ex-wb18-bc-3",
@@ -23473,20 +23473,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb18-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Le asegura que la ventana del cuarto está bien cerrada durante su ausencia.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb18-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Le pide que regrese pronto porque dejó la ventana abierta."
               },
               {
                 "id": "opt-wb18-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Le avisa que olvidó cerrar la puerta con llave."
               }
             ],
             "correctAnswerId": "opt-wb18-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Rusu no aida ni, heya no mado wa chanto shimete arimasu kara, anshin shite kudasai."
           },
           {
             "id": "ex-wb18-bc-2",
@@ -23496,16 +23496,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb18-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Leyó el libro varias veces por adelantado para el examen)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb18-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (No ha abierto el libro de texto todavía)"
               }
             ],
             "correctAnswerId": "opt-wb18-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Raishuu no tesuto no tame ni, kyoukasho o nankai mo yonde okimashita."
           },
           {
             "id": "ex-wb18-bc-3",
@@ -24277,20 +24277,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb19-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Pregunta si el profesor Yamada está en su oficina hoy; hace un momento dijo que estaría.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb19-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Avisa que el profesor Yamada salió de viaje toda la semana."
               },
               {
                 "id": "opt-wb19-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Pregunta a qué hora termina la clase de japonés."
               }
             ],
             "correctAnswerId": "opt-wb19-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Yamada-sensei wa kyou kenkyuushitsu ni irasshaimasu ka. Sakihodo sono you ni osshatte imashita."
           },
           {
             "id": "ex-wb19-bc-2",
@@ -24300,16 +24300,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb19-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (El presidente ya se fue y pide llamar mañana por la mañana)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb19-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (El presidente está en su oficina esperando ahora mismo)"
               }
             ],
             "correctAnswerId": "opt-wb19-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Shachou wa mou okaeri ni narimashita. Ashita no asa, mata gorenraku kudasai."
           },
           {
             "id": "ex-wb19-bc-3",
@@ -24565,20 +24565,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb19-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Pregunta si el profesor Yamada está en su oficina hoy; hace un momento dijo que estaría.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb19-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Avisa que el profesor Yamada salió de viaje toda la semana."
               },
               {
                 "id": "opt-wb19-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Pregunta a qué hora termina la clase de japonés."
               }
             ],
             "correctAnswerId": "opt-wb19-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Yamada-sensei wa kyou kenkyuushitsu ni irasshaimasu ka. Sakihodo sono you ni osshatte imashita."
           },
           {
             "id": "ex-wb19-bc-2",
@@ -24588,16 +24588,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb19-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (El presidente ya se fue y pide llamar mañana por la mañana)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb19-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (El presidente está en su oficina esperando ahora mismo)"
               }
             ],
             "correctAnswerId": "opt-wb19-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Shachou wa mou okaeri ni narimashita. Ashita no asa, mata gorenraku kudasai."
           },
           {
             "id": "ex-wb19-bc-3",
@@ -25351,20 +25351,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb20-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Se presenta humildemente como Mary y confirma su cita para las 3 en punto hoy.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb20-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Llama para cancelar la reunión de las 3 de la tarde."
               },
               {
                 "id": "opt-wb20-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Pregunta por el nombre de la persona que atiende la recepción."
               }
             ],
             "correctAnswerId": "opt-wb20-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Watakushi, Mearii to moushimasu. Kyou wa san-ji ni o-me ni kakaru koto ni natte orimasu."
           },
           {
             "id": "ex-wb20-bc-2",
@@ -25374,16 +25374,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb20-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Se ofrece humildemente a cargar el equipaje pesado)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb20-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Pide ayuda para cargar su propio equipaje)"
               }
             ],
             "correctAnswerId": "opt-wb20-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Nimotsu ga omosou desu ne. Watashi ga omochi itashimashou ka."
           },
           {
             "id": "ex-wb20-bc-3",
@@ -25639,20 +25639,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb20-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Se presenta humildemente como Mary y confirma su cita para las 3 en punto hoy.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb20-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Llama para cancelar la reunión de las 3 de la tarde."
               },
               {
                 "id": "opt-wb20-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Pregunta por el nombre de la persona que atiende la recepción."
               }
             ],
             "correctAnswerId": "opt-wb20-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Watakushi, Mearii to moushimasu. Kyou wa san-ji ni o-me ni kakaru koto ni natte orimasu."
           },
           {
             "id": "ex-wb20-bc-2",
@@ -25662,16 +25662,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb20-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Se ofrece humildemente a cargar el equipaje pesado)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb20-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Pide ayuda para cargar su propio equipaje)"
               }
             ],
             "correctAnswerId": "opt-wb20-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Nimotsu ga omosou desu ne. Watashi ga omochi itashimashou ka."
           },
           {
             "id": "ex-wb20-bc-3",
@@ -26443,20 +26443,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb21-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Ayer alguien le pisó el pie en el tren y le dolió mucho.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb21-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Ayer se tropezó al bajar las escaleras de la estación."
               },
               {
                 "id": "opt-wb21-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Alguien le cedió el asiento en el tren."
               }
             ],
             "correctAnswerId": "opt-wb21-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kinou, densha no naka de dareka ni ashi o fumarete shimaimashita. Totemo itakatta desu."
           },
           {
             "id": "ex-wb21-bc-2",
@@ -26466,16 +26466,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb21-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Entró un ladrón a su casa y le robaron su computadora)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb21-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Vendió su computadora usada en una tienda)"
               }
             ],
             "correctAnswerId": "opt-wb21-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Ie ni dorobou ga haitte, taisetsu na pasokon o torarete shimaimashita."
           },
           {
             "id": "ex-wb21-bc-3",
@@ -26731,20 +26731,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb21-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "Ayer alguien le pisó el pie en el tren y le dolió mucho.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb21-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "Ayer se tropezó al bajar las escaleras de la estación."
               },
               {
                 "id": "opt-wb21-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Alguien le cedió el asiento en el tren."
               }
             ],
             "correctAnswerId": "opt-wb21-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kinou, densha no naka de dareka ni ashi o fumarete shimaimashita. Totemo itakatta desu."
           },
           {
             "id": "ex-wb21-bc-2",
@@ -26754,16 +26754,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb21-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Entró un ladrón a su casa y le robaron su computadora)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb21-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Vendió su computadora usada en una tienda)"
               }
             ],
             "correctAnswerId": "opt-wb21-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Ie ni dorobou ga haitte, taisetsu na pasokon o torarete shimaimashita."
           },
           {
             "id": "ex-wb21-bc-3",
@@ -27528,20 +27528,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb22-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "De niño, sus padres lo hacían levantarse temprano cada mañana y tomar clases de piano.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb22-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "De niño, sus padres lo dejaban dormir hasta tarde los fines de semana."
               },
               {
                 "id": "opt-wb22-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Aprendió a tocar el piano por su cuenta en la universidad."
               }
             ],
             "correctAnswerId": "opt-wb22-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kodomo no koro, ryoushin wa maiasa watashi ni hayaku okisasemashita. Soshite, piano o narawasemashita."
           },
           {
             "id": "ex-wb22-bc-2",
@@ -27551,16 +27551,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb22-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Pide permiso para irse más temprano porque se siente mal)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb22-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Pide quedarse horas extra en el trabajo hoy)"
               }
             ],
             "correctAnswerId": "opt-wb22-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kyou wa guai ga warui node, sukoshi hayaku kaerasete itadakemasen ka."
           },
           {
             "id": "ex-wb22-bc-3",
@@ -27816,20 +27816,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb22-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "De niño, sus padres lo hacían levantarse temprano cada mañana y tomar clases de piano.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb22-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "De niño, sus padres lo dejaban dormir hasta tarde los fines de semana."
               },
               {
                 "id": "opt-wb22-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "Aprendió a tocar el piano por su cuenta en la universidad."
               }
             ],
             "correctAnswerId": "opt-wb22-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kodomo no koro, ryoushin wa maiasa watashi ni hayaku okisasemashita. Soshite, piano o narawasemashita."
           },
           {
             "id": "ex-wb22-bc-2",
@@ -27839,16 +27839,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb22-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Pide permiso para irse más temprano porque se siente mal)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb22-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Pide quedarse horas extra en el trabajo hoy)"
               }
             ],
             "correctAnswerId": "opt-wb22-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Kyou wa guai ga warui node, sukoshi hayaku kaerasete itadakemasen ka."
           },
           {
             "id": "ex-wb22-bc-3",
@@ -28616,20 +28616,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb23-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "En la fiesta de ayer lo obligaron a cantar frente a todos y le dio vergüenza.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb23-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "En la fiesta de ayer cantó voluntariamente y ganó un premio."
               },
               {
                 "id": "opt-wb23-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "No pudo asistir a la fiesta porque tenía dolor de garganta."
               }
             ],
             "correctAnswerId": "opt-wb23-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kinou no paatii de, minna no mae de uta o utawaseraremashita. Hazukashikatta desu."
           },
           {
             "id": "ex-wb23-bc-2",
@@ -28639,16 +28639,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb23-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Por muy difícil que sea, jamás abandonará sus estudios de japonés)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb23-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Decidió dejar de estudiar japonés porque es demasiado difícil)"
               }
             ],
             "correctAnswerId": "opt-wb23-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Donna ni taihen demo, nihongo no benkyou o zettai ni akiramemasen."
           },
           {
             "id": "ex-wb23-bc-3",
@@ -28904,20 +28904,20 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb23-bc1-1",
-                "text": "Estudia japonés todos los días y por eso ha mejorado mucho.",
+                "text": "En la fiesta de ayer lo obligaron a cantar frente a todos y le dio vergüenza.",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb23-bc1-2",
-                "text": "No tiene tiempo para estudiar japonés durante la semana."
+                "text": "En la fiesta de ayer cantó voluntariamente y ganó un premio."
               },
               {
                 "id": "opt-wb23-bc1-3",
-                "text": "Prefiere estudiar inglés con sus compañeros."
+                "text": "No pudo asistir a la fiesta porque tenía dolor de garganta."
               }
             ],
             "correctAnswerId": "opt-wb23-bc1-1",
-            "explanation": "Mainichi nihongo o benkyou shite imasu kara, jouzu ni narimashita."
+            "explanation": "Kinou no paatii de, minna no mae de uta o utawaseraremashita. Hazukashikatta desu."
           },
           {
             "id": "ex-wb23-bc-2",
@@ -28927,16 +28927,16 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb23-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero (Por muy difícil que sea, jamás abandonará sus estudios de japonés)",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb23-bc2-2",
-                "text": "✕ Falso (Se quedará en casa descansando)"
+                "text": "× Falso (Decidió dejar de estudiar japonés porque es demasiado difícil)"
               }
             ],
             "correctAnswerId": "opt-wb23-bc2-1",
-            "explanation": "Konshuumatsu wa tomodachi to issho ni eiga o mi ni ikimasu."
+            "explanation": "Donna ni taihen demo, nihongo no benkyou o zettai ni akiramemasen."
           },
           {
             "id": "ex-wb23-bc-3",

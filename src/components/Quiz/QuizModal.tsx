@@ -89,7 +89,8 @@ function formatQuizOptionText(
   text: string,
   exerciseType: string,
   prompt: string,
-  isIntroLesson: boolean
+  isIntroLesson: boolean,
+  allOptions?: ExerciseOption[]
 ): string {
   let cleaned = text;
 
@@ -98,7 +99,7 @@ function formatQuizOptionText(
 
   // 2. In listening exercises or questions asking to listen to audio,
   // strip Japanese readings in parentheses from options (e.g. "Cafetería tradicional (きっさてん)" -> "Cafetería tradicional")
-  const isListeningOrAudio = exerciseType === 'listening' || /escucha|audio/i.test(prompt);
+  const isListeningOrAudio = exerciseType === 'listening' || /escucha|escuchó|audio/i.test(prompt);
   if (isListeningOrAudio && /[a-zA-ZáéíóúñÁÉÍÓÚÑ]/.test(cleaned)) {
     cleaned = cleaned
       .replace(/\s*\([^\)]*[\u3040-\u30ff\u4e00-\u9faf][^\)]*\)/g, '')
@@ -106,12 +107,31 @@ function formatQuizOptionText(
   }
 
   // 3. For non-intro lessons (Lesson 1+ and Unit jumps):
-  // If option text contains Japanese and has trailing romaji in parentheses (e.g. "(tabemasen deshita)"),
+  // If option text contains Japanese and has trailing romaji or Spanish translation/hint in parentheses,
   // strip it unless the prompt specifically asks about romaji or pronunciation.
   if (!isIntroLesson) {
     const isRomajiQuestion = /romaji|lectura|pronuncia|cómo se lee|como se lee/i.test(prompt);
     if (!isRomajiQuestion && /[\u3040-\u30ff\u4e00-\u9faf]/.test(cleaned)) {
-      cleaned = cleaned.replace(/\s*\([a-zA-Z\s~-]+\)$/, '');
+      cleaned = cleaned
+        .replace(/\s*\([^)]*[a-zA-ZáéíóúñÁÉÍÓÚÑ¡¿/][^)]*\)\.?$/g, '')
+        .replace(/\s*（[^）]*[a-zA-ZáéíóúñÁÉÍÓÚÑ¡¿/][^）]*）\.?$/g, '');
+    }
+  }
+
+  // 4. Universal anti-giveaway rule:
+  // If across all options of this exercise, some options have parentheses and others do not,
+  // those parentheses are a telltale hint/explanation on the correct answer — strip them cleanly.
+  if (allOptions && allOptions.length >= 2) {
+    const parenCount = allOptions.filter(o => /\([^)]+\)|（[^）]+）/.test(o.text)).length;
+    if (parenCount > 0 && parenCount < allOptions.length && /\([^)]+\)|（[^）]+）/.test(cleaned)) {
+      const candidate = cleaned
+        .replace(/\s*\([^)]+\)/g, '')
+        .replace(/\s*（[^）]+）/g, '')
+        .replace(/\s+\./g, '.')
+        .trim();
+      if (candidate.length >= 2) {
+        cleaned = candidate;
+      }
     }
   }
 
@@ -453,7 +473,8 @@ export const QuizModal: React.FC<QuizModalProps> = ({
           correctOpt.text,
           currentExercise.type,
           currentExercise.prompt,
-          lesson.lessonNumber === 0 && !isJumpAhead
+          lesson.lessonNumber === 0 && !isJumpAhead,
+          currentExercise.options
         );
       }
     }
@@ -1050,7 +1071,8 @@ export const QuizModal: React.FC<QuizModalProps> = ({
                       option.text,
                       currentExercise.type,
                       currentExercise.prompt,
-                      lesson.lessonNumber === 0 && !isJumpAhead
+                      lesson.lessonNumber === 0 && !isJumpAhead,
+                      currentExercise.options
                     )}
                   </span>
                   <div
