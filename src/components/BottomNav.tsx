@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Map, BookOpen, Layers, BookA, MessageSquare, Languages, PenTool, Mic, User, ChevronUp, Library, Check, Target } from 'lucide-react';
+import { Map, BookOpen, Layers, BookA, MessageSquare, Languages, PenTool, Mic, User, ChevronUp, Library, Check, Target, Trophy } from 'lucide-react';
 import { sound } from '../services/sound';
 
-export type NavTab = 'roadmap' | 'theory' | 'flashcards' | 'kanas' | 'readings' | 'vocabulary' | 'writing' | 'speaking' | 'profile' | 'mastery';
+export type NavTab = 'roadmap' | 'theory' | 'flashcards' | 'kanas' | 'readings' | 'vocabulary' | 'writing' | 'speaking' | 'profile' | 'mastery' | 'jlpt';
 
 interface BottomNavProps {
   activeTab: NavTab;
@@ -20,6 +20,13 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onTabChange }) 
     icon: React.FC<{ className?: string }>;
     badgeColor: string;
   }[] = [
+    {
+      id: 'jlpt',
+      label: 'Torre JLPT',
+      subtitle: 'Exámenes de nivel N5–N3 y diagnóstico',
+      icon: Trophy,
+      badgeColor: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-400/30'
+    },
     {
       id: 'mastery',
       label: 'Mi Dominio',

@@ -17,6 +17,7 @@ import { WritingPage } from './pages/WritingPage';
 import { SpeakingPage } from './pages/SpeakingPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { MasteryPage } from './pages/MasteryPage';
+import { JlptTowerPage } from './pages/JlptTowerPage';
 import { GlobalDownloadBanner } from './components/Audio/GlobalDownloadBanner';
 import { LandingPage } from './pages/LandingPage';
 import { Capacitor } from '@capacitor/core';
@@ -672,6 +673,9 @@ export const App: React.FC = () => {
                 showRomaji={profile.showRomaji}
                 onNavigateTab={setActiveTab}
               />
+            )}
+            {activeTab === 'jlpt' && (
+              <JlptTowerPage onAwardReward={handleClaimQuestReward} />
             )}
             {activeTab === 'profile' && (
               <ProfilePage

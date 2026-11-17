@@ -7,6 +7,7 @@ import { NavTab } from '../components/BottomNav';
 import { AudioDownloadManager } from '../components/Audio/AudioDownloadManager';
 import { backupService, NihonGoBackupPayload } from '../services/backupService';
 import { notificationService } from '../services/notificationService';
+import { loadJlptTowerProgress, getHighestJlptRank } from './JlptTowerPage';
 
 interface ProfilePageProps {
   profile: UserProfile;
@@ -450,6 +451,42 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
           );
         })}
       </div>
+
+      {/* Torre de Niveles JLPT Shortcut */}
+      {onNavigateTab && (() => {
+        const towerProg = loadJlptTowerProgress();
+        const jlptRank = getHighestJlptRank(towerProg);
+        const conqueredCount = Object.keys(towerProg.conqueredFloors).length;
+        return (
+          <div className="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-rose-500/10 border-2 border-amber-300 dark:border-amber-700/80 p-4 rounded-2xl mb-4 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-black flex-shrink-0 shadow-sm">
+                <Trophy className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="text-xs font-black text-gray-800 dark:text-gray-100 flex items-center gap-1.5">
+                  <span>Torre de Niveles JLPT</span>
+                  <span className="px-1.5 py-0.5 rounded-md bg-amber-500/20 text-amber-700 dark:text-amber-300 text-[10px]">
+                    {jlptRank}
+                  </span>
+                </h4>
+                <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400">
+                  {conqueredCount}/6 pisos conquistados • Mide tu nivel N5–N3.
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                sound.playTap();
+                onNavigateTab('jlpt');
+              }}
+              className="py-2 px-3 bg-amber-500 hover:bg-amber-600 text-white text-xs font-black rounded-xl shadow-xs transition-all flex items-center gap-1 flex-shrink-0 cursor-pointer"
+            >
+              <span>Entrar</span>
+            </button>
+          </div>
+        );
+      })()}
 
       {/* Banco de Dominio y SRS Shortcut */}
       {onNavigateTab && (

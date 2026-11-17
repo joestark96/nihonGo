@@ -10,6 +10,7 @@ export interface NihonGoBackupPayload {
   flashcardSRS: Record<string, { srsLevel: number; intervalDays: number; nextReviewDate: string; timesReviewed: number; timesCorrect: number }>;
   quests?: Record<string, any>;
   dailyStats?: Record<string, any>;
+  jlptTower?: any;
 }
 
 const BACKUP_TIMESTAMP_KEY = 'nihongo_last_backup_at';
@@ -51,6 +52,14 @@ export const backupService = {
       // ignore
     }
 
+    let jlptTower: any = undefined;
+    try {
+      const rawTower = localStorage.getItem('nihongo_jlpt_tower_v1');
+      if (rawTower) jlptTower = JSON.parse(rawTower);
+    } catch {
+      // ignore
+    }
+
     return {
       appName: 'NihonGo!',
       version: '1.1.2',
@@ -60,6 +69,7 @@ export const backupService = {
       flashcardSRS,
       quests,
       dailyStats,
+      jlptTower,
     };
   },
 
@@ -135,6 +145,12 @@ export const backupService = {
           localStorage.setItem(k, JSON.stringify(v));
         } catch {}
       }
+    }
+
+    if (payload.jlptTower && typeof payload.jlptTower === 'object') {
+      try {
+        localStorage.setItem('nihongo_jlpt_tower_v1', JSON.stringify(payload.jlptTower));
+      } catch {}
     }
 
     try {
