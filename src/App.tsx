@@ -21,7 +21,7 @@ import { JlptTowerPage } from './pages/JlptTowerPage';
 import { GlobalDownloadBanner } from './components/Audio/GlobalDownloadBanner';
 import { LandingPage } from './pages/LandingPage';
 import { Capacitor } from '@capacitor/core';
-import { getLocalDateKey, recordDailyLessonActivity } from './utils/dateUtils';
+import { getLocalDateKey, recordDailyLessonActivity, isStreakBroken } from './utils/dateUtils';
 import { notificationService } from './services/notificationService';
 
 // Ionic core CSS
@@ -135,8 +135,16 @@ export const App: React.FC = () => {
       try {
         await dbService.init();
 
-        // 1. Load user profile & apply offline 1-hour heart regeneration
+        // 1. Load user profile & apply offline 1-hour heart regeneration + streak expiration check
         let userProf = await dbService.getUserProfile();
+        let profModified = false;
+
+        // Reset broken streak if lastActiveDate is older than yesterday
+        if (isStreakBroken(userProf.lastActiveDate, userProf.streakDays)) {
+          userProf = { ...userProf, streakDays: 0 };
+          profModified = true;
+        }
+
         if (userProf.hearts < userProf.maxHearts) {
           const rawTs = localStorage.getItem(HEART_REGEN_KEY);
           const now = Date.now();
@@ -147,13 +155,18 @@ export const App: React.FC = () => {
               const recovered = Math.floor(elapsed / HEART_REGEN_MS);
               const newHearts = Math.min(userProf.maxHearts, userProf.hearts + recovered);
               userProf = { ...userProf, hearts: newHearts };
-              await dbService.saveUserProfile(userProf);
+              profModified = true;
               if (newHearts >= userProf.maxHearts) {
                 localStorage.removeItem(HEART_REGEN_KEY);
               } else {
                 localStorage.setItem(HEART_REGEN_KEY, String(lastTs + recovered * HEART_REGEN_MS));
               }
             }
+          } else if (userProf.lastActiveDate && userProf.lastActiveDate !== getLocalDateKey()) {
+            // Last active on a previous day and no pending regen timestamp -> full recovery
+            userProf = { ...userProf, hearts: userProf.maxHearts };
+            profModified = true;
+            localStorage.removeItem(HEART_REGEN_KEY);
           } else {
             localStorage.setItem(HEART_REGEN_KEY, String(now));
           }
@@ -168,6 +181,10 @@ export const App: React.FC = () => {
         const hasAnyCompleted = Object.values(progressMap).some(p => p.stars > 0);
         if (userProf.xp === 0 && !hasAnyCompleted && userProf.streakDays > 0) {
           userProf = { ...userProf, streakDays: 0, lastActiveDate: '' };
+          profModified = true;
+        }
+
+        if (profModified) {
           await dbService.saveUserProfile(userProf);
         }
 
@@ -279,18 +296,35 @@ export const App: React.FC = () => {
     await dbService.saveUserProfile(updated);
   };
 
-  // Automatic 1-hour heart regeneration check & live countdown
+  // Automatic 1-hour heart regeneration check, live countdown & background resume streak check
   useEffect(() => {
-    if (profile.hearts >= profile.maxHearts) {
-      setNextHeartMinutes(null);
-      localStorage.removeItem(HEART_REGEN_KEY);
-      return;
-    }
+    const syncStateOnTickOrResume = async () => {
+      // 1. Check if streak expired while app was open or in background
+      if (isStreakBroken(profile.lastActiveDate, profile.streakDays)) {
+        const updated = { ...profile, streakDays: 0 };
+        setProfile(updated);
+        await dbService.saveUserProfile(updated);
+        return;
+      }
 
-    const checkRegen = async () => {
+      // 2. Check heart regeneration
+      if (profile.hearts >= profile.maxHearts) {
+        setNextHeartMinutes(null);
+        localStorage.removeItem(HEART_REGEN_KEY);
+        return;
+      }
+
       const now = Date.now();
       let rawTs = localStorage.getItem(HEART_REGEN_KEY);
       if (!rawTs) {
+        if (profile.lastActiveDate && profile.lastActiveDate !== getLocalDateKey()) {
+          const updated = { ...profile, hearts: profile.maxHearts };
+          setProfile(updated);
+          await dbService.saveUserProfile(updated);
+          localStorage.removeItem(HEART_REGEN_KEY);
+          setNextHeartMinutes(null);
+          return;
+        }
         rawTs = String(now);
         localStorage.setItem(HEART_REGEN_KEY, rawTs);
       }
@@ -320,9 +354,21 @@ export const App: React.FC = () => {
       }
     };
 
-    checkRegen();
-    const timer = window.setInterval(checkRegen, 15000);
-    return () => window.clearInterval(timer);
+    syncStateOnTickOrResume();
+    const timer = window.setInterval(syncStateOnTickOrResume, 15000);
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        syncStateOnTickOrResume();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    window.addEventListener('focus', syncStateOnTickOrResume);
+
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      window.removeEventListener('focus', syncStateOnTickOrResume);
+    };
   }, [profile]);
 
   // Deduct heart on wrong answer
@@ -377,7 +423,8 @@ export const App: React.FC = () => {
   // Complete a lesson node: mark completed, award XP, unlock next node in curriculum
   const handleCompleteLesson = async (nodeId: string, earnedXp: number, stars: number) => {
     const today = getLocalDateKey();
-    const shouldIncrementStreak = profile.streakDays === 0 || profile.lastActiveDate !== today;
+    const baseStreak = isStreakBroken(profile.lastActiveDate, profile.streakDays) ? 0 : profile.streakDays;
+    const shouldIncrementStreak = baseStreak === 0 || profile.lastActiveDate !== today;
     recordDailyLessonActivity(earnedXp, profile.hearts);
 
     // 1. Update Profile (XP + gems + streak)
@@ -385,7 +432,7 @@ export const App: React.FC = () => {
       ...profile,
       xp: profile.xp + earnedXp,
       gems: profile.gems + 10,
-      streakDays: shouldIncrementStreak ? profile.streakDays + 1 : profile.streakDays,
+      streakDays: shouldIncrementStreak ? baseStreak + 1 : baseStreak,
       lastActiveDate: today
     };
     setProfile(updatedProfile);
@@ -551,14 +598,15 @@ export const App: React.FC = () => {
     const gainedGems = Math.min(100, Math.max(20, Math.floor(skippedCount * 5)));
 
     const today = getLocalDateKey();
-    const shouldIncrementStreak = profile.streakDays === 0 || profile.lastActiveDate !== today;
+    const baseStreak = isStreakBroken(profile.lastActiveDate, profile.streakDays) ? 0 : profile.streakDays;
+    const shouldIncrementStreak = baseStreak === 0 || profile.lastActiveDate !== today;
     recordDailyLessonActivity(gainedXp, profile.hearts);
 
     const updatedProfile: UserProfile = {
       ...profile,
       xp: profile.xp + gainedXp,
       gems: profile.gems + gainedGems,
-      streakDays: shouldIncrementStreak ? profile.streakDays + 1 : profile.streakDays,
+      streakDays: shouldIncrementStreak ? baseStreak + 1 : baseStreak,
       lastActiveDate: today
     };
     setProfile(updatedProfile);

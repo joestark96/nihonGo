@@ -2,6 +2,7 @@ import React from 'react';
 import { Flame, Zap, Heart, Gem, Volume2, VolumeX } from 'lucide-react';
 import { UserProfile } from '../types';
 import { sound } from '../services/sound';
+import { getLocalDateKey } from '../utils/dateUtils';
 
 interface TopBarProps {
   profile: UserProfile;
@@ -36,10 +37,34 @@ export const TopBar: React.FC<TopBarProps> = ({ profile, nextHeartMinutes, onSou
         </div>
 
         {/* Racha / Streak */}
-        <div className="flex items-center gap-1.5 font-extrabold text-duo-orange">
-          <Flame className="w-5 h-5 fill-duo-orange" />
-          <span className="text-sm tracking-wide">{profile.streakDays}</span>
-        </div>
+        {(() => {
+          const isStreakActiveToday = profile.streakDays > 0 && profile.lastActiveDate === getLocalDateKey();
+          const title = isStreakActiveToday
+            ? `¡Racha activa de ${profile.streakDays} día(s)!`
+            : profile.streakDays > 0
+            ? `Haz una lección hoy para encender tu racha de ${profile.streakDays} días`
+            : 'Completa una lección hoy para iniciar tu racha';
+
+          return (
+            <div
+              className={`flex items-center gap-1.5 font-extrabold transition-colors ${
+                isStreakActiveToday
+                  ? 'text-duo-orange'
+                  : 'text-gray-400 dark:text-gray-500'
+              }`}
+              title={title}
+            >
+              <Flame
+                className={`w-5 h-5 ${
+                  isStreakActiveToday
+                    ? 'fill-duo-orange text-duo-orange'
+                    : 'fill-gray-300 dark:fill-gray-600 text-gray-400 dark:text-gray-500'
+                }`}
+              />
+              <span className="text-sm tracking-wide">{profile.streakDays}</span>
+            </div>
+          );
+        })()}
 
         {/* Puntos XP */}
         <div className="flex items-center gap-1.5 font-extrabold text-duo-yellow-dark">

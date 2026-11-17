@@ -330,13 +330,26 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
       {/* Stats Grid */}
       <h3 className="text-sm font-black text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">Estadísticas</h3>
       <div className="grid grid-cols-2 gap-3 mb-5">
-        <div className="bg-white dark:bg-[#18272e] p-4 rounded-2xl border-2 border-duo-gray-200 dark:border-[#283842] shadow-duo-card dark:shadow-none flex items-center gap-3 transition-colors">
-          <Flame className="w-8 h-8 fill-duo-orange text-duo-orange flex-shrink-0" />
-          <div>
-            <div className="text-xl font-black text-gray-800 dark:text-gray-100">{profile.streakDays}</div>
-            <div className="text-[11px] font-bold text-gray-400 dark:text-gray-400">Días de racha</div>
-          </div>
-        </div>
+        {(() => {
+          const isStreakActiveToday = profile.streakDays > 0 && profile.lastActiveDate === todayKey;
+          return (
+            <div className="bg-white dark:bg-[#18272e] p-4 rounded-2xl border-2 border-duo-gray-200 dark:border-[#283842] shadow-duo-card dark:shadow-none flex items-center gap-3 transition-colors">
+              <Flame
+                className={`w-8 h-8 flex-shrink-0 ${
+                  isStreakActiveToday
+                    ? 'fill-duo-orange text-duo-orange'
+                    : 'fill-gray-300 dark:fill-gray-600 text-gray-400 dark:text-gray-500'
+                }`}
+              />
+              <div>
+                <div className="text-xl font-black text-gray-800 dark:text-gray-100">{profile.streakDays}</div>
+                <div className="text-[11px] font-bold text-gray-400 dark:text-gray-400">
+                  {profile.streakDays > 0 && !isStreakActiveToday ? '¡Enciéndela hoy!' : 'Días de racha'}
+                </div>
+              </div>
+            </div>
+          );
+        })()}
 
         <div className="bg-white dark:bg-[#18272e] p-4 rounded-2xl border-2 border-duo-gray-200 dark:border-[#283842] shadow-duo-card dark:shadow-none flex items-center gap-3 transition-colors">
           <Zap className="w-8 h-8 fill-duo-yellow text-duo-yellow-dark flex-shrink-0" />

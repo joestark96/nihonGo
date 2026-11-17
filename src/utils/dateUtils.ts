@@ -15,6 +15,24 @@ export function getLocalDateKey(date: Date = new Date()): string {
   return `${y}-${m}-${d}`;
 }
 
+export function getYesterdayDateKey(): string {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  return getLocalDateKey(d);
+}
+
+/**
+ * Returns true if the user has a positive streakDays count, but their lastActiveDate
+ * is older than yesterday (meaning they missed at least one full day).
+ */
+export function isStreakBroken(lastActiveDate: string, streakDays: number): boolean {
+  if (streakDays <= 0) return false;
+  if (!lastActiveDate) return true;
+  const today = getLocalDateKey();
+  const yesterday = getYesterdayDateKey();
+  return lastActiveDate !== today && lastActiveDate !== yesterday;
+}
+
 /**
  * Retrieves today's accumulated lesson, XP, and heart metrics for daily quests.
  */
