@@ -21,6 +21,9 @@ import {
   Languages,
   PenTool
 } from 'lucide-react';
+import pkg from '../../package.json';
+
+const APP_VERSION = pkg.version;
 
 interface LandingPageProps {
   onEnterApp: () => void;
@@ -28,14 +31,14 @@ interface LandingPageProps {
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
   const [downloadStarted, setDownloadStarted] = useState(false);
-  const APK_DOWNLOAD_URL = 'https://github.com/joestark96/genki-duo/raw/main/releases/nihongo-v1.1.4.apk';
+  const APK_DOWNLOAD_URL = `https://github.com/joestark96/genki-duo/raw/main/releases/nihongo-v${APP_VERSION}.apk`;
 
   const handleDownloadApk = () => {
     setDownloadStarted(true);
     // 1. Direct GitHub release raw URL download
     const link = document.createElement('a');
     link.href = APK_DOWNLOAD_URL;
-    link.setAttribute('download', 'nihongo-v1.1.4.apk');
+    link.setAttribute('download', `nihongo-v${APP_VERSION}.apk`);
     link.target = '_blank';
     document.body.appendChild(link);
     link.click();
@@ -62,7 +65,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
             <div>
               <div className="font-black text-lg leading-tight tracking-tight flex items-center gap-1.5">
                 <span>NihonGo!</span>
-                <span className="text-[10px] uppercase font-black px-1.5 py-0.5 rounded-md bg-duo-green/15 text-duo-green">v1.1.4</span>
+                <span className="text-[10px] uppercase font-black px-1.5 py-0.5 rounded-md bg-duo-green/15 text-duo-green">v{APP_VERSION}</span>
               </div>
               <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 leading-none">日本語 • Genki I & II</p>
             </div>
@@ -110,7 +113,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-duo-green/15 border border-duo-green/30 text-duo-green dark:text-green-400 font-black text-xs mb-6 animate-fade-in shadow-xs">
             <Sparkles className="w-3.5 h-3.5 animate-pulse" />
-            <span>Versión 1.1.4 Oficial Disponible para Android y Web</span>
+            <span>Versión {APP_VERSION} Oficial Disponible para Android y Web</span>
           </div>
 
           {/* Heading */}
@@ -130,7 +133,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
               className="flex-1 min-w-[200px] py-4 px-6 rounded-2xl bg-duo-green hover:bg-duo-green-dark text-white font-black text-sm uppercase tracking-wider shadow-[0_5px_0_0_#46a302] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 cursor-pointer group"
             >
               <Download className="w-5 h-5 stroke-[2.5px] group-hover:translate-y-0.5 transition-transform" />
-              <span>{downloadStarted ? 'Descargando...' : 'Descargar APK v1.1.4'}</span>
+              <span>{downloadStarted ? 'Descargando...' : `Descargar APK v${APP_VERSION}`}</span>
             </button>
 
             <button
@@ -349,7 +352,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
                 Compilado Oficial para Android
               </span>
               <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white mt-2 mb-2">
-                NihonGo! v1.1.4 (APK Release)
+                NihonGo! v{APP_VERSION} (APK Release)
               </h2>
               <p className="text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                 Descarga el archivo APK de producción directamente a tu dispositivo móvil. Compatible con teléfonos y tablets Android 8.0 en adelante.
@@ -359,7 +362,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs font-bold text-gray-500 dark:text-gray-400 mb-6">
                 <div className="p-2.5 rounded-xl bg-gray-50 dark:bg-[#131f24] border border-gray-200 dark:border-[#283842]">
                   <span className="block text-[10px] text-gray-400 uppercase">Versión</span>
-                  <span className="text-gray-800 dark:text-gray-100 font-black">1.1.4 (Release)</span>
+                  <span className="text-gray-800 dark:text-gray-100 font-black">{APP_VERSION} (Release)</span>
                 </div>
                 <div className="p-2.5 rounded-xl bg-gray-50 dark:bg-[#131f24] border border-gray-200 dark:border-[#283842]">
                   <span className="block text-[10px] text-gray-400 uppercase">Tamaño</span>
@@ -378,7 +381,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
                   className="py-3.5 px-6 rounded-2xl bg-duo-green hover:bg-duo-green-dark text-white font-black text-sm uppercase tracking-wider shadow-[0_4px_0_0_#46a302] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Download className="w-5 h-5 stroke-[2.5px]" />
-                  <span>{downloadStarted ? 'Descargando APK...' : 'Descargar APK v1.1.4'}</span>
+                  <span>{downloadStarted ? 'Descargando APK...' : `Descargar APK v${APP_VERSION}`}</span>
                 </button>
 
                 <a
@@ -421,7 +424,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-semibold text-gray-600 dark:text-gray-400">
               <div className="flex items-start gap-2.5">
                 <span className="w-6 h-6 rounded-lg bg-duo-green text-white font-black flex items-center justify-center flex-shrink-0">1</span>
-                <p>Descarga el archivo <strong>nihongo-v1.1.4.apk</strong> presionando el botón verde.</p>
+                <p>Descarga el archivo <strong>nihongo-v{APP_VERSION}.apk</strong> presionando el botón verde.</p>
               </div>
               <div className="flex items-start gap-2.5">
                 <span className="w-6 h-6 rounded-lg bg-duo-green text-white font-black flex items-center justify-center flex-shrink-0">2</span>
@@ -536,7 +539,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
       <footer className="bg-white dark:bg-[#131f24] border-t border-gray-200 dark:border-[#283842] py-10 px-4 text-xs font-semibold text-gray-500 dark:text-gray-400">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div>
-            <p className="font-black text-gray-800 dark:text-gray-100">NihonGo! (日本語) • Versión 1.1.4</p>
+            <p className="font-black text-gray-800 dark:text-gray-100">NihonGo! (日本語) • Versión {APP_VERSION}</p>
             <p className="text-[11px] text-gray-400 mt-0.5">
               Basado en el currículum de <em>GENKI: An Integrated Course in Elementary Japanese</em> (The Japan Times).
             </p>

@@ -1,5 +1,6 @@
 import { dbService } from './db';
 import { UserProfile } from '../types';
+import pkg from '../../package.json';
 
 export interface NihonGoBackupPayload {
   appName: 'NihonGo!';
@@ -62,7 +63,7 @@ export const backupService = {
 
     return {
       appName: 'NihonGo!',
-      version: '1.1.4',
+      version: pkg.version,
       exportedAt: nowIso,
       profile,
       lessonProgress,
