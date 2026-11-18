@@ -350,18 +350,22 @@ class SoundService {
       .replace(/（.*?）/g, '')
       .trim();
     if (!clean) return [];
-    if (clean.length <= maxLen) return [clean];
 
-    // Split by sentence punctuation first
-    const rawParts = clean.split(/([。！？\n]+)/);
+    // Always split dialogue turns / Q&A (e.g. "A。ー B。" or "Question？ Answer") so there is a natural pause
+    const hasDialogueBreak = /[。？！]\s*[ー—－]\s*|[？?]\s*\S|\n+/.test(clean);
+    if (clean.length <= maxLen && !hasDialogueBreak) return [clean];
+
+    // Split by sentence punctuation (and optional dialogue turn dash) first
+    const rawParts = clean.split(/([。！？\n]+(?:\s*[ー—－]\s*)?)/);
     const sentences: string[] = [];
     let temp = '';
 
     for (let i = 0; i < rawParts.length; i++) {
       temp += rawParts[i];
       if (i % 2 === 1 || i === rawParts.length - 1) {
-        if (temp.trim()) {
-          sentences.push(temp.trim());
+        const cleanedSentence = temp.replace(/\s*[ー—－]+\s*$/, '').trim();
+        if (cleanedSentence) {
+          sentences.push(cleanedSentence);
         }
         temp = '';
       }
@@ -389,13 +393,14 @@ class SoundService {
     return finalChunks.length > 0 ? finalChunks : [clean];
   }
 
-  // Normalize phonetics for Japanese TTS engines (prevents morphological misreadings like 'はは' -> 'wawa' or standalone 'こ' -> 'karako')
+  // Normalize phonetics for Japanese TTS engines (prevents morphological misreadings like 'はは' -> 'wawa', 'はたち' -> 'watachi', or standalone 'こ' -> 'karako')
   private normalizeJapanesePhonetics(input: string): string {
     const trimmed = input.trim();
     if (trimmed === 'こ') return 'コ';
     return input
       .replace(/(^|[^ぁ-んァ-ン一-龥])はは(?=([^ぁ-んァ-ン一-龥]|$))/g, '$1母')
-      .replace(/(^|[^ぁ-んァ-ン一-龥])はは(は|が|を|に|へ|と|も|の|で|や|から|まで)/g, '$1母$2');
+      .replace(/(^|[^ぁ-んァ-ン一-龥])はは(は|が|を|に|へ|と|も|の|で|や|から|まで)/g, '$1母$2')
+      .replace(/(^|[^ぁ-んァ-ン一-龥])はたち(?=([^ぁ-んァ-ン一-龥]|$|です|だ|に|の|で|から|まで|を|が|は|も))/g, '$1二十歳$2');
   }
 
   // Play neural Japanese voice via unlocked Web Audio API with male formant warmth
@@ -809,9 +814,9 @@ class SoundService {
       }
       if (this.currentSpeechId !== speechId) return;
 
-      // Natural pause between phrases in slow mode
-      if (isSlow && cIdx < chunks.length - 1) {
-        await new Promise((r) => window.setTimeout(r, 420));
+      // Natural pause between sentences / dialogue turns
+      if (cIdx < chunks.length - 1) {
+        await new Promise((r) => window.setTimeout(r, isSlow ? 440 : 380));
       }
       if (this.currentSpeechId !== speechId) return;
     }

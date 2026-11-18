@@ -260,8 +260,8 @@ export const unitTheories: UnitTheory[] = [
           '• **Teléfonos:** El guion `-` se lee en voz alta con la partícula **「の」** (ej: 090-123 se dice *zero kyuu zero no ichi ni san*).'
         ],
         examples: [
-          { japanese: 'いま、なんじですか。ー よじはんです。', romaji: 'Ima, nanji desu ka. - Yoji han desu.', spanish: '¿Qué hora es ahora? - Son las 4:30.', audioText: 'いまなんじですかよじはんです' },
-          { japanese: '何歳ですか。ー はたちです。', romaji: 'Nansai desu ka. - Hatachi desu.', spanish: '¿Cuántos años tienes? - Tengo 20 años.', audioText: 'なんさいですかはたちです' }
+          { japanese: 'いま、なんじですか。ー よじはんです。', romaji: 'Ima, nanji desu ka. - Yoji han desu.', spanish: '¿Qué hora es ahora? - Son las 4:30.', audioText: 'いま、なんじですか？ よじはんです。' },
+          { japanese: '何歳ですか。ー はたちです。', romaji: 'Nansai desu ka. - Hatachi desu.', spanish: '¿Cuántos años tienes? - Tengo 20 años.', audioText: 'なんさいですか？ はたちです。' }
         ]
       }
     ]
@@ -328,7 +328,7 @@ export const unitTheories: UnitTheory[] = [
           '• **Decidir comprar:** 「これをください」 (Deme esto, por favor).'
         ],
         examples: [
-          { japanese: 'このとけいはいくらですか。ー さんぜんごひゃくえんです。', romaji: 'Kono tokei wa ikura desu ka. - Sanzen gohyaku-en desu.', spanish: '¿Cuánto cuesta este reloj? - Cuesta 3,500 yenes.', audioText: 'このとけいはいくらですかさんぜんごひゃくえんです' },
+          { japanese: 'このとけいはいくらですか。ー さんぜんごひゃくえんです。', romaji: 'Kono tokei wa ikura desu ka. - Sanzen gohyaku-en desu.', spanish: '¿Cuánto cuesta este reloj? - Cuesta 3,500 yenes.', audioText: 'このとけいはいくらですか？ さんぜんごひゃくえんです。' },
           { japanese: 'じゃあ、これをください。', romaji: 'Jaa, kore o kudasai.', spanish: 'Entonces, deme esto por favor.', audioText: 'じゃあこれをください' }
         ],
         tip: '1,000 se dice simplemente 「せん」(sen), no "ichi-sen". Pero 10,000 OBLIGATORIAMENTE lleva el uno: 「いちまん」(ichiman).'
@@ -1068,7 +1068,7 @@ export const unitTheories: UnitTheory[] = [
             "japanese": "山下先生を知っていますか。ー いいえ、知りません。",
             "romaji": "Yamashita-sensei o shitte imasu ka. - Iie, shirimasen.",
             "spanish": "¿Conoce al profesor Yamashita? - No, no lo conozco.",
-            "audioText": "やましたせんせいをしっていますかいいえしりません"
+            "audioText": "やましたせんせいをしっていますか？ いいえ、しりません。"
           }
         ]
       },
