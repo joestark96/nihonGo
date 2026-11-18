@@ -389,8 +389,10 @@ class SoundService {
     return finalChunks.length > 0 ? finalChunks : [clean];
   }
 
-  // Normalize phonetics for Japanese TTS engines (prevents morphological misreadings like 'はは' being parsed as topic particles 'wa-wa')
+  // Normalize phonetics for Japanese TTS engines (prevents morphological misreadings like 'はは' -> 'wawa' or standalone 'こ' -> 'karako')
   private normalizeJapanesePhonetics(input: string): string {
+    const trimmed = input.trim();
+    if (trimmed === 'こ') return 'コ';
     return input
       .replace(/(^|[^ぁ-んァ-ン一-龥])はは(?=([^ぁ-んァ-ン一-龥]|$))/g, '$1母')
       .replace(/(^|[^ぁ-んァ-ン一-龥])はは(は|が|を|に|へ|と|も|の|で|や|から|まで)/g, '$1母$2');

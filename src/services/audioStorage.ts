@@ -239,9 +239,11 @@ class AudioStorageService {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          text: cleanText
-            .replace(/(^|[^ぁ-んァ-ン一-龥])はは(?=([^ぁ-んァ-ン一-龥]|$))/g, '$1母')
-            .replace(/(^|[^ぁ-んァ-ン一-龥])はは(は|が|を|に|へ|と|も|の|で|や|から|まで)/g, '$1母$2'),
+          text: cleanText.trim() === 'こ'
+            ? 'コ'
+            : cleanText
+                .replace(/(^|[^ぁ-んァ-ン一-龥])はは(?=([^ぁ-んァ-ン一-龥]|$))/g, '$1母')
+                .replace(/(^|[^ぁ-んァ-ン一-龥])はは(は|が|を|に|へ|と|も|の|で|や|から|まで)/g, '$1母$2'),
           voice: voiceId
         }),
         signal: controller.signal
