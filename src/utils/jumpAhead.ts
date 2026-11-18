@@ -18,25 +18,33 @@ function shuffle<T>(array: T[]): T[] {
 }
 
 /**
- * Determina si un nodo de lección ya fue completado por el usuario
+ * Determina si un nodo de lección pertenece al Cuaderno (Workbook)
+ */
+function isWorkbookNode(node: LessonNode): boolean {
+  return node.title.toLowerCase().includes('workbook') || node.id.includes('wb');
+}
+
+/**
+ * Determina si un nodo de lección ya fue completado/superado por el usuario
  */
 export function isLessonNodeCompleted(node: LessonNode): boolean {
-  return node.stars > 0 && node.completedSteps >= node.totalSteps;
+  return node.stars > 0;
 }
 
 export interface MultiJumpOptions {
   units: Unit[];
   targetUnitId: number;
   targetNodeId?: string;
+  mode?: 'textbook' | 'workbook';
 }
 
 /**
  * Crea una lección especial de examen para saltar múltiples unidades o lecciones.
- * Recopila ejercicios de TODAS las lecciones no estudiadas por completo desde el punto
+ * Recopila ejercicios ÚNICAMENTE de las lecciones no completadas/superadas desde el punto
  * actual del usuario hasta la unidad o lección objetivo seleccionada.
  */
 export function createMultiUnitJumpAheadLesson(options: MultiJumpOptions): JumpAheadLessonNode | null {
-  const { units, targetUnitId, targetNodeId } = options;
+  const { units, targetUnitId, targetNodeId, mode } = options;
 
   const targetUnit = units.find(u => u.id === targetUnitId);
   if (!targetUnit) return null;
@@ -45,13 +53,22 @@ export function createMultiUnitJumpAheadLesson(options: MultiJumpOptions): JumpA
     ? targetUnit.nodes.find(n => n.id === targetNodeId)
     : undefined;
 
+  const effectiveMode: 'textbook' | 'workbook' | undefined =
+    mode ?? (targetNode ? (isWorkbookNode(targetNode) ? 'workbook' : 'textbook') : undefined);
+
+  const belongsToTrack = (node: LessonNode) => {
+    if (!effectiveMode) return true;
+    return effectiveMode === 'workbook' ? isWorkbookNode(node) : !isWorkbookNode(node);
+  };
+
   const uncompletedNodes: LessonNode[] = [];
   const skippedNodeIds: string[] = [];
   const uncompletedUnitsSet = new Set<number>();
 
   for (const unit of units) {
+    const trackNodes = unit.nodes.filter(belongsToTrack);
     if (unit.id < targetUnitId) {
-      for (const node of unit.nodes) {
+      for (const node of trackNodes) {
         if (!isLessonNodeCompleted(node)) {
           uncompletedNodes.push(node);
           skippedNodeIds.push(node.id);
@@ -61,7 +78,7 @@ export function createMultiUnitJumpAheadLesson(options: MultiJumpOptions): JumpA
     } else if (unit.id === targetUnitId) {
       if (targetNodeId) {
         // Saltar hasta un nodo específico dentro de la unidad objetivo
-        for (const node of unit.nodes) {
+        for (const node of trackNodes) {
           if (node.id === targetNodeId) {
             // Llegamos al nodo destino; este se desbloqueará, no se marca como completado
             break;
@@ -76,9 +93,9 @@ export function createMultiUnitJumpAheadLesson(options: MultiJumpOptions): JumpA
         // Saltar hasta la unidad completa (desbloquear el primer nodo de targetUnit)
         // Si la unidad objetivo ya estaba desbloqueada (ej. salto de la unidad activa),
         // incluimos también sus nodos pendientes para desbloquear la siguiente.
-        const isTargetUnitUnlocked = targetUnit.nodes.some(n => n.unlocked);
+        const isTargetUnitUnlocked = trackNodes.some(n => n.unlocked);
         if (isTargetUnitUnlocked) {
-          for (const node of targetUnit.nodes) {
+          for (const node of trackNodes) {
             if (!isLessonNodeCompleted(node)) {
               uncompletedNodes.push(node);
               skippedNodeIds.push(node.id);
@@ -91,9 +108,10 @@ export function createMultiUnitJumpAheadLesson(options: MultiJumpOptions): JumpA
     }
   }
 
-  // Si por alguna razón no hay nodos pendientes previos (ej. ya todo completado),
-  // tomamos los ejercicios de la unidad objetivo
-  const sourceNodes = uncompletedNodes.length > 0 ? uncompletedNodes : targetUnit.nodes;
+  // Solo usar nodos no completados/superados (nunca incluir lecciones ya superadas)
+  const fallbackUncompleted = targetUnit.nodes.filter(n => belongsToTrack(n) && !isLessonNodeCompleted(n));
+  const sourceNodes = uncompletedNodes.length > 0 ? uncompletedNodes : fallbackUncompleted;
+  if (sourceNodes.length === 0) return null;
 
   // Agrupar ejercicios por unidad para garantizar representatividad equilibrada
   const exercisesByUnit = new Map<number, Exercise[]>();

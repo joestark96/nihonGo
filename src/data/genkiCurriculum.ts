@@ -2334,7 +2334,6 @@ export const genkiCurriculum: Unit[] = [
             "id": "ex-1-4-3",
             "type": "multiple-choice",
             "prompt": "En la frase 「わたしはメアリーです」, ¿cuál es la función de 「は」?",
-            "promptSub": "Partícula tema",
             "options": [
               {
                 "id": "wa-top",

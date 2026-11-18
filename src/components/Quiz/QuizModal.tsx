@@ -186,6 +186,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
   const [showDialogueTranslation, setShowDialogueTranslation] = useState(true);
   const [activeDialogueLineIdx, setActiveDialogueLineIdx] = useState<number | null>(null);
   const [showTranscript, setShowTranscript] = useState(false);
+  const [showExitConfirm, setShowExitConfirm] = useState(false);
   const dialogueLineRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
   // Auto-scroll chat to active dialogue line during playback
@@ -200,11 +201,27 @@ export const QuizModal: React.FC<QuizModalProps> = ({
 
   const currentExercise: Exercise | undefined = exercises[currentIndex];
   const progressPercent = Math.round(((currentIndex) / exercises.length) * 100);
+  const isWorkbookLesson = lesson.title.toLowerCase().includes('workbook') || lesson.id.includes('wb');
+
+  const playCurrentExerciseVoice = (rate: number = 0.9) => {
+    if (!currentExercise?.japaneseVoiceText) return;
+    sound.speakExerciseAudio(currentExercise.japaneseVoiceText, rate, {
+      isWorkbook: isWorkbookLesson || currentExercise.id.includes('wb'),
+      exerciseId: currentExercise.id,
+      prompt: currentExercise.prompt
+    });
+  };
 
   // Reset exercise state when moving to next
   const handleClose = () => {
     sound.stopSpeech();
     onClose();
+  };
+
+  const handleRequestExit = () => {
+    sound.playTap();
+    sound.stopSpeech();
+    setShowExitConfirm(true);
   };
 
   // Reset exercise state when moving to next and stop previous speech
@@ -260,7 +277,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
       // Auto play audio for listening exercise
       if (currentExercise.japaneseVoiceText && currentExercise.type === 'listening') {
         setTimeout(() => {
-          sound.speakJapanese(currentExercise.japaneseVoiceText!);
+          playCurrentExerciseVoice(0.9);
         }, 150);
       }
     }
@@ -296,7 +313,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
     if (isCorrect) {
       sound.playCorrect();
       if (currentExercise.japaneseVoiceText) {
-        sound.speakJapanese(currentExercise.japaneseVoiceText);
+        playCurrentExerciseVoice(0.9);
       }
       setShowTranscript(true);
       setStatus('correct');
@@ -648,8 +665,9 @@ export const QuizModal: React.FC<QuizModalProps> = ({
       {/* Top Header: Close, Progress bar, Hearts / Chances / Practice indicator */}
       <div className="px-4 py-3 flex items-center gap-4 max-w-2xl mx-auto w-full bg-white dark:bg-[#18272e] border-b border-gray-200 dark:border-[#283842] shadow-xs">
         <button
-          onClick={handleClose}
+          onClick={handleRequestExit}
           className="p-1.5 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors cursor-pointer"
+          title="Salir de la lección"
         >
           <X className="w-6 h-6 stroke-[2.5px]" />
         </button>
@@ -941,7 +959,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
               </span>
               {currentExercise.japaneseVoiceText && currentExercise.type !== 'multiple-choice' && (
                 <button
-                  onClick={() => sound.speakJapanese(currentExercise.japaneseVoiceText!)}
+                  onClick={() => playCurrentExerciseVoice(0.9)}
                   className="p-2.5 bg-duo-blue text-white rounded-xl shadow-duo-btn-sm active:translate-y-0.5 hover:bg-duo-blue-dark transition-all"
                   title="Escuchar pronunciación"
                 >
@@ -957,7 +975,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
               <button
                 onClick={() => {
                   sound.playTap();
-                  sound.speakJapanese(currentExercise.japaneseVoiceText!, 0.9);
+                  playCurrentExerciseVoice(0.9);
                 }}
                 className="w-24 h-24 bg-duo-blue rounded-3xl flex flex-col items-center justify-center text-white shadow-[0_6px_0_0_#1899d6] active:translate-y-1 active:shadow-none hover:brightness-105 transition-all relative group"
                 title="Escuchar audio"
@@ -970,7 +988,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
               <button
                 onClick={() => {
                   sound.playTap();
-                  sound.speakJapanese(currentExercise.japaneseVoiceText!, 0.70);
+                  playCurrentExerciseVoice(0.70);
                 }}
                 className="w-16 h-16 bg-duo-blue-light/80 dark:bg-duo-blue/20 border-2 border-duo-blue rounded-2xl flex flex-col items-center justify-center text-duo-blue-dark dark:text-duo-blue shadow-[0_4px_0_0_#1cb0f6] active:translate-y-1 active:shadow-none hover:bg-duo-blue-light transition-all"
                 title="Escuchar lento (velocidad tortuga)"
@@ -1014,7 +1032,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
                         <button
                           onClick={() => {
                             sound.playTap();
-                            sound.speakJapanese(currentExercise.japaneseVoiceText!, 0.9);
+                            playCurrentExerciseVoice(0.9);
                           }}
                           className="p-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl shadow-xs transition-colors cursor-pointer"
                           title="Replay audio normal"
@@ -1024,7 +1042,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
                         <button
                           onClick={() => {
                             sound.playTap();
-                            sound.speakJapanese(currentExercise.japaneseVoiceText!, 0.70);
+                            playCurrentExerciseVoice(0.70);
                           }}
                           className="p-2 bg-indigo-100 dark:bg-indigo-900/60 hover:bg-indigo-200 text-indigo-700 dark:text-indigo-200 rounded-xl transition-colors cursor-pointer"
                           title="Replay lento (tortuga)"
@@ -1270,6 +1288,55 @@ export const QuizModal: React.FC<QuizModalProps> = ({
           )}
         </div>
       </div>
+
+      {/* Exit Confirmation Modal */}
+      {showExitConfirm && (
+        <div
+          className="fixed inset-0 z-[120] bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in"
+          onClick={() => setShowExitConfirm(false)}
+        >
+          <div
+            className="w-full max-w-sm bg-white dark:bg-[#18272e] border-2 border-duo-gray-200 dark:border-[#283842] rounded-3xl p-6 shadow-2xl text-center flex flex-col gap-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-14 h-14 mx-auto rounded-2xl bg-amber-100 dark:bg-amber-900/40 border-2 border-amber-300 dark:border-amber-700/60 flex items-center justify-center">
+              <AlertCircle className="w-7 h-7 text-amber-600 dark:text-amber-400" />
+            </div>
+
+            <div>
+              <h3 className="text-xl font-black text-gray-800 dark:text-gray-100">
+                ¿Seguro que quieres salir?
+              </h3>
+              <p className="text-sm font-bold text-gray-500 dark:text-gray-400 mt-1.5">
+                {isJumpAhead
+                  ? 'Perderás tu avance en este examen de salto si sales ahora.'
+                  : 'Perderás tu avance en esta lección si sales ahora.'}
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-2.5 mt-1">
+              <button
+                onClick={() => {
+                  sound.playTap();
+                  setShowExitConfirm(false);
+                }}
+                className="w-full py-3 bg-duo-blue hover:bg-duo-blue-dark text-white font-black text-sm rounded-2xl shadow-[0_4px_0_0_#1899d6] active:translate-y-0.5 active:shadow-none transition-all uppercase tracking-wider cursor-pointer"
+              >
+                Seguir estudiando
+              </button>
+              <button
+                onClick={() => {
+                  sound.playTap();
+                  handleClose();
+                }}
+                className="w-full py-3 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-950/60 text-duo-red border-2 border-red-200 dark:border-red-900/60 font-black text-sm rounded-2xl transition-all uppercase tracking-wider cursor-pointer"
+              >
+                Salir de la lección
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

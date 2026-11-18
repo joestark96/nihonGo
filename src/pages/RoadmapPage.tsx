@@ -123,7 +123,8 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
     sound.playTap();
     const challengeLesson = createMultiUnitJumpAheadLesson({
       units,
-      targetUnitId: unit.id
+      targetUnitId: unit.id,
+      mode: roadmapMode
     });
     if (challengeLesson) {
       setIsPracticeActive(false);
@@ -137,7 +138,8 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
     const challengeLesson = createMultiUnitJumpAheadLesson({
       units,
       targetUnitId,
-      targetNodeId
+      targetNodeId,
+      mode: roadmapMode
     });
     if (challengeLesson) {
       setIsPracticeActive(false);
@@ -579,7 +581,11 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
                         sound.playTap();
                         const firstAudio = selectedNodeForPopover.node.exercises.find(e => Boolean(e.japaneseVoiceText));
                         if (firstAudio?.japaneseVoiceText) {
-                          sound.speakJapanese(firstAudio.japaneseVoiceText, 0.9);
+                          sound.speakExerciseAudio(firstAudio.japaneseVoiceText, 0.9, {
+                            isWorkbook: true,
+                            exerciseId: firstAudio.id,
+                            prompt: firstAudio.prompt
+                          });
                         }
                       }}
                       className="flex-1 py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all cursor-pointer"
@@ -593,7 +599,11 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
                         sound.playTap();
                         const firstAudio = selectedNodeForPopover.node.exercises.find(e => Boolean(e.japaneseVoiceText));
                         if (firstAudio?.japaneseVoiceText) {
-                          sound.speakJapanese(firstAudio.japaneseVoiceText, 0.70);
+                          sound.speakExerciseAudio(firstAudio.japaneseVoiceText, 0.70, {
+                            isWorkbook: true,
+                            exerciseId: firstAudio.id,
+                            prompt: firstAudio.prompt
+                          });
                         }
                       }}
                       className="py-2 px-2.5 rounded-xl bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-200 font-black text-xs flex items-center justify-center gap-1 active:scale-95 transition-all cursor-pointer"

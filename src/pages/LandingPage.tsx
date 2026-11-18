@@ -28,14 +28,14 @@ interface LandingPageProps {
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
   const [downloadStarted, setDownloadStarted] = useState(false);
-  const APK_DOWNLOAD_URL = 'https://github.com/joestark96/genki-duo/raw/main/releases/nihongo-v1.1.3.apk';
+  const APK_DOWNLOAD_URL = 'https://github.com/joestark96/genki-duo/raw/main/releases/nihongo-v1.1.4.apk';
 
   const handleDownloadApk = () => {
     setDownloadStarted(true);
     // 1. Direct GitHub release raw URL download
     const link = document.createElement('a');
     link.href = APK_DOWNLOAD_URL;
-    link.setAttribute('download', 'nihongo-v1.1.3.apk');
+    link.setAttribute('download', 'nihongo-v1.1.4.apk');
     link.target = '_blank';
     document.body.appendChild(link);
     link.click();
@@ -62,7 +62,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
             <div>
               <div className="font-black text-lg leading-tight tracking-tight flex items-center gap-1.5">
                 <span>NihonGo!</span>
-                <span className="text-[10px] uppercase font-black px-1.5 py-0.5 rounded-md bg-duo-green/15 text-duo-green">v1.1.3</span>
+                <span className="text-[10px] uppercase font-black px-1.5 py-0.5 rounded-md bg-duo-green/15 text-duo-green">v1.1.4</span>
               </div>
               <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 leading-none">日本語 • Genki I & II</p>
             </div>
@@ -110,7 +110,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-duo-green/15 border border-duo-green/30 text-duo-green dark:text-green-400 font-black text-xs mb-6 animate-fade-in shadow-xs">
             <Sparkles className="w-3.5 h-3.5 animate-pulse" />
-            <span>Versión 1.1.3 Oficial Disponible para Android y Web</span>
+            <span>Versión 1.1.4 Oficial Disponible para Android y Web</span>
           </div>
 
           {/* Heading */}
@@ -130,7 +130,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
               className="flex-1 min-w-[200px] py-4 px-6 rounded-2xl bg-duo-green hover:bg-duo-green-dark text-white font-black text-sm uppercase tracking-wider shadow-[0_5px_0_0_#46a302] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 cursor-pointer group"
             >
               <Download className="w-5 h-5 stroke-[2.5px] group-hover:translate-y-0.5 transition-transform" />
-              <span>{downloadStarted ? 'Descargando...' : 'Descargar APK v1.1.3'}</span>
+              <span>{downloadStarted ? 'Descargando...' : 'Descargar APK v1.1.4'}</span>
             </button>
 
             <button
@@ -349,7 +349,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
                 Compilado Oficial para Android
               </span>
               <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white mt-2 mb-2">
-                NihonGo! v1.1.3 (APK Release)
+                NihonGo! v1.1.4 (APK Release)
               </h2>
               <p className="text-xs sm:text-sm font-bold text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
                 Descarga el archivo APK de producción directamente a tu dispositivo móvil. Compatible con teléfonos y tablets Android 8.0 en adelante.
@@ -359,11 +359,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs font-bold text-gray-500 dark:text-gray-400 mb-6">
                 <div className="p-2.5 rounded-xl bg-gray-50 dark:bg-[#131f24] border border-gray-200 dark:border-[#283842]">
                   <span className="block text-[10px] text-gray-400 uppercase">Versión</span>
-                  <span className="text-gray-800 dark:text-gray-100 font-black">1.1.3 (Release)</span>
+                  <span className="text-gray-800 dark:text-gray-100 font-black">1.1.4 (Release)</span>
                 </div>
                 <div className="p-2.5 rounded-xl bg-gray-50 dark:bg-[#131f24] border border-gray-200 dark:border-[#283842]">
                   <span className="block text-[10px] text-gray-400 uppercase">Tamaño</span>
-                  <span className="text-gray-800 dark:text-gray-100 font-black">~16.1 MB</span>
+                  <span className="text-gray-800 dark:text-gray-100 font-black">~18 MB</span>
                 </div>
                 <div className="p-2.5 rounded-xl bg-gray-50 dark:bg-[#131f24] border border-gray-200 dark:border-[#283842] col-span-2 sm:col-span-1">
                   <span className="block text-[10px] text-gray-400 uppercase">Requisitos</span>
@@ -378,7 +378,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
                   className="py-3.5 px-6 rounded-2xl bg-duo-green hover:bg-duo-green-dark text-white font-black text-sm uppercase tracking-wider shadow-[0_4px_0_0_#46a302] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Download className="w-5 h-5 stroke-[2.5px]" />
-                  <span>{downloadStarted ? 'Descargando APK...' : 'Descargar APK v1.1.3'}</span>
+                  <span>{downloadStarted ? 'Descargando APK...' : 'Descargar APK v1.1.4'}</span>
                 </button>
 
                 <a
@@ -421,7 +421,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-semibold text-gray-600 dark:text-gray-400">
               <div className="flex items-start gap-2.5">
                 <span className="w-6 h-6 rounded-lg bg-duo-green text-white font-black flex items-center justify-center flex-shrink-0">1</span>
-                <p>Descarga el archivo <strong>nihongo-v1.1.3.apk</strong> presionando el botón verde.</p>
+                <p>Descarga el archivo <strong>nihongo-v1.1.4.apk</strong> presionando el botón verde.</p>
               </div>
               <div className="flex items-start gap-2.5">
                 <span className="w-6 h-6 rounded-lg bg-duo-green text-white font-black flex items-center justify-center flex-shrink-0">2</span>
@@ -431,6 +431,82 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
                 <span className="w-6 h-6 rounded-lg bg-duo-green text-white font-black flex items-center justify-center flex-shrink-0">3</span>
                 <p>Toca en <strong>Instalar</strong>, abre la aplicación y ¡comienza a aprender japonés gratis!</p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Changelog / Historial de Cambios */}
+      <section className="py-16 px-4 bg-white dark:bg-[#131f24] border-t border-gray-200 dark:border-[#283842]">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <span className="px-3 py-1 rounded-xl bg-duo-blue/15 text-duo-blue font-black text-xs uppercase tracking-wider">
+              Historial de Versiones
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white mt-2">
+              Novedades y Evolución de NihonGo!
+            </h2>
+            <p className="text-xs sm:text-sm font-bold text-gray-500 dark:text-gray-400 mt-1">
+              Todas las mejoras, correcciones y nuevas funciones añadidas en cada lanzamiento.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {/* v1.1.4 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-emerald-50/70 dark:bg-[#18272e] border-2 border-duo-green shadow-sm">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.1.4</span>
+                  <span className="text-xs font-black uppercase tracking-wider text-duo-green">Actual</span>
+                </div>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Mejoras de Examen, Workbook y UX</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <li>• <strong>Saltos de unidad precisos:</strong> Al saltar lecciones o unidades, el examen ahora solo incluye temas de lecciones no completadas/superadas.</li>
+                <li>• <strong>Confirmación al salir:</strong> Al presionar cerrar en una lección o examen en curso, ahora solicita confirmación para evitar perder el progreso accidentalmente.</li>
+                <li>• <strong>Voces variadas en Workbook:</strong> Los diálogos y ejercicios de escucha del Cuaderno alternan voces distintas de personajes Genki para cada interlocutor.</li>
+                <li>• <strong>Distractores coherentes y sin pistas:</strong> Corregidas las opciones en ejercicios iniciales de Kanas (sin mezclar vocabulario avanzado) y eliminada la pista en la pregunta de la partícula 「は」.</li>
+                <li>• <strong>Rachas y vidas en tiempo real:</strong> Reinicio automático de rachas vencidas, indicador visual diario y regeneración de corazones al reanudar.</li>
+              </ul>
+            </div>
+
+            {/* v1.1.3 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-duo-blue/15 text-duo-blue font-black text-xs">v1.1.3</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Torre JLPT y Audio L3–L23</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
+                <li>• <strong>Torre de Niveles JLPT (N5–N3):</strong> Desafío escalonado y Test Rápido de Ubicación para medir tu nivel real de japonés.</li>
+                <li>• <strong>42 ejercicios de listening alineados:</strong> Corrección completa en Workbook L3–L23 y limpieza de pistas asimétricas en opciones.</li>
+                <li>• <strong>Pronunciación natural:</strong> Normalización fonética de はは/母 para evitar lecturas erróneas en motores TTS.</li>
+              </ul>
+            </div>
+
+            {/* v1.1.2 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-purple-500/15 text-purple-600 dark:text-purple-400 font-black text-xs">v1.1.2</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Trazos, Respaldo Cloud y Transcripciones</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
+                <li>• <strong>Respaldo en Google Drive:</strong> Sincronización y copia de seguridad completa de perfil, progreso, estrellas y niveles SRS.</li>
+                <li>• <strong>Animador de trazos y transcripciones:</strong> Animación interactiva de orden de trazos, transcripción revelable en listening y recordatorios diarios de racha.</li>
+                <li>• <strong>Expansión de Workbook:</strong> 5 módulos de cuaderno por unidad con ejercicios oficiales de escucha.</li>
+              </ul>
+            </div>
+
+            {/* v1.1.1 & v1.1.0 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400 font-black text-xs">v1.1.0 – v1.1.1</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Modo Workbook y Saltos Multilección</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
+                <li>• <strong>Modo Cuaderno (Workbook) en el Roadmap:</strong> Selector dedicado para alternar entre Libro de Texto y Cuaderno Oficial Genki I &amp; II.</li>
+                <li>• <strong>Examen de salto multilección:</strong> Salta directamente a cualquier lección o unidad superando un examen diagnóstico.</li>
+                <li>• <strong>Descargas offline bajo demanda:</strong> APK ligero (~18 MB) con gestor para descargar paquetes de voces localmente.</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -460,7 +536,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
       <footer className="bg-white dark:bg-[#131f24] border-t border-gray-200 dark:border-[#283842] py-10 px-4 text-xs font-semibold text-gray-500 dark:text-gray-400">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div>
-            <p className="font-black text-gray-800 dark:text-gray-100">NihonGo! (日本語) • Versión 1.1.3</p>
+            <p className="font-black text-gray-800 dark:text-gray-100">NihonGo! (日本語) • Versión 1.1.4</p>
             <p className="text-[11px] text-gray-400 mt-0.5">
               Basado en el currículum de <em>GENKI: An Integrated Course in Elementary Japanese</em> (The Japan Times).
             </p>

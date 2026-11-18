@@ -100,6 +100,12 @@ export function expandLessonExercises(node: LessonNode, unit?: Unit, targetCount
   const detectCategory = (jp: string, sp: string): string => {
     const cJp = cleanJapanese(jp);
     const cSp = sp.replace(/\s*\([^\)]*\)/g, '').toLowerCase().trim();
+    if (cJp && cJp.length <= 2 && cSp && /^[a-z]+$/.test(cSp) && cSp.length <= 4) {
+      return 'kana';
+    }
+    if (!cJp && cSp && /^[a-z]+$/.test(cSp) && cSp.length <= 4) {
+      return 'kana';
+    }
     const direct = genkiVocabulary.find(v =>
       (cJp && (v.japanese === cJp || v.furigana === cJp || cleanJapanese(v.japanese) === cJp)) ||
       (cSp && v.spanish.toLowerCase().trim() === cSp)
@@ -140,6 +146,17 @@ export function expandLessonExercises(node: LessonNode, unit?: Unit, targetCount
     mode: 'spanish' | 'japanese',
     localOptions: string[]
   ): string[] => {
+    if (category === 'kana') {
+      const isKanaValue = (val: string) =>
+        mode === 'spanish' ? /^[a-z]{1,4}$/i.test(val.trim()) : val.trim().length <= 2;
+      const siblingKanaPool = siblingVocabPairs
+        .filter(p => cleanJapanese(p.left).length <= 2 && /^[a-z]{1,4}$/i.test(p.right.replace(/\s*\([^\)]*\)/g, '').trim()))
+        .map(p => mode === 'spanish' ? p.right.replace(/\s*\([^\)]*\)/g, '').trim() : cleanJapanese(p.left))
+        .filter(Boolean);
+      const localKana = localOptions.filter(isKanaValue);
+      return Array.from(new Set([...localKana, ...siblingKanaPool])).filter(t => t !== targetText);
+    }
+
     if (category === 'other') {
       const filtered = localOptions.filter(t => t !== targetText);
       return filtered.length >= 3 ? filtered : (mode === 'spanish' ? allRightOptions : allLeftOptions).filter(t => t !== targetText);
@@ -154,7 +171,16 @@ export function expandLessonExercises(node: LessonNode, unit?: Unit, targetCount
 
     if (localSameCat.length >= 3) return localSameCat;
 
-    // 2. Second preference: vocabulary of the same category across all lessons
+    // 2. Second preference: vocabulary of the same category up to current lesson
+    const lessonScopedSameCat = genkiVocabulary
+      .filter(v => v.lesson <= Math.max(1, node.lessonNumber) && getCategory(v.pos) === category)
+      .map(v => mode === 'spanish' ? v.spanish.trim() : cleanJapanese(v.japanese))
+      .filter(t => t !== targetText);
+
+    const mergedScoped = Array.from(new Set([...localSameCat, ...lessonScopedSameCat]));
+    if (mergedScoped.length >= 3) return mergedScoped;
+
+    // 3. Third preference: vocabulary of the same category across all lessons
     const vocabSameCat = genkiVocabulary
       .filter(v => getCategory(v.pos) === category)
       .map(v => mode === 'spanish' ? v.spanish.trim() : cleanJapanese(v.japanese))
@@ -240,7 +266,12 @@ export function expandLessonExercises(node: LessonNode, unit?: Unit, targetCount
   });
 
   // 3. Generate vocabulary exercises from genkiVocabulary for this lesson
-  const lessonVocab = genkiVocabulary.filter(v => v.lesson === node.lessonNumber);
+  // (Skip injecting L0 greetings into pure Kana alphabet lessons)
+  const isPureKanaNode =
+    node.lessonNumber === 0 &&
+    nodeVocabPairs.length > 0 &&
+    nodeVocabPairs.every(p => detectCategory(p.left, p.right) === 'kana');
+  const lessonVocab = isPureKanaNode ? [] : genkiVocabulary.filter(v => v.lesson === node.lessonNumber);
   if (lessonVocab.length > 0) {
     const shuffledVocab = shuffle(lessonVocab);
     shuffledVocab.slice(0, 4).forEach((v, idx) => {

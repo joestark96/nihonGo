@@ -145,6 +145,7 @@ class SoundService {
   private sequenceTimer: number | null = null;
   private voices: SpeechSynthesisVoice[] = [];
   private currentSpeechId: number = 0;
+  private currentSequenceId: number = 0;
   private activeAbortController: AbortController | null = null;
   // In-memory caches for 0ms instantaneous replay
   private audioCache: Map<string, HTMLAudioElement> = new Map();
@@ -311,6 +312,7 @@ class SoundService {
   }
 
   public stopSpeech() {
+    this.currentSequenceId++;
     if (this.sequenceTimer) {
       window.clearTimeout(this.sequenceTimer);
       this.sequenceTimer = null;
@@ -669,7 +671,10 @@ class SoundService {
     });
   }
 
-  public async speakJapanese(text: string, rate: number = 0.9, speakerOrVoiceId?: string): Promise<void> {
+  public async speakJapanese(text: string, rate: number = 0.9, speakerOrVoiceId?: string, _preserveSequence: boolean = false): Promise<void> {
+    if (!_preserveSequence) {
+      this.currentSequenceId++;
+    }
     if (this.sequenceTimer) {
       window.clearTimeout(this.sequenceTimer);
       this.sequenceTimer = null;
@@ -836,6 +841,80 @@ class SoundService {
     };
 
     playStep();
+  }
+
+  /**
+   * Reproduce audios de ejercicios (especialmente Workbook) asignando voces distintas
+   * a cada interlocutor cuando hay diálogos (ej. "Pregunta。ー Respuesta。") y usando
+   * voces variadas de personajes Genki en ejercicios de Workbook en lugar de siempre
+   * la voz seleccionada por defecto.
+   */
+  public async speakExerciseAudio(
+    text: string,
+    rate: number = 0.9,
+    options?: { isWorkbook?: boolean; exerciseId?: string; prompt?: string }
+  ): Promise<void> {
+    const seqId = ++this.currentSequenceId;
+    const isWorkbook = Boolean(options?.isWorkbook);
+
+    // Detectar turnos de diálogo separados por "。ー", "？ー", "！ー" o guiones largos con espacios
+    const dialogueTurns = text
+      .split(/(?<=[。？！])\s*[ー—－]\s*|\s+[ー—－]\s+/)
+      .map(t => t.trim())
+      .filter(Boolean);
+
+    // Calcular un índice determinístico basado en exerciseId o texto para variar voces en Workbook
+    const seed = options?.exerciseId || text;
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+      hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+    }
+
+    if (dialogueTurns.length > 1) {
+      // Diálogo multi-turno: alternar entre dos personajes contrastantes (hombre / mujer)
+      const maleVoices = ['takeshi', 'ken', 'yamashita', 'robert'];
+      const femaleVoices = ['mary', 'michiko', 'sue', 'sora'];
+      const startMale = hash % 2 === 0;
+      const speakerA = startMale
+        ? maleVoices[hash % maleVoices.length]
+        : femaleVoices[hash % femaleVoices.length];
+      const speakerB = startMale
+        ? femaleVoices[(hash >> 2) % femaleVoices.length]
+        : maleVoices[(hash >> 2) % maleVoices.length];
+
+      for (let i = 0; i < dialogueTurns.length; i++) {
+        if (this.currentSequenceId !== seqId) return;
+        const turnSpeaker = i % 2 === 0 ? speakerA : speakerB;
+        await this.speakJapanese(dialogueTurns[i], rate, turnSpeaker, true);
+        if (this.currentSequenceId !== seqId) return;
+        if (i < dialogueTurns.length - 1) {
+          await new Promise(r => window.setTimeout(r, 280));
+        }
+      }
+      return;
+    }
+
+    if (isWorkbook) {
+      // En Workbook de un solo turno, elegir un personaje apropiado según el contexto o hash
+      const promptAndText = `${options?.prompt || ''} ${text}`.toLowerCase();
+      let workbookSpeaker: string | undefined;
+      if (promptAndText.includes('takeshi') || promptAndText.includes('たけし')) workbookSpeaker = 'takeshi';
+      else if (promptAndText.includes('mary') || promptAndText.includes('メアリー')) workbookSpeaker = 'mary';
+      else if (promptAndText.includes('yamashita') || promptAndText.includes('やました') || promptAndText.includes('先生')) workbookSpeaker = 'yamashita';
+      else if (promptAndText.includes('michiko') || promptAndText.includes('みちこ')) workbookSpeaker = 'michiko';
+      else if (promptAndText.includes('robert') || promptAndText.includes('ロバート')) workbookSpeaker = 'robert';
+      else if (promptAndText.includes('ken') || promptAndText.includes('けん')) workbookSpeaker = 'ken';
+      else if (promptAndText.includes('sue') || promptAndText.includes('スー')) workbookSpeaker = 'sue';
+      else if (promptAndText.includes('sora') || promptAndText.includes('ソラ')) workbookSpeaker = 'sora';
+      else {
+        workbookSpeaker = CHARACTER_VOICES[hash % CHARACTER_VOICES.length].id;
+      }
+
+      await this.speakJapanese(text, rate, workbookSpeaker, true);
+      return;
+    }
+
+    await this.speakJapanese(text, rate, undefined, true);
   }
 
   // Play Duolingo-style chime on correct answer (cheerful high arpeggio)
