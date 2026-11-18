@@ -9,10 +9,14 @@ import {
   Lightbulb,
   CheckCircle2,
   XCircle,
-  HelpCircle
+  HelpCircle,
+  Puzzle,
+  Headphones,
+  Mic
 } from 'lucide-react';
 import { UnitTheory, TheoryExample, unitTheories } from '../../data/theoryData';
 import { sound } from '../../services/sound';
+import { SpeechPracticeButton } from '../SpeechPracticeButton';
 
 interface TheoryChatModeProps {
   unitTheory: UnitTheory;
@@ -24,18 +28,33 @@ interface TheoryChatModeProps {
 interface ChatQuiz {
   prompt: string;
   audioText?: string;
+  hideJapanesePrompt?: boolean;
+  revealJapanese?: string;
   options: string[];
   correctIndex: number;
   explanation: string;
 }
 
+interface ChatWordBuild {
+  spanishPrompt: string;
+  targetSentence: string;
+  targetTokens: string[];
+  bankChips: { id: string; word: string }[];
+  audioText: string;
+  explanation: string;
+}
+
 interface ChatStep {
   id: string;
-  kind: 'greeting' | 'topic-intro' | 'explanation' | 'example' | 'tip' | 'quiz' | 'summary';
+  kind: 'greeting' | 'lesson-card' | 'quiz' | 'listen-pick' | 'word-build' | 'speak' | 'summary';
   text: string;
   subText?: string;
+  bullets?: string[];
+  tip?: string;
   example?: TheoryExample;
+  extraExamples?: TheoryExample[];
   quiz?: ChatQuiz;
+  wordBuild?: ChatWordBuild;
   sectionIndex: number;
   sectionTitle: string;
   userAckText: string;
@@ -47,8 +66,11 @@ interface ChatMessage {
   kind?: ChatStep['kind'];
   text: string;
   subText?: string;
+  bullets?: string[];
+  tip?: string;
   example?: TheoryExample;
   quiz?: ChatQuiz;
+  wordBuild?: ChatWordBuild;
   isFeedbackSuccess?: boolean;
 }
 
@@ -63,6 +85,43 @@ function deterministicShuffle<T>(arr: T[], seed: number): T[] {
   return copy;
 }
 
+/**
+ * Splits a Japanese sentence into 3..6 clean interactive word/particle tokens
+ * whose concatenation exactly equals the cleaned sentence.
+ */
+function tokenizeJapaneseForBuilder(sentence: string): string[] {
+  const clean = sentence
+    .replace(/\[.*?\]/g, '')
+    .replace(/\(.*?\)/g, '')
+    .replace(/（.*?）/g, '')
+    .replace(/[。．！!？?\s]/g, '')
+    .trim();
+
+  if (clean.length < 4) return [clean];
+
+  // Split nicely around particles and endings while keeping tokens intact
+  const rawParts = clean
+    .split(/(は|が|を|に|で|へ|と|も|の|から|まで|です|ます|ません|ました|でした)/g)
+    .filter(Boolean);
+
+  // Merge tiny 1-char non-particle fragments so there aren't too many tiny chips
+  const merged: string[] = [];
+  for (const part of rawParts) {
+    if (
+      merged.length > 0 &&
+      part.length === 1 &&
+      !/^(は|が|を|に|で|へ|と|も|の)$/.test(part) &&
+      merged[merged.length - 1].length <= 3
+    ) {
+      merged[merged.length - 1] += part;
+    } else {
+      merged.push(part);
+    }
+  }
+
+  return merged.length >= 2 ? merged : [clean];
+}
+
 export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
   unitTheory,
   preferredVoiceId = 'mary',
@@ -72,11 +131,10 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
   const charProfile = sound.getCharacterProfile(preferredVoiceId);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  // Build ordered micro-lesson chat script + inline quizzes for the selected unit
+  // Build didactic, action-packed micro-lesson script with varied interactive challenges
   const steps: ChatStep[] = useMemo(() => {
     const list: ChatStep[] = [];
 
-    // Pool of examples in this unit (and adjacent units as distractor fallback)
     const unitExamples: TheoryExample[] = unitTheory.sections.flatMap(s => s.examples || []);
     const globalExamples: TheoryExample[] = [
       ...unitExamples,
@@ -87,7 +145,7 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
     list.push({
       id: `greet-${unitTheory.unitId}`,
       kind: 'greeting',
-      text: `¡Hola! Soy ${charProfile.name} (${charProfile.japaneseName}). Hoy te explicaré "${unitTheory.title}" poco a poco, con ejemplos y mini-quizes para practicar.`,
+      text: `¡Hola! Soy ${charProfile.name} (${charProfile.japaneseName}). Vamos a dominar "${unitTheory.title}" con explicaciones breves y retos prácticos (armar frases, oído y voz).`,
       subText: unitTheory.description,
       sectionIndex: 0,
       sectionTitle: 'Bienvenida',
@@ -95,126 +153,135 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
     });
 
     unitTheory.sections.forEach((sec, sIdx) => {
+      // 1. Compact, rich Lesson Card (Topic + Key bullets + 1st Example + Tip) -> ZERO "siguiente, siguiente" bloat!
+      const bullets = sec.content.map(c => c.replace(/\*\*/g, '')).slice(0, 4);
+      const firstEx = sec.examples?.[0];
+      const extraExamples = sec.examples?.slice(1) || [];
+
       list.push({
-        id: `intro-${sec.id}`,
-        kind: 'topic-intro',
+        id: `card-${sec.id}`,
+        kind: 'lesson-card',
         text: `📌 Tema ${sIdx + 1}: ${sec.title}${sec.japaneseTitle ? ` (${sec.japaneseTitle})` : ''}`,
         subText: sec.summary,
+        bullets,
+        example: firstEx,
+        extraExamples,
+        tip: sec.tip,
         sectionIndex: sIdx,
         sectionTitle: sec.title,
-        userAckText: '¡Entendido! Cuéntame más'
+        userAckText: sec.examples?.length ? '¡Entendido! Ponme a prueba 💪' : 'Siguiente tema 👉'
       });
 
-      sec.content.forEach((line, lIdx) => {
-        const cleanLine = line.replace(/\*\*/g, '');
-        list.push({
-          id: `exp-${sec.id}-${lIdx}`,
-          kind: 'explanation',
-          text: cleanLine,
-          sectionIndex: sIdx,
-          sectionTitle: sec.title,
-          userAckText:
-            lIdx === sec.content.length - 1 && sec.examples?.length
-              ? '¡Claro! Muéstrame un ejemplo 👀'
-              : 'Siguiente 👉'
-        });
-      });
-
+      // 2. Interactive Challenge(s) for this topic!
       if (sec.examples && sec.examples.length > 0) {
-        sec.examples.forEach((ex, eIdx) => {
+        const challengeEx = sec.examples[sec.examples.length > 1 ? 1 : 0];
+        const tokens = tokenizeJapaneseForBuilder(challengeEx.japanese);
+
+        // Alternate between Word-Builder, Blind Listening Challenge, Multiple Choice, and Speech Practice!
+        const pattern = sIdx % 3;
+
+        if (pattern === 0 && tokens.length >= 2 && tokens.length <= 7) {
+          // WORD BUILDER CHALLENGE 🧩
+          const distractorPool = ['を', 'に', 'は', 'が', 'で'].filter(p => !tokens.includes(p));
+          const extraDistractor = distractorPool[sIdx % distractorPool.length];
+          const bankRaw = extraDistractor ? [...tokens, extraDistractor] : [...tokens];
+          const bankChips = deterministicShuffle(
+            bankRaw.map((w, idx) => ({ id: `wb-${sec.id}-${idx}-${w}`, word: w })),
+            sIdx * 19 + unitTheory.unitId
+          );
+
           list.push({
-            id: `ex-${sec.id}-${eIdx}`,
-            kind: 'example',
-            text: `Mira este ejemplo en japonés:`,
-            example: ex,
+            id: `wb-${sec.id}`,
+            kind: 'word-build',
+            text: `🧩 Reto de Construcción: Ordena las piezas para decir en japonés:`,
+            wordBuild: {
+              spanishPrompt: challengeEx.spanish,
+              targetSentence: tokens.join(''),
+              targetTokens: tokens,
+              bankChips,
+              audioText: challengeEx.audioText || challengeEx.japanese,
+              explanation: `Se construye así: 「${challengeEx.japanese}」${challengeEx.romaji ? ` (${challengeEx.romaji})` : ''}.`
+            },
             sectionIndex: sIdx,
             sectionTitle: sec.title,
-            userAckText: '¡Buen ejemplo! Continuar 👍'
+            userAckText: '¡Siguiente reto!'
           });
-        });
-      }
-
-      if (sec.tip) {
-        list.push({
-          id: `tip-${sec.id}`,
-          kind: 'tip',
-          text: sec.tip,
-          sectionIndex: sIdx,
-          sectionTitle: sec.title,
-          userAckText: sec.examples?.length ? '¡Anotado! Hazme una pregunta 📝' : '¡Anotado! 💡'
-        });
-      }
-
-      // Generate an inline Practice Mini-Quiz at the end of each topic with examples
-      if (sec.examples && sec.examples.length > 0) {
-        const targetEx = sec.examples[0];
-        const askMeaning = sIdx % 2 === 0;
-
-        if (askMeaning) {
+        } else if (pattern === 1) {
+          // BLIND LISTENING CHALLENGE 🎧
           const otherSpanish = Array.from(
-            new Set(
-              globalExamples
-                .map(e => e.spanish)
-                .filter(sp => sp && sp !== targetEx.spanish)
-            )
+            new Set(globalExamples.map(e => e.spanish).filter(sp => sp && sp !== challengeEx.spanish))
           ).slice(0, 8);
           const distractors = deterministicShuffle(otherSpanish, sIdx * 17 + unitTheory.unitId).slice(0, 2);
           const rawOpts = deterministicShuffle(
             [
-              { text: targetEx.spanish, isCorrect: true },
+              { text: challengeEx.spanish, isCorrect: true },
               ...distractors.map(d => ({ text: d, isCorrect: false }))
             ],
-            sIdx * 31 + 5
+            sIdx * 29 + 3
           );
+
           if (rawOpts.length >= 2) {
             list.push({
-              id: `quiz-${sec.id}`,
-              kind: 'quiz',
-              text: `Practica lo que acabamos de ver (${sec.title}):`,
+              id: `listen-${sec.id}`,
+              kind: 'listen-pick',
+              text: `🎧 Reto de Oído: Escucha lo que te digo (sin leer) y elige qué significa:`,
               quiz: {
-                prompt: `¿Qué significa 「${targetEx.japanese}」?`,
-                audioText: targetEx.audioText || targetEx.japanese,
+                prompt: 'Toca el botón azul para escuchar la frase:',
+                audioText: challengeEx.audioText || challengeEx.japanese,
+                hideJapanesePrompt: true,
+                revealJapanese: challengeEx.japanese,
                 options: rawOpts.map(o => o.text),
                 correctIndex: rawOpts.findIndex(o => o.isCorrect),
-                explanation: `「${targetEx.japanese}」 significa "${targetEx.spanish}".`
+                explanation: `Dije: 「${challengeEx.japanese}」 = "${challengeEx.spanish}".`
               },
               sectionIndex: sIdx,
               sectionTitle: sec.title,
-              userAckText: 'Siguiente tema 👉'
+              userAckText: '¡Siguiente tema!'
             });
           }
         } else {
+          // TRANSLATION / GRAMMAR QUIZ 📝
           const otherJapanese = Array.from(
-            new Set(
-              globalExamples
-                .map(e => e.japanese)
-                .filter(jp => jp && jp !== targetEx.japanese)
-            )
+            new Set(globalExamples.map(e => e.japanese).filter(jp => jp && jp !== challengeEx.japanese))
           ).slice(0, 8);
           const distractors = deterministicShuffle(otherJapanese, sIdx * 23 + unitTheory.unitId).slice(0, 2);
           const rawOpts = deterministicShuffle(
             [
-              { text: targetEx.japanese, isCorrect: true },
+              { text: challengeEx.japanese, isCorrect: true },
               ...distractors.map(d => ({ text: d, isCorrect: false }))
             ],
             sIdx * 41 + 9
           );
+
           if (rawOpts.length >= 2) {
             list.push({
               id: `quiz-${sec.id}`,
               kind: 'quiz',
-              text: `Pongamos a prueba lo visto en "${sec.title}":`,
+              text: `📝 Reto de Traducción:`,
               quiz: {
-                prompt: `¿Cómo se dice "${targetEx.spanish}" en japonés?`,
+                prompt: `¿Cómo se dice "${challengeEx.spanish}" en japonés?`,
                 options: rawOpts.map(o => o.text),
                 correctIndex: rawOpts.findIndex(o => o.isCorrect),
-                explanation: `La forma correcta es 「${targetEx.japanese}」${targetEx.romaji ? ` (${targetEx.romaji})` : ''}.`
+                explanation: `La forma correcta es 「${challengeEx.japanese}」${challengeEx.romaji ? ` (${challengeEx.romaji})` : ''}.`
               },
               sectionIndex: sIdx,
               sectionTitle: sec.title,
-              userAckText: 'Siguiente tema 👉'
+              userAckText: '¡Siguiente tema!'
             });
           }
+        }
+
+        // Every 2nd topic, add a quick Speaking Practice prompt 🎤
+        if (sIdx % 2 === 1) {
+          list.push({
+            id: `speak-${sec.id}`,
+            kind: 'speak',
+            text: `🗣️ Tu turno de hablar: intenta pronunciar en voz alta esta frase del tema:`,
+            example: firstEx || challengeEx,
+            sectionIndex: sIdx,
+            sectionTitle: sec.title,
+            userAckText: '¡Ya la practiqué! Siguiente 👉'
+          });
         }
       }
     });
@@ -222,7 +289,7 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
     list.push({
       id: `done-${unitTheory.unitId}`,
       kind: 'summary',
-      text: `🎉 ¡Excelente trabajo! Ya vimos toda la teoría y los quizes de "${unitTheory.title}". ¿Listo para el Roadmap?`,
+      text: `🎉 ¡Increíble! Completaste toda la clase interactiva de "${unitTheory.title}". ¡Ya dominas la teoría para arrasar en el Roadmap!`,
       sectionIndex: unitTheory.sections.length - 1,
       sectionTitle: 'Completado',
       userAckText: '¡A practicar!'
@@ -234,14 +301,22 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
   const [stepIndex, setStepIndex] = useState(0);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
+
+  // Interactive Quiz & Word Builder state
   const [quizAnswers, setQuizAnswers] = useState<Record<string, number>>({});
-  const [quizScore, setQuizScore] = useState<{ correct: number; total: number }>({ correct: 0, total: 0 });
+  const [wordBuilderSelection, setWordBuilderSelection] = useState<Record<string, string[]>>({});
+  const [wordBuilderSubmitted, setWordBuilderSubmitted] = useState<Record<string, boolean>>({});
+  const [score, setScore] = useState<{ correct: number; total: number }>({ correct: 0, total: 0 });
+  const [shownExtras, setShownExtras] = useState<Record<string, boolean>>({});
 
   // Reset chat when unit changes
   useEffect(() => {
     setStepIndex(0);
     setQuizAnswers({});
-    setQuizScore({ correct: 0, total: 0 });
+    setWordBuilderSelection({});
+    setWordBuilderSubmitted({});
+    setShownExtras({});
+    setScore({ correct: 0, total: 0 });
     const first = steps[0];
     setMessages(
       first
@@ -252,8 +327,11 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
               kind: first.kind,
               text: first.text,
               subText: first.subText,
+              bullets: first.bullets,
+              tip: first.tip,
               example: first.example,
-              quiz: first.quiz
+              quiz: first.quiz,
+              wordBuild: first.wordBuild
             }
           ]
         : []
@@ -276,11 +354,19 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
   const isFinished = stepIndex >= steps.length - 1;
   const progressPct = Math.round(((stepIndex + 1) / Math.max(1, steps.length)) * 100);
 
-  // Check if current step is a quiz that hasn't been answered yet
-  const activeQuizMsg = currentStep?.kind === 'quiz'
-    ? [...messages].reverse().find(m => m.kind === 'quiz' && m.quiz)
-    : undefined;
-  const isWaitingForQuizAnswer = Boolean(activeQuizMsg && quizAnswers[activeQuizMsg.id] === undefined);
+  // Check if current step has an unfinished interactive challenge
+  const activeChallengeMsg =
+    currentStep?.kind === 'quiz' || currentStep?.kind === 'listen-pick' || currentStep?.kind === 'word-build'
+      ? [...messages]
+          .reverse()
+          .find(m => (m.kind === 'quiz' || m.kind === 'listen-pick' || m.kind === 'word-build'))
+      : undefined;
+
+  const isWaitingForChallenge = Boolean(
+    activeChallengeMsg &&
+      ((activeChallengeMsg.quiz && quizAnswers[activeChallengeMsg.id] === undefined) ||
+        (activeChallengeMsg.wordBuild && !wordBuilderSubmitted[activeChallengeMsg.id]))
+  );
 
   const advanceToStep = (nextIdx: number, userReplyText?: string) => {
     if (nextIdx >= steps.length || isTyping) return;
@@ -310,18 +396,20 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
           kind: nextStep.kind,
           text: nextStep.text,
           subText: nextStep.subText,
+          bullets: nextStep.bullets,
+          tip: nextStep.tip,
           example: nextStep.example,
-          quiz: nextStep.quiz
+          quiz: nextStep.quiz,
+          wordBuild: nextStep.wordBuild
         }
       ]);
 
-      if (nextStep.example) {
-        const toSpeak = nextStep.example.audioText || nextStep.example.japanese;
-        sound.speakJapanese(toSpeak, 0.9, charProfile.id);
-      } else if (nextStep.quiz?.audioText) {
+      if (nextStep.quiz?.audioText) {
         sound.speakJapanese(nextStep.quiz.audioText, 0.9, charProfile.id);
+      } else if (nextStep.example && nextStep.kind === 'speak') {
+        sound.speakJapanese(nextStep.example.audioText || nextStep.example.japanese, 0.9, charProfile.id);
       }
-    }, 260);
+    }, 240);
   };
 
   const handleSelectQuizOption = (msgId: string, quiz: ChatQuiz, optIdx: number) => {
@@ -329,10 +417,7 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
     const isCorrect = optIdx === quiz.correctIndex;
 
     setQuizAnswers(prev => ({ ...prev, [msgId]: optIdx }));
-    setQuizScore(prev => ({
-      correct: prev.correct + (isCorrect ? 1 : 0),
-      total: prev.total + 1
-    }));
+    setScore(prev => ({ correct: prev.correct + (isCorrect ? 1 : 0), total: prev.total + 1 }));
 
     if (isCorrect) {
       sound.playCorrect();
@@ -340,7 +425,6 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
       sound.playIncorrect();
     }
 
-    // Add Sensei feedback message after short delay
     setIsTyping(true);
     setTimeout(() => {
       setIsTyping(false);
@@ -351,16 +435,95 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
           sender: 'sensei',
           isFeedbackSuccess: isCorrect,
           text: isCorrect
-            ? `🎉 ¡Exacto! Muy bien dicho.`
+            ? `🎉 ¡Exacto! Muy bien.`
             : `😅 Casi... La respuesta correcta era: "${quiz.options[quiz.correctIndex]}"`,
           subText: quiz.explanation
         }
       ]);
+    }, 220);
+  };
+
+  const handleToggleChip = (msgId: string, chipId: string) => {
+    if (wordBuilderSubmitted[msgId]) return;
+    sound.playTap();
+    setWordBuilderSelection(prev => {
+      const curr = prev[msgId] || [];
+      if (curr.includes(chipId)) {
+        return { ...prev, [msgId]: curr.filter(id => id !== chipId) };
+      }
+      return { ...prev, [msgId]: [...curr, chipId] };
+    });
+  };
+
+  const handleCheckWordBuild = (msgId: string, wb: ChatWordBuild) => {
+    if (wordBuilderSubmitted[msgId] || isTyping) return;
+    const selectedIds = wordBuilderSelection[msgId] || [];
+    const builtStr = selectedIds
+      .map(id => wb.bankChips.find(c => c.id === id)?.word || '')
+      .join('');
+
+    const isCorrect = builtStr === wb.targetSentence;
+    setWordBuilderSubmitted(prev => ({ ...prev, [msgId]: true }));
+    setScore(prev => ({ correct: prev.correct + (isCorrect ? 1 : 0), total: prev.total + 1 }));
+
+    if (isCorrect) {
+      sound.playCorrect();
+      sound.speakJapanese(wb.audioText, 0.9, charProfile.id);
+    } else {
+      sound.playIncorrect();
+    }
+
+    setIsTyping(true);
+    setTimeout(() => {
+      setIsTyping(false);
+      setMessages(prev => [
+        ...prev,
+        {
+          id: `wb-fb-${Date.now()}`,
+          sender: 'sensei',
+          isFeedbackSuccess: isCorrect,
+          text: isCorrect
+            ? `🎉 ¡Perfecto! Armaste la oración correctamente.`
+            : `😅 Casi... El orden correcto era: 「${wb.targetSentence}」`,
+          subText: wb.explanation
+        }
+      ]);
+    }, 220);
+  };
+
+  const handleShowMoreExamples = () => {
+    if (!currentStep?.extraExamples?.length || shownExtras[currentStep.id] || isTyping) return;
+    sound.playTap();
+    setShownExtras(prev => ({ ...prev, [currentStep.id]: true }));
+    const extra = currentStep.extraExamples[0];
+
+    setMessages(prev => [
+      ...prev,
+      {
+        id: `user-ex-${Date.now()}`,
+        sender: 'user',
+        text: 'Dame otro ejemplo 💡'
+      }
+    ]);
+
+    setIsTyping(true);
+    setTimeout(() => {
+      setIsTyping(false);
+      setMessages(prev => [
+        ...prev,
+        {
+          id: `sensei-ex-${Date.now()}`,
+          sender: 'sensei',
+          text: 'Aquí tienes otro ejemplo práctico:',
+          example: extra
+        }
+      ]);
+      sound.speakJapanese(extra.audioText || extra.japanese, 0.9, charProfile.id);
     }, 240);
   };
 
   const handleNext = () => {
-    if (!currentStep || isFinished || isWaitingForQuizAnswer) return;
+    if (!currentStep || isFinished || isWaitingForChallenge) return;
     advanceToStep(stepIndex + 1, currentStep.userAckText);
   };
 
@@ -368,7 +531,7 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
     if (!currentStep || isFinished) return;
     const currentSecIdx = currentStep.sectionIndex;
     const nextTopicIdx = steps.findIndex(
-      (s, idx) => idx > stepIndex && s.kind === 'topic-intro' && s.sectionIndex > currentSecIdx
+      (s, idx) => idx > stepIndex && s.kind === 'lesson-card' && s.sectionIndex > currentSecIdx
     );
     if (nextTopicIdx !== -1) {
       advanceToStep(nextTopicIdx, 'Pasemos al siguiente tema ⏭');
@@ -381,7 +544,10 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
     sound.playTap();
     setStepIndex(0);
     setQuizAnswers({});
-    setQuizScore({ correct: 0, total: 0 });
+    setWordBuilderSelection({});
+    setWordBuilderSubmitted({});
+    setShownExtras({});
+    setScore({ correct: 0, total: 0 });
     const first = steps[0];
     setMessages(
       first
@@ -414,9 +580,9 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
               <span className="px-1.5 py-0.5 rounded-md bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 text-[9px] font-black uppercase">
                 Sensei
               </span>
-              {quizScore.total > 0 && (
+              {score.total > 0 && (
                 <span className="px-1.5 py-0.5 rounded-md bg-indigo-500/15 text-indigo-600 dark:text-indigo-300 text-[9px] font-black">
-                  📝 {quizScore.correct}/{quizScore.total}
+                  🏆 {score.correct}/{score.total}
                 </span>
               )}
             </div>
@@ -430,7 +596,7 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
           type="button"
           onClick={handleRestart}
           className="p-2 rounded-xl bg-white dark:bg-[#131f24] border border-gray-200 dark:border-[#283842] text-gray-500 hover:text-indigo-500 transition-colors cursor-pointer"
-          title="Reiniciar conversación"
+          title="Reiniciar clase"
         >
           <RotateCcw className="w-4 h-4" />
         </button>
@@ -444,10 +610,10 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
         />
       </div>
 
-      {/* Chat Messages Feed (Inner scroll only) */}
+      {/* Inner Chat Feed */}
       <div
         ref={chatContainerRef}
-        className="h-[400px] overflow-y-auto p-3.5 flex flex-col gap-3 bg-slate-50/70 dark:bg-[#111b20]"
+        className="h-[420px] overflow-y-auto p-3.5 flex flex-col gap-3 bg-slate-50/70 dark:bg-[#111b20]"
       >
         {messages.map(msg => {
           const isUser = msg.sender === 'user';
@@ -468,47 +634,71 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
                 {charProfile.avatar}
               </div>
 
-              <div className="max-w-[86%] flex flex-col gap-1.5">
+              <div className="max-w-[88%] flex flex-col gap-1.5">
                 <div
-                  className={`p-3 rounded-2xl rounded-tl-sm border shadow-2xs text-xs leading-relaxed ${
+                  className={`p-3.5 rounded-2xl rounded-tl-sm border shadow-2xs text-xs leading-relaxed ${
                     msg.isFeedbackSuccess === true
                       ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-700 text-emerald-950 dark:text-emerald-100 font-bold'
                       : msg.isFeedbackSuccess === false
                       ? 'bg-rose-50 dark:bg-rose-950/40 border-rose-300 dark:border-rose-700 text-rose-950 dark:text-rose-100 font-bold'
-                      : msg.kind === 'topic-intro'
-                      ? 'bg-indigo-50 dark:bg-indigo-950/40 border-indigo-300 dark:border-indigo-700 text-indigo-950 dark:text-indigo-100 font-bold'
-                      : msg.kind === 'tip'
-                      ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-700 text-amber-950 dark:text-amber-100 font-semibold'
-                      : msg.kind === 'quiz'
-                      ? 'bg-purple-50 dark:bg-purple-950/30 border-purple-300 dark:border-purple-700 text-gray-800 dark:text-gray-100 font-bold'
+                      : msg.kind === 'lesson-card'
+                      ? 'bg-white dark:bg-[#18272e] border-indigo-300 dark:border-indigo-700 text-gray-800 dark:text-gray-100 font-semibold'
+                      : msg.kind === 'word-build' || msg.kind === 'quiz' || msg.kind === 'listen-pick'
+                      ? 'bg-purple-50/90 dark:bg-purple-950/30 border-purple-300 dark:border-purple-700 text-gray-800 dark:text-gray-100 font-bold'
+                      : msg.kind === 'speak'
+                      ? 'bg-pink-50/80 dark:bg-pink-950/30 border-pink-300 dark:border-pink-700 text-gray-800 dark:text-gray-100 font-bold'
                       : 'bg-white dark:bg-[#18272e] border-gray-200 dark:border-[#283842] text-gray-800 dark:text-gray-100 font-semibold'
                   }`}
                 >
-                  {msg.kind === 'tip' && (
-                    <div className="flex items-center gap-1 text-[10px] font-black uppercase text-amber-600 dark:text-amber-400 mb-1">
-                      <Lightbulb className="w-3.5 h-3.5" />
-                      <span>Tip de {charProfile.name}</span>
-                    </div>
-                  )}
-
                   {msg.kind === 'quiz' && (
                     <div className="flex items-center gap-1 text-[10px] font-black uppercase text-purple-600 dark:text-purple-400 mb-1">
                       <HelpCircle className="w-3.5 h-3.5" />
-                      <span>Mini-Quiz de Práctica</span>
+                      <span>Mini-Quiz</span>
+                    </div>
+                  )}
+                  {msg.kind === 'listen-pick' && (
+                    <div className="flex items-center gap-1 text-[10px] font-black uppercase text-sky-600 dark:text-sky-400 mb-1">
+                      <Headphones className="w-3.5 h-3.5" />
+                      <span>Reto Auditivo</span>
+                    </div>
+                  )}
+                  {msg.kind === 'word-build' && (
+                    <div className="flex items-center gap-1 text-[10px] font-black uppercase text-purple-600 dark:text-purple-400 mb-1">
+                      <Puzzle className="w-3.5 h-3.5" />
+                      <span>Construye la Frase</span>
+                    </div>
+                  )}
+                  {msg.kind === 'speak' && (
+                    <div className="flex items-center gap-1 text-[10px] font-black uppercase text-pink-600 dark:text-pink-400 mb-1">
+                      <Mic className="w-3.5 h-3.5" />
+                      <span>Práctica Oral</span>
                     </div>
                   )}
 
-                  <p>{msg.text}</p>
+                  <p className={msg.kind === 'lesson-card' ? 'text-sm font-black text-indigo-700 dark:text-indigo-300' : ''}>
+                    {msg.text}
+                  </p>
 
                   {msg.subText && (
-                    <p className="mt-1.5 text-[11px] font-medium text-gray-600 dark:text-gray-300 opacity-90">
+                    <p className="mt-1 text-[11px] font-medium text-gray-600 dark:text-gray-300">
                       {msg.subText}
                     </p>
                   )}
 
-                  {/* Interactive Japanese Example inside Chat Bubble */}
+                  {/* Compact Key Points in Lesson Card */}
+                  {msg.bullets && msg.bullets.length > 0 && (
+                    <ul className="mt-2.5 flex flex-col gap-1.5 pl-1 border-l-2 border-indigo-300 dark:border-indigo-700">
+                      {msg.bullets.map((b, bIdx) => (
+                        <li key={`${msg.id}-b-${bIdx}`} className="pl-2 text-[11px] font-semibold text-gray-700 dark:text-gray-200 leading-snug">
+                          • {b}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {/* Interactive Japanese Example */}
                   {msg.example && (
-                    <div className="mt-2 p-2.5 rounded-xl bg-sky-50/80 dark:bg-[#131f24] border border-sky-200 dark:border-sky-800/60">
+                    <div className="mt-2.5 p-2.5 rounded-xl bg-sky-50/80 dark:bg-[#131f24] border border-sky-200 dark:border-sky-800/60">
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
                           <p className="text-sm font-black font-['Noto_Sans_JP'] text-gray-900 dark:text-white leading-snug">
@@ -527,55 +717,77 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
                         <div className="flex flex-col gap-1 flex-shrink-0">
                           <button
                             type="button"
-                            onClick={() => {
-                              sound.speakJapanese(
-                                msg.example!.audioText || msg.example!.japanese,
-                                0.9,
-                                charProfile.id
-                              );
-                            }}
+                            onClick={() =>
+                              sound.speakJapanese(msg.example!.audioText || msg.example!.japanese, 0.9, charProfile.id)
+                            }
                             className="p-2 rounded-xl bg-duo-blue hover:bg-duo-blue-dark text-white shadow-2xs active:scale-95 transition-all cursor-pointer"
-                            title={`Escuchar con la voz de ${charProfile.name}`}
+                            title={`Escuchar con ${charProfile.name}`}
                           >
                             <Volume2 className="w-4 h-4" />
                           </button>
                           <button
                             type="button"
-                            onClick={() => {
-                              sound.speakJapanese(
-                                msg.example!.audioText || msg.example!.japanese,
-                                0.7,
-                                charProfile.id
-                              );
-                            }}
+                            onClick={() =>
+                              sound.speakJapanese(msg.example!.audioText || msg.example!.japanese, 0.7, charProfile.id)
+                            }
                             className="px-1.5 py-0.5 rounded-lg bg-sky-100 dark:bg-sky-900/50 text-[10px] font-black text-sky-700 dark:text-sky-300 cursor-pointer"
-                            title="Escuchar lento"
+                            title="Lento"
                           >
                             🐢
                           </button>
                         </div>
                       </div>
+
+                      {/* Speaking Practice Mic inside Speak Card */}
+                      {msg.kind === 'speak' && (
+                        <div className="mt-2.5 pt-2 border-t border-sky-200/70 dark:border-sky-800/50 flex items-center justify-between gap-2">
+                          <span className="text-[10px] font-bold text-pink-600 dark:text-pink-300">
+                            Pulsa el micrófono y léelo en voz alta:
+                          </span>
+                          <SpeechPracticeButton
+                            targetJapanese={msg.example.japanese}
+                            targetFurigana={msg.example.audioText || msg.example.japanese}
+                            compact
+                          />
+                        </div>
+                      )}
                     </div>
                   )}
 
-                  {/* Inline Interactive Quiz inside Chat Bubble */}
+                  {/* Tip inside Lesson Card */}
+                  {msg.tip && (
+                    <div className="mt-2.5 p-2 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 flex items-start gap-1.5 text-[11px] font-medium text-amber-900 dark:text-amber-100">
+                      <Lightbulb className="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5" />
+                      <span>{msg.tip}</span>
+                    </div>
+                  )}
+
+                  {/* 1. Multiple Choice / Listening Challenge inside Chat */}
                   {msg.quiz && (
                     <div className="mt-2.5 flex flex-col gap-2">
-                      <div className="flex items-center justify-between gap-2">
-                        <p className="text-xs font-black text-purple-950 dark:text-purple-100 font-['Noto_Sans_JP']">
-                          {msg.quiz.prompt}
-                        </p>
-                        {msg.quiz.audioText && (
+                      {msg.quiz.audioText ? (
+                        <div className="flex items-center gap-2">
                           <button
                             type="button"
                             onClick={() => sound.speakJapanese(msg.quiz!.audioText!, 0.9, charProfile.id)}
-                            className="p-1.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white flex-shrink-0 cursor-pointer"
-                            title="Escuchar"
+                            className="flex-1 py-2 px-3 rounded-xl bg-duo-blue hover:bg-duo-blue-dark text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer"
                           >
-                            <Volume2 className="w-3.5 h-3.5" />
+                            <Volume2 className="w-4 h-4" />
+                            <span>Escuchar Frase</span>
                           </button>
-                        )}
-                      </div>
+                          <button
+                            type="button"
+                            onClick={() => sound.speakJapanese(msg.quiz!.audioText!, 0.7, charProfile.id)}
+                            className="py-2 px-3 rounded-xl bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-200 font-black text-xs cursor-pointer"
+                          >
+                            🐢
+                          </button>
+                        </div>
+                      ) : (
+                        <p className="text-xs font-black text-purple-950 dark:text-purple-100 font-['Noto_Sans_JP']">
+                          {msg.quiz.prompt}
+                        </p>
+                      )}
 
                       <div className="flex flex-col gap-1.5">
                         {msg.quiz.options.map((opt, optIdx) => {
@@ -621,6 +833,79 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
                       </div>
                     </div>
                   )}
+
+                  {/* 2. Word Builder Challenge inside Chat */}
+                  {msg.wordBuild && (() => {
+                    const wb = msg.wordBuild;
+                    const selectedIds = wordBuilderSelection[msg.id] || [];
+                    const submitted = Boolean(wordBuilderSubmitted[msg.id]);
+
+                    return (
+                      <div className="mt-2.5 flex flex-col gap-2.5">
+                        <div className="p-2 rounded-xl bg-white dark:bg-[#131f24] border border-purple-200 dark:border-purple-800/60 text-xs font-black text-purple-900 dark:text-purple-100">
+                          🇪🇸 «{wb.spanishPrompt}»
+                        </div>
+
+                        {/* Answer Assembly Tray */}
+                        <div className="min-h-[44px] p-2 rounded-xl bg-white dark:bg-[#18272e] border-2 border-dashed border-purple-300 dark:border-purple-700 flex flex-wrap gap-1.5 items-center">
+                          {selectedIds.length === 0 ? (
+                            <span className="text-[11px] font-semibold text-gray-400 italic">
+                              Toca las fichas de abajo en orden...
+                            </span>
+                          ) : (
+                            selectedIds.map(chipId => {
+                              const chip = wb.bankChips.find(c => c.id === chipId);
+                              if (!chip) return null;
+                              return (
+                                <button
+                                  key={`sel-${chipId}`}
+                                  type="button"
+                                  disabled={submitted}
+                                  onClick={() => handleToggleChip(msg.id, chipId)}
+                                  className="px-2.5 py-1 rounded-lg bg-purple-600 text-white font-bold text-xs font-['Noto_Sans_JP'] shadow-2xs cursor-pointer"
+                                >
+                                  {chip.word}
+                                </button>
+                              );
+                            })
+                          )}
+                        </div>
+
+                        {/* Bank Chips */}
+                        <div className="flex flex-wrap gap-1.5">
+                          {wb.bankChips.map(chip => {
+                            const isUsed = selectedIds.includes(chip.id);
+                            return (
+                              <button
+                                key={chip.id}
+                                type="button"
+                                disabled={isUsed || submitted}
+                                onClick={() => handleToggleChip(msg.id, chip.id)}
+                                className={`px-2.5 py-1.5 rounded-xl border-2 text-xs font-bold font-['Noto_Sans_JP'] transition-all ${
+                                  isUsed
+                                    ? 'bg-gray-100 dark:bg-gray-800 border-dashed border-gray-300 dark:border-gray-700 text-transparent select-none cursor-default'
+                                    : 'bg-white dark:bg-[#18272e] border-gray-200 dark:border-[#283842] text-gray-800 dark:text-gray-100 hover:border-purple-400 cursor-pointer shadow-2xs'
+                                }`}
+                              >
+                                {chip.word}
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {!submitted && (
+                          <button
+                            type="button"
+                            disabled={selectedIds.length === 0}
+                            onClick={() => handleCheckWordBuild(msg.id, wb)}
+                            className="w-full py-2 rounded-xl bg-purple-600 hover:bg-purple-700 disabled:opacity-40 text-white font-black text-xs transition-all cursor-pointer"
+                          >
+                            Comprobar Oración ✓
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
             </div>
@@ -649,20 +934,35 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
             <button
               type="button"
               onClick={handleNext}
-              disabled={isTyping || isWaitingForQuizAnswer}
+              disabled={isTyping || isWaitingForChallenge}
               className={`flex-1 py-2.5 px-4 font-black text-xs rounded-2xl transition-all flex items-center justify-center gap-1.5 ${
-                isWaitingForQuizAnswer
+                isWaitingForChallenge
                   ? 'bg-purple-100 dark:bg-purple-950/50 text-purple-600 dark:text-purple-300 cursor-not-allowed'
                   : 'bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white shadow-[0_3px_0_0_#4338ca] active:translate-y-0.5 active:shadow-none cursor-pointer'
               }`}
             >
               <MessageCircle className="w-4 h-4" />
               <span>
-                {isWaitingForQuizAnswer
-                  ? 'Responde el Mini-Quiz arriba 👆'
-                  : currentStep?.userAckText || 'Siguiente 👉'}
+                {isWaitingForChallenge
+                  ? 'Completa el reto arriba 👆'
+                  : currentStep?.userAckText || 'Continuar 👉'}
               </span>
             </button>
+
+            {currentStep?.kind === 'lesson-card' &&
+              currentStep.extraExamples &&
+              currentStep.extraExamples.length > 0 &&
+              !shownExtras[currentStep.id] && (
+                <button
+                  type="button"
+                  onClick={handleShowMoreExamples}
+                  disabled={isTyping}
+                  className="py-2.5 px-3 bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300 font-black text-xs rounded-2xl transition-all flex items-center gap-1 cursor-pointer flex-shrink-0"
+                  title="Ver otro ejemplo antes del reto"
+                >
+                  <span>+Ejemplo</span>
+                </button>
+              )}
 
             {stepIndex > 0 && (
               <button
@@ -685,7 +985,7 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
               className="py-2.5 px-4 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 text-gray-700 dark:text-gray-200 font-black text-xs rounded-2xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <RotateCcw className="w-4 h-4" />
-              <span>Repasar Chat</span>
+              <span>Repasar</span>
             </button>
 
             {onGoToRoadmap && (
