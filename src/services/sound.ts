@@ -404,6 +404,8 @@ class SoundService {
     speechId?: number
   ): Promise<boolean> {
     if (!profile.neuralVoiceId || text.length > 120) return false;
+    // Isolated 1-2 char kana are often misread by TikTok TTS (e.g. 'こ' -> 'からこ'); use clean bundled/Google TTS instead
+    if (/^[\u3040-\u30ff]{1,2}$/.test(text.trim())) return false;
     if (speechId !== undefined && this.currentSpeechId !== speechId) return false;
 
     const ctx = this.getAudioContext();
@@ -531,7 +533,8 @@ class SoundService {
 
         this.stopActivePlayback();
 
-        const isShortWord = clean.length <= 10 && !/[\s、。！？]/.test(clean);
+        const isIsolatedKana = /^[\u3040-\u30ff]{1,2}$/.test(clean);
+        const isShortWord = !isIsolatedKana && clean.length <= 10 && !/[\s、。！？]/.test(clean);
         const primaryUrl = isShortWord
           ? `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(clean)}&le=jap`
           : `https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=${encodeURIComponent(clean)}`;

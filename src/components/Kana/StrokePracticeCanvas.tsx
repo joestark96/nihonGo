@@ -8,6 +8,47 @@ interface Point {
   y: number;
 }
 
+/**
+ * Smoothly interpolates points along a polyline for a given progress (0 to 1)
+ * so even 2-point strokes animate fluidly along their full length.
+ */
+function interpolatePolyline(pts: Point[], progress: number): Point[] {
+  if (pts.length === 0) return [];
+  if (pts.length === 1 || progress >= 1) return pts;
+  if (progress <= 0) return [pts[0]];
+
+  const segLens: number[] = [];
+  let totalLen = 0;
+  for (let i = 1; i < pts.length; i++) {
+    const len = Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+    segLens.push(len);
+    totalLen += len;
+  }
+  if (totalLen === 0) return [pts[0]];
+
+  const targetLen = totalLen * progress;
+  const result: Point[] = [pts[0]];
+  let accumulated = 0;
+
+  for (let i = 0; i < segLens.length; i++) {
+    const segLen = segLens[i];
+    if (accumulated + segLen <= targetLen) {
+      result.push(pts[i + 1]);
+      accumulated += segLen;
+    } else {
+      const remain = targetLen - accumulated;
+      const t = segLen > 0 ? remain / segLen : 0;
+      result.push({
+        x: pts[i].x + (pts[i + 1].x - pts[i].x) * t,
+        y: pts[i].y + (pts[i + 1].y - pts[i].y) * t
+      });
+      break;
+    }
+  }
+
+  return result;
+}
+
 interface StrokePracticeCanvasProps {
   character: string;
   expectedStrokes?: number;
@@ -141,11 +182,11 @@ export const StrokePracticeCanvas: React.FC<StrokePracticeCanvasProps> = ({
 
     // 3. Draw guide character if enabled or in demo mode
     if (showGuide || activeTab === 'demo') {
-      ctx.fillStyle = activeTab === 'demo' ? 'rgba(203, 213, 225, 0.35)' : 'rgba(148, 163, 184, 0.28)';
-      ctx.font = `bold ${Math.round(canvasSize * 0.72)}px "Noto Sans JP", sans-serif`;
+      ctx.fillStyle = activeTab === 'demo' ? 'rgba(203, 213, 225, 0.42)' : 'rgba(148, 163, 184, 0.28)';
+      ctx.font = `500 ${Math.round(canvasSize * 0.68)}px "Noto Sans JP", sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(character, canvasSize / 2, canvasSize / 2 + 4);
+      ctx.fillText(character, canvasSize / 2, canvasSize / 2 + 2);
     }
 
     if (activeTab === 'demo') {
@@ -157,21 +198,29 @@ export const StrokePracticeCanvas: React.FC<StrokePracticeCanvasProps> = ({
 
         const isCurrent = sIdx === animStrokeIdx;
         const ptsToDraw = isCurrent
-          ? pts.slice(0, Math.max(1, Math.floor(pts.length * animProgress)))
+          ? interpolatePolyline(pts, animProgress)
           : pts;
 
         if (ptsToDraw.length > 0) {
           ctx.strokeStyle = isCurrent ? '#0284c7' : '#0f172a';
-          ctx.lineWidth = 10;
+          ctx.lineWidth = 9;
           ctx.lineCap = 'round';
           ctx.lineJoin = 'round';
 
           ctx.beginPath();
           ctx.moveTo(ptsToDraw[0].x, ptsToDraw[0].y);
-          for (let i = 1; i < ptsToDraw.length; i++) {
-            const midX = (ptsToDraw[i - 1].x + ptsToDraw[i].x) / 2;
-            const midY = (ptsToDraw[i - 1].y + ptsToDraw[i].y) / 2;
-            ctx.quadraticCurveTo(ptsToDraw[i - 1].x, ptsToDraw[i - 1].y, midX, midY);
+          if (ptsToDraw.length === 2) {
+            ctx.lineTo(ptsToDraw[1].x, ptsToDraw[1].y);
+          } else {
+            for (let i = 1; i < ptsToDraw.length - 1; i++) {
+              const midX = (ptsToDraw[i].x + ptsToDraw[i + 1].x) / 2;
+              const midY = (ptsToDraw[i].y + ptsToDraw[i + 1].y) / 2;
+              ctx.quadraticCurveTo(ptsToDraw[i].x, ptsToDraw[i].y, midX, midY);
+            }
+            if (ptsToDraw.length > 1) {
+              const last = ptsToDraw[ptsToDraw.length - 1];
+              ctx.lineTo(last.x, last.y);
+            }
           }
           ctx.stroke();
 
