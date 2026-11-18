@@ -1,5 +1,25 @@
 // Stroke Paths Data for Japanese Hiragana, Katakana, and common Kanji
-// Points are normalized [x, y] in the range 0.0 to 1.0
+// Includes KanjiVG SVG path data (CC BY-SA 3.0, http://kanjivg.tagaini.net)
+import kanjivgPathsJson from './kanjivgPaths.json';
+
+const KANJIVG_PATHS = kanjivgPathsJson as Record<string, string[]>;
+
+/**
+ * Returns official KanjiVG SVG path strings (viewBox 0 0 109 109) for a character,
+ * or null if not available.
+ */
+export function getKanjiVgPathsForCharacter(character: string): string[] | null {
+  if (!character) return null;
+  const trimmed = character.trim();
+  if (KANJIVG_PATHS[trimmed]) {
+    return KANJIVG_PATHS[trimmed];
+  }
+  const firstChar = Array.from(trimmed)[0];
+  if (firstChar && KANJIVG_PATHS[firstChar]) {
+    return KANJIVG_PATHS[firstChar];
+  }
+  return null;
+}
 
 export interface NormalizedStroke {
   points: { x: number; y: number }[];

@@ -4,6 +4,8 @@ import { audioStorage, AudioStorageStats } from '../../services/audioStorage';
 import { audioDownloadQueue, DownloadQueueState } from '../../services/audioDownloadQueue';
 import { Unit } from '../../types';
 import { sound } from '../../services/sound';
+import { CustomSelect } from '../UI/CustomSelect';
+import { ConfirmModal } from '../UI/ConfirmModal';
 
 interface AudioDownloadManagerProps {
   units: Unit[];
@@ -14,6 +16,7 @@ export const AudioDownloadManager: React.FC<AudioDownloadManagerProps> = ({ unit
   const [selectedUnitId, setSelectedUnitId] = useState<number>(1);
   const [queueState, setQueueState] = useState<DownloadQueueState>(() => audioDownloadQueue.getState());
   const [localMessage, setLocalMessage] = useState<string | null>(null);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   const refreshStats = async () => {
     try {
@@ -57,14 +60,17 @@ export const AudioDownloadManager: React.FC<AudioDownloadManagerProps> = ({ unit
     audioDownloadQueue.cancelDownload();
   };
 
-  const handleClearStorage = async () => {
+  const handleClearStorage = () => {
     sound.playTap();
-    if (window.confirm('¿Seguro que deseas borrar los audios descargados? Las lecturas precargadas en el APK seguirán intactas.')) {
-      await audioStorage.clearAll();
-      await refreshStats();
-      setLocalMessage('Almacenamiento de audios liberado.');
-      audioDownloadQueue.clearStatusMessage();
-    }
+    setShowClearConfirm(true);
+  };
+
+  const confirmClearStorage = async () => {
+    setShowClearConfirm(false);
+    await audioStorage.clearAll();
+    await refreshStats();
+    setLocalMessage('Almacenamiento de audios liberado.');
+    audioDownloadQueue.clearStatusMessage();
   };
 
   const { isDownloading, progress, statusMessage } = queueState;
@@ -175,19 +181,22 @@ export const AudioDownloadManager: React.FC<AudioDownloadManagerProps> = ({ unit
 
       {/* Downloader Controls */}
       <div className="flex flex-col gap-2">
-        <select
+        <CustomSelect
           value={selectedUnitId}
-          onChange={(e) => setSelectedUnitId(parseInt(e.target.value))}
+          onChange={(val) => setSelectedUnitId(Number(val))}
           disabled={isDownloading}
-          className="w-full min-w-0 px-3 py-2.5 bg-gray-50 dark:bg-[#131f24] border border-gray-300 dark:border-[#283842] rounded-xl text-xs font-bold text-gray-800 dark:text-gray-100 focus:outline-none focus:border-duo-blue disabled:opacity-60"
-        >
-          <option value={-1}>🌟 Todas las Unidades (1 al 23)</option>
-          {units.filter(u => u.id >= 1).map(u => (
-            <option key={u.id} value={u.id}>
-              Unidad {u.id}: {u.title}
-            </option>
-          ))}
-        </select>
+          title="Elegir Unidad para Descargar"
+          buttonClassName="w-full min-w-0 flex items-center justify-between gap-2 px-3 py-2.5 bg-gray-50 dark:bg-[#131f24] border border-gray-300 dark:border-[#283842] hover:border-duo-blue focus:border-duo-blue rounded-xl text-xs font-bold text-gray-800 dark:text-gray-100 focus:outline-none disabled:opacity-60 transition-colors cursor-pointer text-left"
+          options={[
+            { value: -1, label: '🌟 Todas las Unidades (1 al 23)' },
+            ...units
+              .filter((u) => u.id >= 1)
+              .map((u) => ({
+                value: u.id,
+                label: `Unidad ${u.id}: ${u.title}`,
+              })),
+          ]}
+        />
 
         <button
           type="button"
@@ -217,6 +226,17 @@ export const AudioDownloadManager: React.FC<AudioDownloadManagerProps> = ({ unit
       <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-2 italic text-center sm:text-left">
         💡 Las descargas continúan automáticamente aunque cambies de pantalla o salgas de la app.
       </p>
+
+      <ConfirmModal
+        isOpen={showClearConfirm}
+        title="Borrar audios descargados"
+        message="¿Seguro que deseas borrar los audios descargados? Las lecturas precargadas en el APK seguirán intactas."
+        confirmText="Borrar audios"
+        cancelText="Cancelar"
+        variant="danger"
+        onConfirm={confirmClearStorage}
+        onCancel={() => setShowClearConfirm(false)}
+      />
     </div>
   );
 };

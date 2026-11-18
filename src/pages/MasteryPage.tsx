@@ -22,6 +22,7 @@ import { Flashcard, FlashcardCategory, Unit } from '../types';
 import { sound } from '../services/sound';
 import { SpeechPracticeButton } from '../components/SpeechPracticeButton';
 import { NavTab } from '../components/BottomNav';
+import { CustomSelect } from '../components/UI/CustomSelect';
 
 export type MasteryFilterCategory = 'all' | 'hiragana' | 'katakana' | 'vocabulary' | 'kanji' | 'phrases';
 export type MasteryLevel = 'unknown' | 'weak' | 'learning' | 'familiar' | 'mastered';
@@ -546,39 +547,37 @@ export const MasteryPage: React.FC<MasteryPageProps> = ({
                 <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">
                   Filtrar por Nivel de Dominio
                 </label>
-                <select
+                <CustomSelect
                   value={selectedStatus}
-                  onChange={e => {
-                    sound.playTap();
-                    setSelectedStatus(e.target.value as MasteryFilterStatus);
-                  }}
-                  className="w-full min-w-0 max-w-full truncate py-2 px-3 rounded-xl bg-gray-50 dark:bg-[#131f24] border-2 border-gray-200 dark:border-[#283842] text-xs font-black text-gray-700 dark:text-gray-200 cursor-pointer focus:outline-none focus:border-purple-500"
-                >
-                  <option value="all">Cualquier Estado ({stats.total})</option>
-                  <option value="weak">🔴 Débiles (&lt; 40%) [{stats.weak}]</option>
-                  <option value="learning">🟡 En Aprendizaje [{stats.learning}]</option>
-                  <option value="familiar">🟢 Familiar [{stats.familiar}]</option>
-                  <option value="mastered">💎 Dominadas [{stats.mastered}]</option>
-                  <option value="unknown">⚪ Desconocidas (0%) [{stats.unknown}]</option>
-                </select>
+                  onChange={(val) => setSelectedStatus(val as MasteryFilterStatus)}
+                  title="Filtrar por Nivel de Dominio"
+                  buttonClassName="w-full min-w-0 flex items-center justify-between gap-2 py-2 px-3 rounded-xl bg-gray-50 dark:bg-[#131f24] border-2 border-gray-200 dark:border-[#283842] text-xs font-black text-gray-700 dark:text-gray-200 cursor-pointer focus:outline-none focus:border-purple-500 hover:border-purple-400 text-left transition-colors"
+                  options={[
+                    { value: 'all', label: `Cualquier Estado (${stats.total})` },
+                    { value: 'weak', label: `🔴 Débiles (< 40%) [${stats.weak}]` },
+                    { value: 'learning', label: `🟡 En Aprendizaje [${stats.learning}]` },
+                    { value: 'familiar', label: `🟢 Familiar [${stats.familiar}]` },
+                    { value: 'mastered', label: `💎 Dominadas [${stats.mastered}]` },
+                    { value: 'unknown', label: `⚪ Desconocidas (0%) [${stats.unknown}]` },
+                  ]}
+                />
               </div>
 
               <div className="w-full min-w-0">
                 <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">
                   Ordenar Elementos
                 </label>
-                <select
+                <CustomSelect
                   value={sortBy}
-                  onChange={e => {
-                    sound.playTap();
-                    setSortBy(e.target.value as 'weakest' | 'strongest' | 'lesson');
-                  }}
-                  className="w-full min-w-0 max-w-full truncate py-2 px-3 rounded-xl bg-gray-50 dark:bg-[#131f24] border-2 border-gray-200 dark:border-[#283842] text-xs font-black text-gray-700 dark:text-gray-200 cursor-pointer focus:outline-none focus:border-purple-500"
-                >
-                  <option value="weakest">Más débiles primero</option>
-                  <option value="strongest">Mayor dominio primero</option>
-                  <option value="lesson">Por lección Genki</option>
-                </select>
+                  onChange={(val) => setSortBy(val as 'weakest' | 'strongest' | 'lesson')}
+                  title="Ordenar Elementos"
+                  buttonClassName="w-full min-w-0 flex items-center justify-between gap-2 py-2 px-3 rounded-xl bg-gray-50 dark:bg-[#131f24] border-2 border-gray-200 dark:border-[#283842] text-xs font-black text-gray-700 dark:text-gray-200 cursor-pointer focus:outline-none focus:border-purple-500 hover:border-purple-400 text-left transition-colors"
+                  options={[
+                    { value: 'weakest', label: 'Más débiles primero' },
+                    { value: 'strongest', label: 'Mayor dominio primero' },
+                    { value: 'lesson', label: 'Por lección Genki' },
+                  ]}
+                />
               </div>
             </div>
           </div>

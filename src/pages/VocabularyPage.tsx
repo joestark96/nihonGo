@@ -4,6 +4,7 @@ import { genkiVocabulary, VocabWord } from '../data/vocabularyData';
 import { SpeechPracticeButton } from '../components/SpeechPracticeButton';
 import { sound } from '../services/sound';
 import { NavTab } from '../components/BottomNav';
+import { CustomSelect } from '../components/UI/CustomSelect';
 
 interface VocabularyPageProps {
   showRomaji?: boolean;
@@ -340,32 +341,24 @@ export const VocabularyPage: React.FC<VocabularyPageProps> = ({ showRomaji = tru
             <label className="block text-[11px] font-black uppercase text-gray-500 dark:text-gray-400 tracking-wider mb-1.5 ml-1">
               Filtrar por Lección:
             </label>
-            <div className="relative">
-              <select
-                value={selectedLesson}
-                onChange={e => {
-                  sound.playTap();
-                  setSelectedLesson(Number(e.target.value));
-                }}
-                className="w-full appearance-none bg-white dark:bg-[#18272e] border-2 border-duo-gray-300 dark:border-[#283842] hover:border-rose-400 focus:border-rose-500 rounded-2xl py-3 px-4 pr-10 text-xs md:text-sm font-black text-gray-800 dark:text-gray-100 shadow-[0_4px_0_0_#e5e5e5] dark:shadow-none focus:outline-none transition-all cursor-pointer"
-              >
-                <option value={-1}>🌟 Todas las Lecciones (Genki I y II)</option>
-                <option value={0}>Unidad 0: Saludos y Expresiones Básicas</option>
-                {Array.from({ length: 12 }, (_, i) => i + 1).map(num => (
-                  <option key={num} value={num}>
-                    📘 Genki I — Lección {num}
-                  </option>
-                ))}
-                {Array.from({ length: 11 }, (_, i) => i + 13).map(num => (
-                  <option key={num} value={num}>
-                    📗 Genki II — Lección {num}
-                  </option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-500 dark:text-gray-400">
-                <ChevronDown className="w-5 h-5 stroke-[2.5px]" />
-              </div>
-            </div>
+            <CustomSelect
+              value={selectedLesson}
+              onChange={(val) => setSelectedLesson(Number(val))}
+              title="Filtrar por Lección"
+              buttonClassName="w-full flex items-center justify-between gap-2 bg-white dark:bg-[#18272e] border-2 border-duo-gray-300 dark:border-[#283842] hover:border-rose-400 focus:border-rose-500 rounded-2xl py-3 px-4 text-xs md:text-sm font-black text-gray-800 dark:text-gray-100 shadow-[0_4px_0_0_#e5e5e5] dark:shadow-none focus:outline-none transition-all cursor-pointer text-left"
+              options={[
+                { value: -1, label: '🌟 Todas las Lecciones (Genki I y II)' },
+                { value: 0, label: 'Unidad 0: Saludos y Expresiones Básicas' },
+                ...Array.from({ length: 12 }, (_, i) => i + 1).map((num) => ({
+                  value: num,
+                  label: `📘 Genki I — Lección ${num}`,
+                })),
+                ...Array.from({ length: 11 }, (_, i) => i + 13).map((num) => ({
+                  value: num,
+                  label: `📗 Genki II — Lección ${num}`,
+                })),
+              ]}
+            />
           </div>
 
           {/* Search Input */}
@@ -614,25 +607,17 @@ export const VocabularyPage: React.FC<VocabularyPageProps> = ({ showRomaji = tru
 
           {/* Word Selector Dropdown */}
           <div className="w-full mb-4">
-            <div className="relative">
-              <select
-                value={activeConjWord.id}
-                onChange={e => {
-                  sound.playTap();
-                  setSelectedConjWordId(e.target.value);
-                }}
-                className="w-full appearance-none bg-white dark:bg-[#18272e] border-2 border-purple-300 dark:border-[#283842] focus:border-purple-500 rounded-2xl py-3 px-4 pr-10 text-xs md:text-sm font-black text-gray-800 dark:text-gray-100 shadow-sm focus:outline-none cursor-pointer"
-              >
-                {filteredConjWords.map(w => (
-                  <option key={w.id} value={w.id}>
-                    [L{w.lesson}] {w.japanese} ({w.furigana}) — {w.spanish}
-                  </option>
-                ))}
-              </select>
-              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-500">
-                <ChevronDown className="w-5 h-5 stroke-[2.5px]" />
-              </div>
-            </div>
+            <CustomSelect
+              value={activeConjWord.id}
+              onChange={(val) => setSelectedConjWordId(String(val))}
+              title="Elegir Palabra para Conjugar"
+              searchable
+              buttonClassName="w-full flex items-center justify-between gap-2 bg-white dark:bg-[#18272e] border-2 border-purple-300 dark:border-[#283842] focus:border-purple-500 rounded-2xl py-3 px-4 text-xs md:text-sm font-black text-gray-800 dark:text-gray-100 shadow-sm focus:outline-none cursor-pointer text-left"
+              options={filteredConjWords.map((w) => ({
+                value: w.id,
+                label: `[L${w.lesson}] ${w.japanese} (${w.furigana}) — ${w.spanish}`,
+              }))}
+            />
           </div>
 
           {/* Selected Word Hero Summary */}

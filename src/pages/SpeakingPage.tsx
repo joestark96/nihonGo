@@ -20,6 +20,7 @@ import { SpeechPracticeButton } from '../components/SpeechPracticeButton';
 import { sound } from '../services/sound';
 import { speechService } from '../services/speechRecognitionService';
 import { computeJapaneseSpeechMatch } from '../utils/japaneseSpeechMatcher';
+import { CustomSelect } from '../components/UI/CustomSelect';
 
 interface SpeakingPageProps {
   units: Unit[];
@@ -625,24 +626,22 @@ export const SpeakingPage: React.FC<SpeakingPageProps> = ({ units, showRomaji = 
               <label className="text-[10px] font-black uppercase tracking-wider text-gray-400 block mb-1">
                 1. Elige la Lección de Genki
               </label>
-              <select
+              <CustomSelect
                 value={roleplayUnitId}
-                onChange={e => {
-                  sound.playTap();
+                onChange={(val) => {
                   stopAutoRoleplay();
-                  setRoleplayUnitId(Number(e.target.value));
+                  setRoleplayUnitId(Number(val));
                   setSelectedDialogueIndex(0);
                   setSelectedRoleSpeaker('');
                   setRoleplayStep(0);
                 }}
-                className="w-full px-3 py-2 rounded-xl bg-gray-50 dark:bg-[#131f24] border-2 border-duo-gray-200 dark:border-[#283842] text-xs font-black text-gray-800 dark:text-gray-100"
-              >
-                {dialogueUnits.map(u => (
-                  <option key={u.id} value={u.id}>
-                    {u.title} — {u.subtitle}
-                  </option>
-                ))}
-              </select>
+                title="Elige la Lección de Genki"
+                buttonClassName="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-gray-50 dark:bg-[#131f24] border-2 border-duo-gray-200 dark:border-[#283842] hover:border-duo-blue focus:border-duo-blue text-xs font-black text-gray-800 dark:text-gray-100 cursor-pointer text-left transition-colors"
+                options={dialogueUnits.map((u) => ({
+                  value: u.id,
+                  label: `${u.title} — ${u.subtitle}`,
+                }))}
+              />
             </div>
 
             {/* 2. Selector de Diálogo / Escena */}

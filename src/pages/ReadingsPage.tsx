@@ -3,6 +3,7 @@ import { BookOpen, Volume2, Search, MessageSquare, FileText, Eye, EyeOff, Chevro
 import { Unit, Exercise } from '../types';
 import { SpeechPracticeButton } from '../components/SpeechPracticeButton';
 import { sound } from '../services/sound';
+import { CustomSelect } from '../components/UI/CustomSelect';
 
 interface ReadingsPageProps {
   units: Unit[];
@@ -353,30 +354,19 @@ export const ReadingsPage: React.FC<ReadingsPageProps> = ({ units, showRomaji = 
           <span>Seleccionar Lección:</span>
           <span className="text-duo-blue font-bold">23 lecciones (Genki I y II)</span>
         </label>
-        <div className="relative">
-          <select
-            value={selectedUnitId}
-            onChange={(e) => {
-              sound.playTap();
-              stopPodcast();
-              setSelectedUnitId(Number(e.target.value));
-            }}
-            className="w-full appearance-none bg-white dark:bg-[#18272e] border-2 border-duo-gray-300 dark:border-[#283842] hover:border-duo-blue focus:border-duo-blue rounded-2xl py-3 px-4 pr-10 text-xs md:text-sm font-black text-gray-800 dark:text-gray-100 shadow-[0_4px_0_0_#e5e5e5] dark:shadow-none focus:outline-none transition-all cursor-pointer"
-          >
-            {readingUnits.map((unit) => (
-              <option
-                key={unit.id}
-                value={unit.id}
-                className="py-2 text-xs font-bold text-gray-800 dark:text-gray-100 dark:bg-[#18272e]"
-              >
-                {unit.id <= 12 ? '📘 Genki I' : '📗 Genki II'} — {unit.title}
-              </option>
-            ))}
-          </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-500 dark:text-gray-400">
-            <ChevronDown className="w-5 h-5 stroke-[2.5px]" />
-          </div>
-        </div>
+        <CustomSelect
+          value={selectedUnitId}
+          onChange={(val) => {
+            stopPodcast();
+            setSelectedUnitId(Number(val));
+          }}
+          title="Seleccionar Lección"
+          buttonClassName="w-full flex items-center justify-between gap-2 bg-white dark:bg-[#18272e] border-2 border-duo-gray-300 dark:border-[#283842] hover:border-duo-blue focus:border-duo-blue rounded-2xl py-3 px-4 text-xs md:text-sm font-black text-gray-800 dark:text-gray-100 shadow-[0_4px_0_0_#e5e5e5] dark:shadow-none focus:outline-none transition-all cursor-pointer text-left"
+          options={readingUnits.map((unit) => ({
+            value: unit.id,
+            label: `${unit.id <= 12 ? '📘 Genki I' : '📗 Genki II'} — ${unit.title}`,
+          }))}
+        />
       </div>
 
       {/* Search Bar */}

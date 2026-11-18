@@ -8,6 +8,7 @@ import { Unit, UserProfile } from '../types';
 import { unitTheories, TheorySection } from '../data/theoryData';
 import { genkiCurriculum } from '../data/genkiCurriculum';
 import { sound } from '../services/sound';
+import { CustomSelect } from '../components/UI/CustomSelect';
 
 interface TheoryPageProps {
   initialUnitId?: number;
@@ -134,25 +135,16 @@ export const TheoryPage: React.FC<TheoryPageProps> = ({
             {unitTheories.length} unidades disponibles
           </span>
         </label>
-        <div className="relative">
-          <select
-            value={selectedUnitId}
-            onChange={(e) => {
-              sound.playTap();
-              setSelectedUnitId(Number(e.target.value));
-            }}
-            className="w-full appearance-none bg-white dark:bg-[#18272e] border-2 border-duo-gray-300 dark:border-[#283842] hover:border-indigo-500 focus:border-indigo-500 rounded-2xl py-3 px-4 pr-10 text-xs md:text-sm font-black text-gray-800 dark:text-gray-100 shadow-[0_4px_0_0_#e5e5e5] dark:shadow-none focus:outline-none transition-all cursor-pointer"
-          >
-            {curriculumUnits.map((unit) => (
-              <option key={unit.id} value={unit.id} className="py-2 text-xs font-bold text-gray-800 dark:text-gray-100 dark:bg-[#18272e]">
-                {unit.id === 0 ? 'Unidad 0: Alfabetos Kana' : `Lección ${unit.id}: ${unit.title}`}
-              </option>
-            ))}
-          </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-500 dark:text-gray-400">
-            <ChevronDown className="w-5 h-5 stroke-[2.5px]" />
-          </div>
-        </div>
+        <CustomSelect
+          value={selectedUnitId}
+          onChange={(val) => setSelectedUnitId(Number(val))}
+          title="Unidad / Lección de Genki"
+          buttonClassName="w-full flex items-center justify-between gap-2 bg-white dark:bg-[#18272e] border-2 border-duo-gray-300 dark:border-[#283842] hover:border-indigo-500 focus:border-indigo-500 rounded-2xl py-3 px-4 text-xs md:text-sm font-black text-gray-800 dark:text-gray-100 shadow-[0_4px_0_0_#e5e5e5] dark:shadow-none focus:outline-none transition-all cursor-pointer text-left"
+          options={curriculumUnits.map((unit) => ({
+            value: unit.id,
+            label: unit.id === 0 ? 'Unidad 0: Alfabetos Kana' : `Lección ${unit.id}: ${unit.title}`,
+          }))}
+        />
       </div>
 
       {/* Search Input */}

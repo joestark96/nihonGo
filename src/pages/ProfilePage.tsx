@@ -8,6 +8,7 @@ import { AudioDownloadManager } from '../components/Audio/AudioDownloadManager';
 import { backupService, NihonGoBackupPayload } from '../services/backupService';
 import { notificationService } from '../services/notificationService';
 import { loadJlptTowerProgress, getHighestJlptRank } from './JlptTowerPage';
+import { ConfirmModal } from '../components/UI/ConfirmModal';
 
 interface ProfilePageProps {
   profile: UserProfile;
@@ -35,6 +36,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
   onNavigateTab
 }) => {
   const todayKey = getLocalDateKey();
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [claimedQuests, setClaimedQuests] = useState<Record<string, boolean>>(() => {
     try {
       const raw = localStorage.getItem(`genki_quests_${todayKey}`);
@@ -933,16 +935,8 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
         </p>
         <button
           onClick={() => {
-            if (window.confirm('¿Estás seguro de que quieres reiniciar todo el progreso de la base de datos?')) {
-              sound.playTap();
-              setClaimedQuests({});
-              try {
-                localStorage.removeItem(`genki_quests_${todayKey}`);
-              } catch {
-                // ignore
-              }
-              onResetProgress();
-            }
+            sound.playTap();
+            setShowResetConfirm(true);
           }}
           className="w-full py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-duo-red font-black text-xs rounded-xl transition-all flex items-center justify-center gap-1.5"
         >
@@ -961,6 +955,26 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
           Diseñado siguiendo la pedagogía de los libros de texto <em>GENKI: An Integrated Course in Elementary Japanese</em> (3.ª Edición) de The Japan Times.
         </p>
       </div>
+
+      <ConfirmModal
+        isOpen={showResetConfirm}
+        title="Reiniciar progreso local"
+        message="¿Estás seguro de que quieres reiniciar todo el progreso de la base de datos? Esta acción no se puede deshacer."
+        confirmText="Reiniciar todo"
+        cancelText="Cancelar"
+        variant="danger"
+        onConfirm={() => {
+          setShowResetConfirm(false);
+          setClaimedQuests({});
+          try {
+            localStorage.removeItem(`genki_quests_${todayKey}`);
+          } catch {
+            // ignore
+          }
+          onResetProgress();
+        }}
+        onCancel={() => setShowResetConfirm(false)}
+      />
     </div>
   );
 };

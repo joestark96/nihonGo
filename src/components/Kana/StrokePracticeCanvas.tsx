@@ -1,7 +1,14 @@
 import React, { useRef, useState, useEffect, useCallback, useMemo } from 'react';
 import { Undo2, RotateCcw, Eye, EyeOff, CheckCircle2, Sparkles, PenTool, Play, Pause, SkipBack, SkipForward } from 'lucide-react';
 import { sound } from '../../services/sound';
-import { getStrokePathsForCharacter } from '../../data/strokePathsData';
+import { getStrokePathsForCharacter, getKanjiVgPathsForCharacter } from '../../data/strokePathsData';
+
+interface VgStrokeData {
+  path2d: Path2D;
+  svgEl: SVGPathElement;
+  length: number;
+  startPt: { x: number; y: number };
+}
 
 interface Point {
   x: number;
@@ -80,10 +87,34 @@ export const StrokePracticeCanvas: React.FC<StrokePracticeCanvasProps> = ({
   const animFrameRef = useRef<number | null>(null);
 
   const canvasSize = 220;
+  const vgBoxSize = 109;
+  const vgScale = (canvasSize * 0.88) / vgBoxSize;
+  const vgOffset = canvasSize * 0.06;
+
+  const vgStrokes = useMemo<VgStrokeData[] | null>(() => {
+    const paths = getKanjiVgPathsForCharacter(character);
+    if (!paths || paths.length === 0) return null;
+    if (typeof document === 'undefined') return null;
+
+    return paths.map((d) => {
+      const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      svgEl.setAttribute('d', d);
+      const length = Math.max(0.01, svgEl.getTotalLength());
+      const pt0 = svgEl.getPointAtLength(0);
+      return {
+        path2d: new Path2D(d),
+        svgEl,
+        length,
+        startPt: { x: pt0.x, y: pt0.y },
+      };
+    });
+  }, [character]);
 
   const strokePaths = useMemo(() => {
     return getStrokePathsForCharacter(character, expectedStrokes || 3);
   }, [character, expectedStrokes]);
+
+  const totalStrokesCount = vgStrokes ? vgStrokes.length : strokePaths.length;
 
   // Reset when character changes
   useEffect(() => {
@@ -114,10 +145,10 @@ export const StrokePracticeCanvas: React.FC<StrokePracticeCanvasProps> = ({
         if (nextProg >= 1) {
           setAnimStrokeIdx(prevIdx => {
             const nextIdx = prevIdx + 1;
-            if (nextIdx >= strokePaths.length) {
+            if (nextIdx >= totalStrokesCount) {
               // Finished all strokes
               setIsPlayingDemo(false);
-              return strokePaths.length;
+              return totalStrokesCount;
             } else {
               sound.playTap();
               return nextIdx;
@@ -139,7 +170,7 @@ export const StrokePracticeCanvas: React.FC<StrokePracticeCanvasProps> = ({
         animFrameRef.current = null;
       }
     };
-  }, [isPlayingDemo, animSpeed, strokePaths.length]);
+  }, [isPlayingDemo, animSpeed, totalStrokesCount]);
 
   // Render grid, guide character, and user strokes or demo animation
   const renderCanvas = useCallback(() => {
@@ -182,76 +213,135 @@ export const StrokePracticeCanvas: React.FC<StrokePracticeCanvasProps> = ({
 
     // 3. Draw guide character if enabled or in demo mode
     if (showGuide || activeTab === 'demo') {
-      ctx.fillStyle = activeTab === 'demo' ? 'rgba(203, 213, 225, 0.42)' : 'rgba(148, 163, 184, 0.28)';
-      ctx.font = `500 ${Math.round(canvasSize * 0.68)}px "Noto Sans JP", sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(character, canvasSize / 2, canvasSize / 2 + 2);
+      if (vgStrokes) {
+        ctx.save();
+        ctx.translate(vgOffset, vgOffset);
+        ctx.scale(vgScale, vgScale);
+        ctx.strokeStyle = activeTab === 'demo' ? 'rgba(148, 163, 184, 0.34)' : 'rgba(148, 163, 184, 0.28)';
+        ctx.lineWidth = 5.5;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        for (const s of vgStrokes) {
+          ctx.stroke(s.path2d);
+        }
+        ctx.restore();
+      } else {
+        ctx.fillStyle = activeTab === 'demo' ? 'rgba(203, 213, 225, 0.42)' : 'rgba(148, 163, 184, 0.28)';
+        ctx.font = `500 ${Math.round(canvasSize * 0.68)}px "Noto Sans JP", sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(character, canvasSize / 2, canvasSize / 2 + 2);
+      }
     }
 
     if (activeTab === 'demo') {
       // --- DEMO ANIMATION MODE ---
-      strokePaths.forEach((strk, sIdx) => {
-        if (sIdx > animStrokeIdx) return;
-        const pts = strk.points.map(p => ({ x: p.x * canvasSize, y: p.y * canvasSize }));
-        if (pts.length === 0) return;
+      if (vgStrokes) {
+        vgStrokes.forEach((s, sIdx) => {
+          if (sIdx > animStrokeIdx) return;
+          const isCurrent = sIdx === animStrokeIdx;
 
-        const isCurrent = sIdx === animStrokeIdx;
-        const ptsToDraw = isCurrent
-          ? interpolatePolyline(pts, animProgress)
-          : pts;
-
-        if (ptsToDraw.length > 0) {
+          ctx.save();
+          ctx.translate(vgOffset, vgOffset);
+          ctx.scale(vgScale, vgScale);
           ctx.strokeStyle = isCurrent ? '#0284c7' : '#0f172a';
-          ctx.lineWidth = 9;
+          ctx.lineWidth = 5.5;
           ctx.lineCap = 'round';
           ctx.lineJoin = 'round';
 
-          ctx.beginPath();
-          ctx.moveTo(ptsToDraw[0].x, ptsToDraw[0].y);
-          if (ptsToDraw.length === 2) {
-            ctx.lineTo(ptsToDraw[1].x, ptsToDraw[1].y);
+          if (isCurrent) {
+            const drawLen = Math.max(0.01, s.length * animProgress);
+            ctx.setLineDash([drawLen, s.length + 1]);
+            ctx.lineDashOffset = 0;
+            ctx.stroke(s.path2d);
+            ctx.setLineDash([]);
           } else {
-            for (let i = 1; i < ptsToDraw.length - 1; i++) {
-              const midX = (ptsToDraw[i].x + ptsToDraw[i + 1].x) / 2;
-              const midY = (ptsToDraw[i].y + ptsToDraw[i + 1].y) / 2;
-              ctx.quadraticCurveTo(ptsToDraw[i].x, ptsToDraw[i].y, midX, midY);
-            }
-            if (ptsToDraw.length > 1) {
-              const last = ptsToDraw[ptsToDraw.length - 1];
-              ctx.lineTo(last.x, last.y);
-            }
+            ctx.stroke(s.path2d);
           }
-          ctx.stroke();
+          ctx.restore();
 
-          // Draw floating calligraphy brush cursor at current animation point
-          if (isCurrent && ptsToDraw.length > 0) {
-            const head = ptsToDraw[ptsToDraw.length - 1];
+          // Draw floating calligraphy brush cursor at exact current animation point
+          if (isCurrent) {
+            const pt = s.svgEl.getPointAtLength(s.length * animProgress);
+            const hx = vgOffset + pt.x * vgScale;
+            const hy = vgOffset + pt.y * vgScale;
+
             ctx.fillStyle = '#0284c7';
             ctx.beginPath();
-            ctx.arc(head.x, head.y, 8, 0, Math.PI * 2);
+            ctx.arc(hx, hy, 8, 0, Math.PI * 2);
             ctx.fill();
 
             ctx.fillStyle = '#ffffff';
             ctx.beginPath();
-            ctx.arc(head.x, head.y, 3, 0, Math.PI * 2);
+            ctx.arc(hx, hy, 3, 0, Math.PI * 2);
             ctx.fill();
           }
-        }
 
-        // Draw numbered badge at start of stroke
-        const startPt = pts[0];
-        ctx.fillStyle = isCurrent ? '#0284c7' : '#10b981';
-        ctx.beginPath();
-        ctx.arc(startPt.x, startPt.y, 8, 0, Math.PI * 2);
-        ctx.fill();
+          // Draw numbered badge at exact start of stroke
+          const sx = vgOffset + s.startPt.x * vgScale;
+          const sy = vgOffset + s.startPt.y * vgScale;
+          ctx.fillStyle = isCurrent ? '#0284c7' : '#10b981';
+          ctx.beginPath();
+          ctx.arc(sx, sy, 8, 0, Math.PI * 2);
+          ctx.fill();
 
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 10px Nunito, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(String(sIdx + 1), startPt.x, startPt.y + 0.5);
-      });
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 10px Nunito, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(String(sIdx + 1), sx, sy + 0.5);
+        });
+      } else {
+        strokePaths.forEach((strk, sIdx) => {
+          if (sIdx > animStrokeIdx) return;
+          const pts = strk.points.map(p => ({ x: p.x * canvasSize, y: p.y * canvasSize }));
+          if (pts.length === 0) return;
+
+          const isCurrent = sIdx === animStrokeIdx;
+          const ptsToDraw = isCurrent
+            ? interpolatePolyline(pts, animProgress)
+            : pts;
+
+          if (ptsToDraw.length > 0) {
+            ctx.strokeStyle = isCurrent ? '#0284c7' : '#0f172a';
+            ctx.lineWidth = 9;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            ctx.beginPath();
+            ctx.moveTo(ptsToDraw[0].x, ptsToDraw[0].y);
+            for (let i = 1; i < ptsToDraw.length; i++) {
+              ctx.lineTo(ptsToDraw[i].x, ptsToDraw[i].y);
+            }
+            ctx.stroke();
+
+            if (isCurrent && ptsToDraw.length > 0) {
+              const head = ptsToDraw[ptsToDraw.length - 1];
+              ctx.fillStyle = '#0284c7';
+              ctx.beginPath();
+              ctx.arc(head.x, head.y, 8, 0, Math.PI * 2);
+              ctx.fill();
+
+              ctx.fillStyle = '#ffffff';
+              ctx.beginPath();
+              ctx.arc(head.x, head.y, 3, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+
+          const startPt = pts[0];
+          ctx.fillStyle = isCurrent ? '#0284c7' : '#10b981';
+          ctx.beginPath();
+          ctx.arc(startPt.x, startPt.y, 8, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.fillStyle = '#ffffff';
+          ctx.font = 'bold 10px Nunito, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(String(sIdx + 1), startPt.x, startPt.y + 0.5);
+        });
+      }
     } else {
       // --- INTERACTIVE DRAWING MODE ---
       const allStrokes = currentStroke.length > 0 ? [...strokes, currentStroke] : strokes;
@@ -289,7 +379,7 @@ export const StrokePracticeCanvas: React.FC<StrokePracticeCanvasProps> = ({
     }
 
     ctx.restore();
-  }, [character, showGuide, strokes, currentStroke, activeTab, animStrokeIdx, animProgress, strokePaths]);
+  }, [character, showGuide, strokes, currentStroke, activeTab, animStrokeIdx, animProgress, strokePaths, vgStrokes, vgOffset, vgScale]);
 
   useEffect(() => {
     renderCanvas();
@@ -355,7 +445,7 @@ export const StrokePracticeCanvas: React.FC<StrokePracticeCanvasProps> = ({
     if (isPlayingDemo) {
       setIsPlayingDemo(false);
     } else {
-      if (animStrokeIdx >= strokePaths.length) {
+      if (animStrokeIdx >= totalStrokesCount) {
         setAnimStrokeIdx(0);
         setAnimProgress(0);
       }
@@ -374,7 +464,7 @@ export const StrokePracticeCanvas: React.FC<StrokePracticeCanvasProps> = ({
     sound.playTap();
     setIsPlayingDemo(false);
     setAnimProgress(1);
-    setAnimStrokeIdx(prev => Math.min(strokePaths.length, prev + 1));
+    setAnimStrokeIdx(prev => Math.min(totalStrokesCount, prev + 1));
   };
 
   const handleEvaluate = () => {
@@ -385,11 +475,25 @@ export const StrokePracticeCanvas: React.FC<StrokePracticeCanvasProps> = ({
     targetCanvas.width = canvasSize;
     targetCanvas.height = canvasSize;
     const tCtx = targetCanvas.getContext('2d')!;
-    tCtx.fillStyle = '#000';
-    tCtx.font = `bold ${Math.round(canvasSize * 0.72)}px "Noto Sans JP", sans-serif`;
-    tCtx.textAlign = 'center';
-    tCtx.textBaseline = 'middle';
-    tCtx.fillText(character, canvasSize / 2, canvasSize / 2 + 4);
+    if (vgStrokes) {
+      tCtx.save();
+      tCtx.translate(vgOffset, vgOffset);
+      tCtx.scale(vgScale, vgScale);
+      tCtx.strokeStyle = '#000';
+      tCtx.lineWidth = 7.5;
+      tCtx.lineCap = 'round';
+      tCtx.lineJoin = 'round';
+      for (const s of vgStrokes) {
+        tCtx.stroke(s.path2d);
+      }
+      tCtx.restore();
+    } else {
+      tCtx.fillStyle = '#000';
+      tCtx.font = `bold ${Math.round(canvasSize * 0.72)}px "Noto Sans JP", sans-serif`;
+      tCtx.textAlign = 'center';
+      tCtx.textBaseline = 'middle';
+      tCtx.fillText(character, canvasSize / 2, canvasSize / 2 + 4);
+    }
 
     const userCanvas = document.createElement('canvas');
     userCanvas.width = canvasSize;
@@ -532,7 +636,7 @@ export const StrokePracticeCanvas: React.FC<StrokePracticeCanvasProps> = ({
             </>
           ) : (
             <span className="px-2 py-0.5 rounded-lg bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 font-black text-[11px]">
-              Paso {Math.min(strokePaths.length, animStrokeIdx + 1)} / {strokePaths.length}
+              Paso {Math.min(totalStrokesCount, animStrokeIdx + 1)} / {totalStrokesCount}
             </span>
           )}
         </div>
@@ -576,13 +680,13 @@ export const StrokePracticeCanvas: React.FC<StrokePracticeCanvasProps> = ({
                 className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs flex items-center gap-1 shadow-2xs active:translate-y-0.5 transition-all cursor-pointer"
               >
                 {isPlayingDemo ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current" />}
-                <span>{isPlayingDemo ? 'Pausar' : animStrokeIdx >= strokePaths.length ? 'Reiniciar' : 'Animar'}</span>
+                <span>{isPlayingDemo ? 'Pausar' : animStrokeIdx >= totalStrokesCount ? 'Reiniciar' : 'Animar'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={handleStepNext}
-                disabled={animStrokeIdx >= strokePaths.length}
+                disabled={animStrokeIdx >= totalStrokesCount}
                 className="p-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 disabled:opacity-40 hover:bg-gray-200 transition-colors cursor-pointer text-gray-700 dark:text-gray-300"
                 title="Siguiente paso"
               >
