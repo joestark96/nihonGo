@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import {
   BookOpen, Volume2, Search, Lightbulb, Sparkles, BookMarked, ArrowLeft,
   ChevronDown, Headphones, PenTool, CheckCircle2, Play, Star, RotateCcw,
-  Check, Lock, Award, GraduationCap, Flame, ArrowRight, FileText
+  Check, Lock, Award, GraduationCap, Flame, ArrowRight, FileText, MessageCircle
 } from 'lucide-react';
 import { Unit, UserProfile } from '../types';
 import { unitTheories, TheorySection } from '../data/theoryData';
 import { genkiCurriculum } from '../data/genkiCurriculum';
 import { sound } from '../services/sound';
 import { CustomSelect } from '../components/UI/CustomSelect';
+import { TheoryChatMode } from '../components/Theory/TheoryChatMode';
 
 interface TheoryPageProps {
   initialUnitId?: number;
@@ -30,6 +31,8 @@ export const TheoryPage: React.FC<TheoryPageProps> = ({
   const [selectedUnitId, setSelectedUnitId] = useState<number>(initialUnitId);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeCategory, setActiveCategory] = useState<string>('all');
+  const [studyMode, setStudyMode] = useState<'guide' | 'chat'>('guide');
+  const activeSensei = sound.getCharacterProfile(userProfile?.preferredVoiceId || 'mary');
 
   // Curriculum source (from state or static master)
   const curriculumUnits = units && units.length > 0 ? units : genkiCurriculum;
@@ -147,7 +150,51 @@ export const TheoryPage: React.FC<TheoryPageProps> = ({
         />
       </div>
 
-      {/* Search Input */}
+      {/* Study Mode Switcher: Guía vs Chat con Sensei */}
+      <div className="w-full grid grid-cols-2 gap-2 p-1.5 bg-gray-100 dark:bg-[#18272e] border-2 border-duo-gray-200 dark:border-[#283842] rounded-2xl mb-4">
+        <button
+          type="button"
+          onClick={() => {
+            sound.playTap();
+            setStudyMode('guide');
+          }}
+          className={`py-2 px-3 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+            studyMode === 'guide'
+              ? 'bg-white dark:bg-[#23353e] text-duo-green shadow-xs'
+              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+          }`}
+        >
+          <BookOpen className="w-4 h-4" />
+          <span>Modo Guía</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            sound.playTap();
+            setStudyMode('chat');
+          }}
+          className={`py-2 px-3 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+            studyMode === 'chat'
+              ? 'bg-indigo-600 text-white shadow-xs'
+              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+          }`}
+        >
+          <span className="text-sm leading-none">{activeSensei.avatar}</span>
+          <span>Chat con {activeSensei.name.split(' ')[0]}</span>
+        </button>
+      </div>
+
+      {studyMode === 'chat' ? (
+        <TheoryChatMode
+          unitTheory={currentTheoryUnit}
+          preferredVoiceId={userProfile?.preferredVoiceId}
+          showRomaji={userProfile?.showRomaji !== false}
+          onGoToRoadmap={onBackToRoadmap}
+        />
+      ) : (
+        <>
+          {/* Search Input */}
       <div className="w-full relative mb-3">
         <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
         <input
@@ -208,6 +255,8 @@ export const TheoryPage: React.FC<TheoryPageProps> = ({
           ))
         )}
       </div>
+        </>
+      )}
     </div>
   );
 };
