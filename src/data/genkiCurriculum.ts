@@ -6386,8 +6386,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb3-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L3: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L3: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -6673,8 +6673,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb3-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L3: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L3: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -7659,8 +7659,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb4-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L4: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L4: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -7946,8 +7946,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb4-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L4: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L4: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -8824,7 +8824,7 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-5-8-3",
             "type": "multiple-choice",
-            "prompt": "¿Qué palabra se usó en el diálogo para conectar oraciones opuestas (\"..., pero...\")?",
+            "prompt": "¿Qué palabra se usa en japonés para conectar oraciones opuestas (\"..., pero...\")?",
             "options": [
               {
                 "id": "ga-but",
@@ -8920,8 +8920,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb5-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L5: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L5: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -9205,8 +9205,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb5-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L5: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L5: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -10095,8 +10095,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb6-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L6: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L6: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -10382,8 +10382,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb6-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L6: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L6: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -11287,8 +11287,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb7-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L7: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L7: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -11502,8 +11502,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb7-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L7: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L7: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -12478,8 +12478,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb8-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L8: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L8: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -12693,8 +12693,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb8-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L8: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L8: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -13493,8 +13493,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb9-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L9: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L9: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -13708,8 +13708,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb9-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L9: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L9: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -14683,8 +14683,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb10-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L10: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L10: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -14968,8 +14968,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb10-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L10: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L10: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -15765,8 +15765,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb11-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L11: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L11: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -15980,8 +15980,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb11-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L11: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L11: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -16784,8 +16784,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb12-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L12: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L12: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -16999,8 +16999,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb12-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L12: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L12: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -17808,8 +17808,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb13-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L13: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L13: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -18095,8 +18095,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb13-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L13: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L13: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -18894,8 +18894,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb14-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L14: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L14: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -19182,8 +19182,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb14-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L14: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L14: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -19983,8 +19983,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb15-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L15: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L15: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -20271,8 +20271,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb15-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L15: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L15: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -21073,8 +21073,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb16-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L16: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L16: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -21361,8 +21361,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb16-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L16: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L16: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -22156,8 +22156,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb17-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L17: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L17: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -22444,8 +22444,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb17-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L17: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L17: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -23237,8 +23237,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb18-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L18: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L18: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -23525,8 +23525,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb18-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L18: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L18: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -24329,8 +24329,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb19-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L19: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L19: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -24617,8 +24617,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb19-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L19: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L19: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -25403,8 +25403,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb20-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L20: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L20: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -25691,8 +25691,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb20-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L20: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L20: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -26495,8 +26495,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb21-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L21: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L21: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -26783,8 +26783,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb21-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L21: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L21: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -27580,8 +27580,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb22-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L22: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L22: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -27868,8 +27868,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb22-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L22: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L22: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -28668,8 +28668,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb23-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L23: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L23: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
@@ -28956,8 +28956,8 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb23-bc-4",
-            "type": "multiple-choice",
-            "prompt": "Del Workbook L23: ¿Qué expresión de confirmación se escuchó en el diálogo?",
+            "type": "listening",
+            "prompt": "Del Workbook L23: Escucha el audio y selecciona la expresión de confirmación:",
             "japaneseVoiceText": "そうですね。",
             "options": [
               {
