@@ -21,11 +21,12 @@ export class SpeechService {
     // 1. Native Android / iOS via Capacitor Plugin
     if (Capacitor.isNativePlatform()) {
       try {
-        // Stop any lingering previous session
+        // Stop any lingering previous session and give Android recognizer a brief moment to release
         try {
           const { listening } = await SpeechRecognition.isListening();
           if (listening) {
             await SpeechRecognition.stop();
+            await new Promise(r => setTimeout(r, 80));
           }
         } catch (_) {}
 
@@ -56,59 +57,35 @@ export class SpeechService {
           isAvailable = !!check?.available;
         } catch (_) {}
 
+        if (!isAvailable) {
+          onError('El reconocimiento de voz no está disponible en este dispositivo.');
+          onEnd();
+          return;
+        }
+
         let res: { matches?: string[] } | null = null;
-
-        if (isAvailable) {
-          try {
-            // Attempt in-app recognition first
-            res = await SpeechRecognition.start({
-              language: 'ja-JP',
-              maxResults: 5,
-              prompt: 'Habla en japonés...',
-              popup: false,
-              partialResults: false
-            });
-          } catch (inAppErr: any) {
-            const msg = String(inAppErr?.message || inAppErr || '');
-            if (msg.includes('No match') || msg.includes('No speech input')) {
-              onError('No se detectó voz. Intenta de nuevo hablando claro.');
-              onEnd();
-              return;
-            }
-
-            console.warn('In-app recognition unavailable, launching Google Voice dialog fallback:', inAppErr);
-            // Fallback to native Google Voice Popup dialog
-            try {
-              res = await SpeechRecognition.start({
-                language: 'ja-JP',
-                maxResults: 5,
-                prompt: 'Habla en japonés...',
-                popup: true,
-                partialResults: false
-              });
-            } catch (popupErr: any) {
-              console.error('All native speech recognition modes failed:', popupErr);
-              onError('No se pudo activar el micrófono. Verifica que los Servicios de Google estén habilitados.');
-              onEnd();
-              return;
-            }
+        try {
+          // Always use in-app recognition (popup: false) so native Google Speech modal never pops up
+          res = await SpeechRecognition.start({
+            language: 'ja-JP',
+            maxResults: 5,
+            prompt: 'Habla en japonés...',
+            popup: false,
+            partialResults: false
+          });
+        } catch (inAppErr: any) {
+          const msg = String(inAppErr?.message || inAppErr || '').toLowerCase();
+          if (msg.includes('busy')) {
+            onError('El micrófono estaba ocupado. Espera un segundo e intenta de nuevo.');
+          } else if (msg.includes('network')) {
+            onError('Sin conexión para reconocimiento de voz. Verifica tu internet.');
+          } else if (msg.includes('permission') || msg.includes('insufficient')) {
+            onError('Permiso de micrófono necesario. Habilítalo en los ajustes.');
+          } else {
+            onError('No se detectó voz. Intenta de nuevo hablando claro.');
           }
-        } else {
-          // Direct fallback to system Voice Dialog
-          try {
-            res = await SpeechRecognition.start({
-              language: 'ja-JP',
-              maxResults: 5,
-              prompt: 'Habla en japonés...',
-              popup: true,
-              partialResults: false
-            });
-          } catch (popupErr: any) {
-            console.error('Speech recognition not available:', popupErr);
-            onError('El reconocimiento de voz no está disponible en este dispositivo.');
-            onEnd();
-            return;
-          }
+          onEnd();
+          return;
         }
 
         const matches = res?.matches || [];

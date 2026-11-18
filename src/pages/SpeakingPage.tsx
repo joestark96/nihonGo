@@ -188,6 +188,9 @@ function computeSimilarity(spoken: string, ...targets: (string | undefined)[]): 
 export const SpeakingPage: React.FC<SpeakingPageProps> = ({ units, showRomaji = true }) => {
   const [activeTab, setActiveTab] = useState<SpeakingTab>('phrases');
   const [selectedCategory, setSelectedCategory] = useState<string>('Todas');
+  const [roleplayGuideMode, setRoleplayGuideMode] = useState<'romaji' | 'hiragana' | 'none'>(
+    showRomaji ? 'romaji' : 'hiragana'
+  );
 
   // Roleplay state
   const dialogueUnits = useMemo(() => units.filter(u => u.id >= 1), [units]);
@@ -722,6 +725,36 @@ export const SpeakingPage: React.FC<SpeakingPageProps> = ({ units, showRomaji = 
                 </div>
               </div>
             )}
+
+            {/* Guía de lectura: Romaji / Hiragana / Ninguno */}
+            <div className="pt-1 border-t border-gray-100 dark:border-[#283842] flex flex-wrap items-center justify-between gap-2">
+              <span className="text-[10px] font-black uppercase tracking-wider text-gray-400">
+                Guía de lectura:
+              </span>
+              <div className="inline-flex p-1 rounded-xl bg-gray-100 dark:bg-[#131f24] border border-gray-200 dark:border-[#283842] gap-1">
+                {([
+                  { id: 'romaji', label: 'Romaji' },
+                  { id: 'hiragana', label: 'Hiragana' },
+                  { id: 'none', label: 'Ninguno' }
+                ] as const).map(opt => (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    onClick={() => {
+                      sound.playTap();
+                      setRoleplayGuideMode(opt.id);
+                    }}
+                    className={`px-2.5 py-1 rounded-lg text-[11px] font-black transition-all cursor-pointer ${
+                      roleplayGuideMode === opt.id
+                        ? 'bg-white dark:bg-[#20333d] text-duo-blue shadow-xs'
+                        : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Interactive Dialogue Lines */}
@@ -959,6 +992,7 @@ export const SpeakingPage: React.FC<SpeakingPageProps> = ({ units, showRomaji = 
                       {isMyRole && (
                         <SpeechPracticeButton
                           targetJapanese={line.japanese}
+                          targetFurigana={line.audioText}
                           compact
                         />
                       )}
@@ -966,9 +1000,14 @@ export const SpeakingPage: React.FC<SpeakingPageProps> = ({ units, showRomaji = 
                   </div>
 
                   <p className="text-sm font-black text-gray-800 dark:text-white">{line.japanese}</p>
-                  {showRomaji && line.romaji && (
+                  {roleplayGuideMode === 'romaji' && line.romaji && (
                     <p className="text-xs font-bold text-purple-600 dark:text-purple-400 mt-0.5">
                       {line.romaji}
+                    </p>
+                  )}
+                  {roleplayGuideMode === 'hiragana' && (line.audioText || line.japanese) && (
+                    <p className="text-xs font-bold text-sky-600 dark:text-sky-400 mt-0.5 font-['Noto_Sans_JP']">
+                      {line.audioText || line.japanese}
                     </p>
                   )}
                   <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mt-1">
