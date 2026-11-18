@@ -82,9 +82,22 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
     }
   }, [completedCount, profile.xp, claimedQuests, todayKey]);
 
-  const kanaUnitCompleted = units[0]?.nodes.some(n => n.stars > 0) || false;
-  const genki1Started = units.filter(u => u.id >= 1 && u.id <= 12).some(u => u.nodes.some(n => n.stars > 0));
-  const genki2Started = units.filter(u => u.id >= 13).some(u => u.nodes.some(n => n.stars > 0));
+  const kanaCompletedCount = units[0]?.nodes.filter(n => n.stars > 0).length || 0;
+  const genki1Count = units
+    .filter(u => u.id >= 1 && u.id <= 12)
+    .reduce((acc, u) => acc + u.nodes.filter(n => n.stars > 0).length, 0);
+  const genki2Count = units
+    .filter(u => u.id >= 13)
+    .reduce((acc, u) => acc + u.nodes.filter(n => n.stars > 0).length, 0);
+  const wbCompletedCount = units.reduce(
+    (acc, u) => acc + u.nodes.filter(n => n.stars > 0 && n.id.includes('-wb')).length,
+    0
+  );
+  const towerProgress = loadJlptTowerProgress();
+  const maxJlptFloorConquered = Object.keys(towerProgress.conqueredFloors).reduce(
+    (max, k) => Math.max(max, Number(k)),
+    0
+  );
 
   const dailyQuests = [
     {
@@ -127,51 +140,79 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
     {
       id: 'ach-kana',
       icon: '🔤',
-      title: 'Iniciado en Kanas',
-      desc: 'Completa una lección de Hiragana o Katakana',
-      unlocked: kanaUnitCompleted
+      title: 'Maestro de Kanas',
+      desc: 'Domina al menos 5 nodos de Hiragana y Katakana',
+      unlocked: kanaCompletedCount >= 5
     },
     {
-      id: 'ach-5',
+      id: 'ach-15',
       icon: '🍵',
-      title: 'Conversador de Café',
-      desc: 'Domina 5 lecciones de ejercicios',
-      unlocked: completedCount >= 5
+      title: 'Estudiante Dedicado',
+      desc: 'Domina 15 lecciones en el Roadmap',
+      unlocked: completedCount >= 15
     },
     {
-      id: 'ach-xp100',
+      id: 'ach-streak7',
+      icon: '🔥',
+      title: 'Racha de Fuego',
+      desc: 'Mantén una racha de 7 días consecutivos',
+      unlocked: profile.streakDays >= 7
+    },
+    {
+      id: 'ach-xp500',
       icon: '⚡',
-      title: 'Centurión de EXP',
-      desc: 'Alcanza 100 puntos de experiencia',
-      unlocked: profile.xp >= 100
+      title: 'Cazador de EXP',
+      desc: 'Alcanza 500 puntos de experiencia',
+      unlocked: profile.xp >= 500
     },
     {
-      id: 'ach-gems',
+      id: 'ach-gems200',
       icon: '💎',
       title: 'Tesoro de Kioto',
-      desc: 'Reúne 120 gemas o más',
-      unlocked: profile.gems >= 120
+      desc: 'Reúne 200 gemas en tu bolsa',
+      unlocked: profile.gems >= 200
+    },
+    {
+      id: 'ach-wb15',
+      icon: '📝',
+      title: 'Maestro del Workbook',
+      desc: 'Completa 15 ejercicios del Workbook',
+      unlocked: wbCompletedCount >= 15
     },
     {
       id: 'ach-genki1',
       icon: '📘',
-      title: 'Aventurero Genki I (N5)',
-      desc: 'Avanza en las lecciones de Genki I (L1–L12)',
-      unlocked: genki1Started
+      title: 'Graduado Genki I (N5)',
+      desc: 'Domina 30 lecciones de Genki I (L1–L12)',
+      unlocked: genki1Count >= 30
     },
     {
       id: 'ach-genki2',
       icon: '📗',
       title: 'Viajero Genki II (N4)',
-      desc: 'Avanza en las lecciones de Genki II (L13–L23)',
-      unlocked: genki2Started
+      desc: 'Domina 20 lecciones de Genki II (L13–L23)',
+      unlocked: genki2Count >= 20
+    },
+    {
+      id: 'ach-jlpt-n5',
+      icon: '🏯',
+      title: 'Conquistador JLPT N5',
+      desc: 'Supera el Piso 3 de la Torre JLPT',
+      unlocked: maxJlptFloorConquered >= 3
+    },
+    {
+      id: 'ach-jlpt-n4',
+      icon: '⚔️',
+      title: 'Guerrero JLPT N4',
+      desc: 'Supera el Piso 5 de la Torre JLPT',
+      unlocked: maxJlptFloorConquered >= 5
     },
     {
       id: 'ach-samurai',
-      icon: '🏯',
-      title: 'Espíritu Samurai',
-      desc: 'Supera 20 lecciones o 400 EXP totales',
-      unlocked: completedCount >= 20 || profile.xp >= 400
+      icon: '👑',
+      title: 'Leyenda NihonGo!',
+      desc: 'Supera 80 lecciones y 2,000 EXP totales',
+      unlocked: completedCount >= 80 && profile.xp >= 2000
     }
   ];
 
@@ -407,11 +448,11 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
               sound.playTap();
               onRefillHearts();
             }}
-            disabled={profile.gems < 30}
-            className="py-2 px-3 bg-duo-red text-white text-xs font-black rounded-xl shadow-duo-btn-sm active:translate-y-0.5 hover:bg-duo-red-dark transition-all flex items-center gap-1 flex-shrink-0 cursor-pointer"
+            disabled={profile.gems < 100}
+            className="py-2 px-3 bg-duo-red text-white text-xs font-black rounded-xl shadow-duo-btn-sm active:translate-y-0.5 hover:bg-duo-red-dark disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-1 flex-shrink-0 cursor-pointer"
           >
             <Gem className="w-3.5 h-3.5 fill-white" />
-            <span>30 Gemas</span>
+            <span>100 Gemas</span>
           </button>
         </div>
       )}

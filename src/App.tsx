@@ -72,7 +72,7 @@ export const App: React.FC = () => {
     lastActiveDate: '',
     hearts: 5,
     maxHearts: 5,
-    gems: 100,
+    gems: 50,
     soundEnabled: true,
     furiganaMode: 'always',
     showRomaji: true,
@@ -382,15 +382,15 @@ export const App: React.FC = () => {
     await dbService.saveUserProfile(updated);
   };
 
-  // Refill hearts using gems
+  // Refill hearts using gems (balanced cost: 100 gems)
   const handleRefillHearts = async () => {
-    if (profile.gems < 30) return;
+    if (profile.gems < 100) return;
     localStorage.removeItem(HEART_REGEN_KEY);
     setNextHeartMinutes(null);
     const updated = {
       ...profile,
       hearts: profile.maxHearts,
-      gems: profile.gems - 30
+      gems: profile.gems - 100
     };
     setProfile(updated);
     await dbService.saveUserProfile(updated);
@@ -427,11 +427,12 @@ export const App: React.FC = () => {
     const shouldIncrementStreak = baseStreak === 0 || profile.lastActiveDate !== today;
     recordDailyLessonActivity(earnedXp, profile.hearts);
 
-    // 1. Update Profile (XP + gems + streak)
+    // 1. Update Profile (XP + balanced gems + streak)
+    const earnedGems = stars >= 3 ? 8 : 5;
     const updatedProfile: UserProfile = {
       ...profile,
       xp: profile.xp + earnedXp,
-      gems: profile.gems + 10,
+      gems: profile.gems + earnedGems,
       streakDays: shouldIncrementStreak ? baseStreak + 1 : baseStreak,
       lastActiveDate: today
     };
@@ -592,10 +593,10 @@ export const App: React.FC = () => {
       );
     }
 
-    // Calcular XP y gemas según el alcance del salto
+    // Calcular XP y gemas balanceadas para prueba de salto (evita inflar logros y economía)
     const skippedCount = toSkipSet.size > 0 ? toSkipSet.size : 1;
-    const gainedXp = Math.min(350, Math.max(50, skippedCount * 25));
-    const gainedGems = Math.min(100, Math.max(20, Math.floor(skippedCount * 5)));
+    const gainedXp = skippedCount > 6 ? 80 : 50;
+    const gainedGems = skippedCount > 6 ? 15 : 10;
 
     const today = getLocalDateKey();
     const baseStreak = isStreakBroken(profile.lastActiveDate, profile.streakDays) ? 0 : profile.streakDays;
