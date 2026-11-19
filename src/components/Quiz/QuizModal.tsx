@@ -109,10 +109,13 @@ function formatQuizOptionText(
   // 3. For non-intro lessons (Lesson 1+ and Unit jumps):
   // If option text contains Japanese and has trailing romaji or Spanish translation/hint in parentheses,
   // strip it unless the prompt specifically asks about romaji or pronunciation.
+  // If parentheses contain kana + "/ romaji" (e.g. "(にねんせい / ninensei)"), keep the kana reading!
   if (!isIntroLesson) {
     const isRomajiQuestion = /romaji|lectura|pronuncia|cómo se lee|como se lee/i.test(prompt);
     if (!isRomajiQuestion && /[\u3040-\u30ff\u4e00-\u9faf]/.test(cleaned)) {
       cleaned = cleaned
+        .replace(/(\([\u3040-\u30ff\s・]+)\s*\/\s*[a-zA-Z\s'-]+\)/g, '$1)')
+        .replace(/(（[\u3040-\u30ff\s・]+)\s*\/\s*[a-zA-Z\s'-]+）/g, '$1）')
         .replace(/\s*\([^)]*[a-zA-ZáéíóúñÁÉÍÓÚÑ¡¿/][^)]*\)\.?$/g, '')
         .replace(/\s*（[^）]*[a-zA-ZáéíóúñÁÉÍÓÚÑ¡¿/][^）]*）\.?$/g, '');
     }
