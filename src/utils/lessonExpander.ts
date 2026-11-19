@@ -246,10 +246,12 @@ export function expandLessonExercises(node: LessonNode, unit?: Unit, targetCount
     }
   });
 
-  // 2. Generate listening versions of multiple-choice exercises if not already listening
+  // 2. Generate listening versions of multiple-choice exercises if they have dedicated Japanese voice audio
+  // (Never use promptSub as TTS, since it often contains Spanish explanations/arrows, and skip conceptual grammar-rule questions)
   baseExercises.forEach((ex, idx) => {
-    if (ex.type === 'multiple-choice' && (ex.japaneseVoiceText || ex.promptSub) && ex.options) {
-      const voiceText = ex.japaneseVoiceText || ex.promptSub;
+    const isConceptualRule = /convierte|regla|gramática|diferencia entre|por qué/i.test(ex.prompt || '');
+    if (ex.type === 'multiple-choice' && ex.japaneseVoiceText && !isConceptualRule && ex.options) {
+      const voiceText = ex.japaneseVoiceText;
       const correctOpt = ex.options.find(o => o.isCorrect || o.id === ex.correctAnswerId);
       if (voiceText && correctOpt) {
         generatedExercises.push({
