@@ -40,52 +40,54 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
     setShowRomaji(initialShowRomaji);
   }, [initialShowRomaji]);
 
-  // Filter cards
-  const filteredCards = cards.filter(c => {
-    // 1. Category match
-    let matchesCategory = false;
-    if (selectedCategory === 'all') {
-      matchesCategory = true;
-    } else if (selectedCategory === 'hiragana') {
-      matchesCategory = c.category === 'hiragana' || c.category === 'katakana';
-    } else {
-      matchesCategory = c.category === selectedCategory;
-    }
-
-    // 2. JLPT level match (when in kanji category or when jlpt filter active)
-    let matchesJlpt = true;
-    if (selectedCategory === 'kanji' && selectedJlpt !== 'all') {
-      matchesJlpt = c.jlptLevel === selectedJlpt;
-    }
-
-    // 3. Search query match
-    const matchesSearch =
-      searchQuery === '' ||
-      c.japanese.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      c.romaji.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      c.spanish.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (c.onyomi && c.onyomi.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      (c.kunyomi && c.kunyomi.toLowerCase().includes(searchQuery.toLowerCase()));
-
-    // 4. Roadmap progress filter (strictly respects completed lessons)
-    let matchesProgress = true;
-    if (onlyRoadmapProgress) {
-      if (typeof c.genkiLesson === 'number') {
-        matchesProgress = c.genkiLesson <= maxUnlockedLesson;
-      } else if (maxUnlockedLesson === 0) {
-        matchesProgress = c.category === 'hiragana' || c.category === 'katakana';
-      } else if (c.jlptLevel) {
-        matchesProgress =
-          maxUnlockedLesson <= 12
-            ? c.jlptLevel === 'N5'
-            : maxUnlockedLesson <= 23
-            ? c.jlptLevel === 'N5' || c.jlptLevel === 'N4'
-            : true;
+  // Filter cards (memoized so flipping/navigating never re-shuffles the deck)
+  const filteredCards = useMemo(() => {
+    return cards.filter(c => {
+      // 1. Category match
+      let matchesCategory = false;
+      if (selectedCategory === 'all') {
+        matchesCategory = true;
+      } else if (selectedCategory === 'hiragana') {
+        matchesCategory = c.category === 'hiragana' || c.category === 'katakana';
+      } else {
+        matchesCategory = c.category === selectedCategory;
       }
-    }
 
-    return matchesCategory && matchesJlpt && matchesSearch && matchesProgress;
-  });
+      // 2. JLPT level match (when in kanji category or when jlpt filter active)
+      let matchesJlpt = true;
+      if (selectedCategory === 'kanji' && selectedJlpt !== 'all') {
+        matchesJlpt = c.jlptLevel === selectedJlpt;
+      }
+
+      // 3. Search query match
+      const matchesSearch =
+        searchQuery === '' ||
+        c.japanese.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        c.romaji.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        c.spanish.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (c.onyomi && c.onyomi.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (c.kunyomi && c.kunyomi.toLowerCase().includes(searchQuery.toLowerCase()));
+
+      // 4. Roadmap progress filter (strictly respects completed lessons)
+      let matchesProgress = true;
+      if (onlyRoadmapProgress) {
+        if (typeof c.genkiLesson === 'number') {
+          matchesProgress = c.genkiLesson <= maxUnlockedLesson;
+        } else if (maxUnlockedLesson === 0) {
+          matchesProgress = c.category === 'hiragana' || c.category === 'katakana';
+        } else if (c.jlptLevel) {
+          matchesProgress =
+            maxUnlockedLesson <= 12
+              ? c.jlptLevel === 'N5'
+              : maxUnlockedLesson <= 23
+              ? c.jlptLevel === 'N5' || c.jlptLevel === 'N4'
+              : true;
+        }
+      }
+
+      return matchesCategory && matchesJlpt && matchesSearch && matchesProgress;
+    });
+  }, [cards, selectedCategory, selectedJlpt, searchQuery, onlyRoadmapProgress, maxUnlockedLesson]);
 
   const displayCards = useMemo(() => {
     if (!isShuffleMode) return filteredCards;
