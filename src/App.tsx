@@ -745,7 +745,10 @@ export const App: React.FC = () => {
                 showRomaji={profile.showRomaji}
                 maxUnlockedLesson={units.reduce((max, u) => {
                   const uMax = u.nodes.reduce(
-                    (nMax, n) => (n.unlocked ? Math.max(nMax, n.lessonNumber ?? u.id) : nMax),
+                    (nMax, n) =>
+                      n.stars > 0 || n.completedSteps >= n.totalSteps
+                        ? Math.max(nMax, n.lessonNumber ?? u.id)
+                        : nMax,
                     0
                   );
                   return Math.max(max, uMax);

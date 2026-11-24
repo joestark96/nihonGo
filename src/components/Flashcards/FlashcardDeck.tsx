@@ -21,9 +21,10 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
   const [selectedJlpt, setSelectedJlpt] = useState<JLPTLevel | 'all'>('all');
   const [onlyRoadmapProgress, setOnlyRoadmapProgress] = useState<boolean>(() => {
     try {
-      return localStorage.getItem('nihongo_flashcards_roadmap_only') === 'true';
+      const saved = localStorage.getItem('nihongo_flashcards_roadmap_only');
+      return saved === null ? true : saved === 'true';
     } catch {
-      return false;
+      return true;
     }
   });
   const [isShuffleMode, setIsShuffleMode] = useState<boolean>(false);
@@ -66,11 +67,13 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
       (c.onyomi && c.onyomi.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (c.kunyomi && c.kunyomi.toLowerCase().includes(searchQuery.toLowerCase()));
 
-    // 4. Roadmap progress filter
+    // 4. Roadmap progress filter (strictly respects completed lessons)
     let matchesProgress = true;
     if (onlyRoadmapProgress) {
       if (typeof c.genkiLesson === 'number') {
         matchesProgress = c.genkiLesson <= maxUnlockedLesson;
+      } else if (maxUnlockedLesson === 0) {
+        matchesProgress = c.category === 'hiragana' || c.category === 'katakana';
       } else if (c.jlptLevel) {
         matchesProgress =
           maxUnlockedLesson <= 12
@@ -218,7 +221,7 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
         >
           <span className="flex items-center gap-1.5 truncate">
             <Filter className="w-3.5 h-3.5 flex-shrink-0" />
-            <span className="truncate">Hasta Lección {maxUnlockedLesson}</span>
+            <span className="truncate">Completadas (hasta L{maxUnlockedLesson})</span>
           </span>
           <span
             className={`px-1.5 py-0.5 rounded-md text-[9px] uppercase flex-shrink-0 ${

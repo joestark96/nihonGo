@@ -455,16 +455,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           </div>
 
           <div className="space-y-4">
-            {/* v1.2.3 */}
+            {/* v1.2.4 */}
             <div className="p-5 sm:p-6 rounded-3xl bg-emerald-50/70 dark:bg-[#18272e] border-2 border-duo-green shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.2.3</span>
+                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.2.4</span>
                   <span className="text-xs font-black uppercase tracking-wider text-duo-green">Actual</span>
                 </div>
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Filtro en Flashcards y Gestos Atrás en Android</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Filtro Estricto por Lecciones Completadas</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <li>• <strong>Flashcards y Dominio fieles a tu avance real:</strong> Tanto las tarjetas (incluido el modo Aleatorio) como las sesiones de Dominio ahora filtran estrictamente según las lecciones que ya completaste, sin adelantar vocabulario o kanjis de unidades aún no cursadas.</li>
+              </ul>
+            </div>
+
+            {/* v1.2.3 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-duo-blue/15 text-duo-blue font-black text-xs">v1.2.3</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Filtro en Flashcards y Gestos Atrás en Android</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
                 <li>• <strong>Filtro por progreso y Modo Aleatorio en Flashcards:</strong> Nuevo filtro para repasar solo hasta la lección alcanzada en el Roadmap y botón «Aleatorio» para mezclar las tarjetas.</li>
                 <li>• <strong>Soporte nativo para gesto/botón Atrás en Android:</strong> Al deslizar hacia atrás o pulsar Atrás en el teléfono, cierra modales, pide confirmación al salir de una lección o vuelve a la pestaña anterior en lugar de cerrar la app.</li>
               </ul>

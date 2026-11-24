@@ -114,21 +114,31 @@ export const MasteryPage: React.FC<MasteryPageProps> = ({
     });
   }, [cards]);
 
-  // Determine which lessons have been unlocked / seen in the Roadmap
+  // Determine which lessons have actually been completed in the Roadmap
   const seenLessonIds = useMemo(() => {
     const set = new Set<number>();
-    set.add(0); // Unit 0 (Kanas) always available
+    set.add(0); // Unit 0 (Kanas) always available as baseline
 
+    let hasAnyCompleted = false;
     if (units && units.length > 0) {
       units.forEach(u => {
-        const isSeen = u.nodes.some(n => n.unlocked || n.stars > 0 || n.completedSteps > 0);
-        if (isSeen) {
+        const hasCompleted = u.nodes.some(n => n.stars > 0 || n.completedSteps >= n.totalSteps);
+        if (hasCompleted) {
+          hasAnyCompleted = true;
           set.add(u.id);
         }
       });
+
+      // Fallback only if the user hasn't completed any lesson at all yet
+      if (!hasAnyCompleted) {
+        units.forEach(u => {
+          if (u.nodes.some(n => n.unlocked)) {
+            set.add(u.id);
+          }
+        });
+      }
     }
 
-    set.add(1); // Default at least Unit 1
     return set;
   }, [units]);
 
