@@ -1019,11 +1019,20 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
             </a>
           </div>
         ) : (
-          <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400">
-            {updateStatus?.error
-              ? 'No se pudo comprobar en línea en este momento.'
-              : 'Tienes la versión más reciente instalada.'}
-          </p>
+          <div className="flex items-center justify-between gap-2 text-[11px] font-medium text-gray-500 dark:text-gray-400">
+            <span>
+              {checkingUpdate
+                ? 'Comprobando en GitHub...'
+                : updateStatus?.error
+                ? 'No se pudo comprobar en línea en este momento.'
+                : `Tienes la versión más reciente (v${updateStatus?.latestVersion || CURRENT_APP_VERSION}).`}
+            </span>
+            {updateStatus?.checkedAt && !checkingUpdate && (
+              <span className="text-[10px] text-gray-400 flex-shrink-0">
+                {updateStatus.checkedAt}
+              </span>
+            )}
+          </div>
         )}
       </div>
 
