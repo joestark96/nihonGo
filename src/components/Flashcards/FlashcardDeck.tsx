@@ -8,11 +8,24 @@ interface FlashcardDeckProps {
   cards: Flashcard[];
   onRateCard: (cardId: string, category: string, rating: 'again' | 'hard' | 'good' | 'easy') => void;
   showRomaji?: boolean;
+  maxUnlockedLesson?: number;
 }
 
-export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({ cards, onRateCard, showRomaji: initialShowRomaji = true }) => {
+export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
+  cards,
+  onRateCard,
+  showRomaji: initialShowRomaji = true,
+  maxUnlockedLesson = 23
+}) => {
   const [selectedCategory, setSelectedCategory] = useState<FlashcardCategory | 'all'>('all');
   const [selectedJlpt, setSelectedJlpt] = useState<JLPTLevel | 'all'>('all');
+  const [onlyRoadmapProgress, setOnlyRoadmapProgress] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem('nihongo_flashcards_roadmap_only') === 'true';
+    } catch {
+      return false;
+    }
+  });
   const [searchQuery, setSearchQuery] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -51,7 +64,22 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({ cards, onRateCard,
       (c.onyomi && c.onyomi.toLowerCase().includes(searchQuery.toLowerCase())) ||
       (c.kunyomi && c.kunyomi.toLowerCase().includes(searchQuery.toLowerCase()));
 
-    return matchesCategory && matchesJlpt && matchesSearch;
+    // 4. Roadmap progress filter
+    let matchesProgress = true;
+    if (onlyRoadmapProgress) {
+      if (typeof c.genkiLesson === 'number') {
+        matchesProgress = c.genkiLesson <= maxUnlockedLesson;
+      } else if (c.jlptLevel) {
+        matchesProgress =
+          maxUnlockedLesson <= 12
+            ? c.jlptLevel === 'N5'
+            : maxUnlockedLesson <= 23
+            ? c.jlptLevel === 'N5' || c.jlptLevel === 'N4'
+            : true;
+      }
+    }
+
+    return matchesCategory && matchesJlpt && matchesSearch && matchesProgress;
   });
 
   const currentCard: Flashcard | undefined = filteredCards[currentIndex];
@@ -150,6 +178,46 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({ cards, onRateCard,
             {cat.label}
           </button>
         ))}
+      </div>
+
+      {/* Roadmap Progress Filter Toggle */}
+      <div className="w-full mt-2">
+        <button
+          type="button"
+          onClick={() => {
+            sound.playTap();
+            setOnlyRoadmapProgress(prev => {
+              const next = !prev;
+              try {
+                localStorage.setItem('nihongo_flashcards_roadmap_only', String(next));
+              } catch {
+                // ignore
+              }
+              return next;
+            });
+            setCurrentIndex(0);
+            setIsFlipped(false);
+          }}
+          className={`w-full py-1.5 px-3 rounded-xl border-2 text-[11px] font-black flex items-center justify-between gap-2 transition-all cursor-pointer ${
+            onlyRoadmapProgress
+              ? 'bg-emerald-50 dark:bg-duo-green/15 border-duo-green text-duo-green-dark dark:text-green-300'
+              : 'bg-white dark:bg-[#18272e] border-duo-gray-200 dark:border-[#283842] text-gray-500 dark:text-gray-400 hover:border-duo-blue'
+          }`}
+        >
+          <span className="flex items-center gap-1.5 truncate">
+            <Filter className="w-3.5 h-3.5 flex-shrink-0" />
+            <span className="truncate">Solo hasta tu avance (Lección {maxUnlockedLesson})</span>
+          </span>
+          <span
+            className={`px-2 py-0.5 rounded-md text-[10px] uppercase flex-shrink-0 ${
+              onlyRoadmapProgress
+                ? 'bg-duo-green text-white'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
+            }`}
+          >
+            {onlyRoadmapProgress ? 'Activo' : 'Todo'}
+          </span>
+        </button>
       </div>
 
       {/* JLPT Sub-filters (Shown when Kanjis is active) */}

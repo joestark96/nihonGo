@@ -455,16 +455,28 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           </div>
 
           <div className="space-y-4">
-            {/* v1.2.1 */}
+            {/* v1.2.3 */}
             <div className="p-5 sm:p-6 rounded-3xl bg-emerald-50/70 dark:bg-[#18272e] border-2 border-duo-green shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.2.1</span>
+                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.2.3</span>
                   <span className="text-xs font-black uppercase tracking-wider text-duo-green">Actual</span>
                 </div>
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Memoria en Chat, Selector 3★ y Repetición de Audio</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Filtro en Flashcards y Gestos Atrás en Android</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <li>• <strong>Filtro por progreso del Roadmap en Flashcards:</strong> Nuevo botón para repasar únicamente Kanjis, Vocabulario y Frases hasta la lección que llevas desbloqueada.</li>
+                <li>• <strong>Soporte nativo para gesto/botón Atrás en Android:</strong> Al deslizar hacia atrás o pulsar Atrás en el teléfono, cierra modales, pide confirmación al salir de una lección o vuelve a la pestaña anterior en lugar de cerrar la app.</li>
+              </ul>
+            </div>
+
+            {/* v1.2.1 – v1.2.2 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-duo-green/15 text-duo-green font-black text-xs">v1.2.1 – v1.2.2</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Memoria en Chat, Selector 3★ y Detector de Actualizaciones</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
                 <li>• <strong>Memoria y Auto-Audio en Chat con Sensei:</strong> Guarda automáticamente en qué paso te quedaste por unidad, añade botón «Auto/Mudo» en la cabecera y permite reintentar quizzes o constructores de oraciones fallados.</li>
                 <li>• <strong>Lista seleccionable «Subir a 3★ Oro»:</strong> Cuando tienes varias lecciones en Bronce o Plata, puedes elegir cuál perfeccionar desde una lista rápida en el Roadmap.</li>
                 <li>• <strong>Botón «Repetir» en feedback de audio:</strong> Al comprobar un ejercicio de listening, puedes volver a reproducir el audio mientras lees su transcripción.</li>

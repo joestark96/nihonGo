@@ -6,9 +6,15 @@ interface FlashcardsPageProps {
   cards: Flashcard[];
   onRateCard: (cardId: string, category: string, rating: 'again' | 'hard' | 'good' | 'easy') => void;
   showRomaji?: boolean;
+  maxUnlockedLesson?: number;
 }
 
-export const FlashcardsPage: React.FC<FlashcardsPageProps> = ({ cards, onRateCard, showRomaji = true }) => {
+export const FlashcardsPage: React.FC<FlashcardsPageProps> = ({
+  cards,
+  onRateCard,
+  showRomaji = true,
+  maxUnlockedLesson = 23
+}) => {
   return (
     <div className="w-full pb-36 overflow-x-hidden">
       <div className="max-w-md mx-auto px-4 pt-4">
@@ -17,7 +23,12 @@ export const FlashcardsPage: React.FC<FlashcardsPageProps> = ({ cards, onRateCar
           Repasa Kanjis (N5, N4, N3), Kanas, Vocabulario y Frases con repetición espaciada (SRS).
         </p>
       </div>
-      <FlashcardDeck cards={cards} onRateCard={onRateCard} showRomaji={showRomaji} />
+      <FlashcardDeck
+        cards={cards}
+        onRateCard={onRateCard}
+        showRomaji={showRomaji}
+        maxUnlockedLesson={maxUnlockedLesson}
+      />
     </div>
   );
 };

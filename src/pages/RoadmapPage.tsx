@@ -34,6 +34,22 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
   const [isJumpAheadActive, setIsJumpAheadActive] = useState(false);
   const [isPracticeActive, setIsPracticeActive] = useState(false);
   const [showImprovableList, setShowImprovableList] = useState(false);
+
+  // Close open lesson popover / improvable list on Android back gesture
+  useEffect(() => {
+    const onBack = (e: Event) => {
+      if (activeQuizLesson) return; // QuizModal handles its own back event
+      if (selectedNodeForPopover) {
+        e.preventDefault();
+        setSelectedNodeForPopover(null);
+      } else if (showImprovableList) {
+        e.preventDefault();
+        setShowImprovableList(false);
+      }
+    };
+    window.addEventListener('nihongo-back', onBack);
+    return () => window.removeEventListener('nihongo-back', onBack);
+  }, [activeQuizLesson, selectedNodeForPopover, showImprovableList]);
   const [roadmapMode, setRoadmapMode] = useState<'textbook' | 'workbook'>(() => {
     const saved = localStorage.getItem('nihongo_roadmap_mode');
     return saved === 'workbook' ? 'workbook' : 'textbook';

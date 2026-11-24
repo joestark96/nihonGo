@@ -230,6 +230,27 @@ export const QuizModal: React.FC<QuizModalProps> = ({
     setShowExitConfirm(true);
   };
 
+  // Handle Android system back button / swipe-back gesture
+  useEffect(() => {
+    const onBack = (e: Event) => {
+      e.preventDefault();
+      if (showExitConfirm) {
+        setShowExitConfirm(false);
+      } else if (
+        status === 'completed' ||
+        status === 'game-over' ||
+        status === 'jump-passed' ||
+        status === 'jump-failed'
+      ) {
+        handleClose();
+      } else {
+        handleRequestExit();
+      }
+    };
+    window.addEventListener('nihongo-back', onBack);
+    return () => window.removeEventListener('nihongo-back', onBack);
+  }, [showExitConfirm, status]);
+
   // Reset exercise state when moving to next and stop previous speech
   useEffect(() => {
     sound.stopSpeech();
