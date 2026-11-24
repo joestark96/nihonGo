@@ -33,6 +33,7 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
   } | null>(null);
   const [isJumpAheadActive, setIsJumpAheadActive] = useState(false);
   const [isPracticeActive, setIsPracticeActive] = useState(false);
+  const [showImprovableList, setShowImprovableList] = useState(false);
   const [roadmapMode, setRoadmapMode] = useState<'textbook' | 'workbook'>(() => {
     const saved = localStorage.getItem('nihongo_roadmap_mode');
     return saved === 'workbook' ? 'workbook' : 'textbook';
@@ -238,7 +239,7 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
         </button>
       </div>
 
-      {/* Quick shortcut to perfect Bronze/Silver nodes to 3★ Gold */}
+      {/* Quick shortcut & selectable list to perfect Bronze/Silver nodes to 3★ Gold */}
       {(() => {
         const isWb = roadmapMode === 'workbook';
         const improvableNodes = units.flatMap(u =>
@@ -247,28 +248,67 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
             .map(n => ({ unitId: u.id, unitTitle: u.title, node: n }))
         );
         if (improvableNodes.length === 0) return null;
-        const firstTarget = improvableNodes[0];
         return (
-          <button
-            type="button"
-            onClick={() => {
-              sound.playTap();
-              const el = document.getElementById(`roadmap-node-${firstTarget.node.id}`);
-              if (el) {
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-              }
-              setSelectedNodeForPopover(firstTarget);
-            }}
-            className="w-full max-w-sm mx-auto mb-5 py-2 px-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-700/60 text-amber-800 dark:text-amber-300 font-black text-xs flex items-center justify-between gap-2 shadow-2xs hover:brightness-95 transition-all cursor-pointer"
-          >
-            <span className="flex items-center gap-1.5">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 flex-shrink-0" />
-              <span>Subir a 3★ Oro ({improvableNodes.length} pendiente{improvableNodes.length > 1 ? 's' : ''})</span>
-            </span>
-            <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-lg bg-amber-400/20">
-              Ir →
-            </span>
-          </button>
+          <div className="w-full max-w-sm mx-auto mb-5 flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                sound.playTap();
+                if (improvableNodes.length === 1) {
+                  const firstTarget = improvableNodes[0];
+                  const el = document.getElementById(`roadmap-node-${firstTarget.node.id}`);
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  setSelectedNodeForPopover(firstTarget);
+                } else {
+                  setShowImprovableList(prev => !prev);
+                }
+              }}
+              className="w-full py-2 px-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-700/60 text-amber-800 dark:text-amber-300 font-black text-xs flex items-center justify-between gap-2 shadow-2xs hover:brightness-95 transition-all cursor-pointer"
+            >
+              <span className="flex items-center gap-1.5">
+                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 flex-shrink-0" />
+                <span>Subir a 3★ Oro ({improvableNodes.length} pendiente{improvableNodes.length > 1 ? 's' : ''})</span>
+              </span>
+              <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-lg bg-amber-400/20">
+                {improvableNodes.length === 1 ? 'Ir →' : showImprovableList ? 'Ocultar ▲' : 'Elegir ▼'}
+              </span>
+            </button>
+
+            {showImprovableList && improvableNodes.length > 1 && (
+              <div className="p-2 rounded-2xl bg-white dark:bg-[#18272e] border border-amber-200 dark:border-amber-800/60 shadow-sm flex flex-col gap-1.5 max-h-48 overflow-y-auto animate-fade-in">
+                {improvableNodes.map(item => (
+                  <button
+                    key={item.node.id}
+                    type="button"
+                    onClick={() => {
+                      sound.playTap();
+                      setShowImprovableList(false);
+                      const el = document.getElementById(`roadmap-node-${item.node.id}`);
+                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      setSelectedNodeForPopover(item);
+                    }}
+                    className="w-full px-3 py-2 rounded-xl bg-amber-50/50 dark:bg-amber-950/20 hover:bg-amber-100/70 dark:hover:bg-amber-900/30 flex items-center justify-between gap-2 text-left transition-colors cursor-pointer"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs font-black text-gray-800 dark:text-gray-100 truncate">
+                        {item.node.title}
+                      </p>
+                      <p className="text-[10px] font-bold text-gray-500 dark:text-gray-400 truncate">
+                        {item.unitTitle}
+                      </p>
+                    </div>
+                    <span className={`px-2 py-0.5 rounded-lg text-[10px] font-black flex-shrink-0 ${
+                      item.node.stars === 2
+                        ? 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200'
+                        : 'bg-amber-200 text-amber-900 dark:bg-amber-800/60 dark:text-amber-200'
+                    }`}>
+                      {item.node.stars}★ {item.node.stars === 2 ? 'Plata' : 'Bronce'}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         );
       })()}
 

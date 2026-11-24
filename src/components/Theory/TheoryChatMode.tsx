@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Volume2,
+  VolumeX,
   Sparkles,
   RotateCcw,
   ArrowRight,
@@ -308,36 +309,78 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
   const [wordBuilderSubmitted, setWordBuilderSubmitted] = useState<Record<string, boolean>>({});
   const [score, setScore] = useState<{ correct: number; total: number }>({ correct: 0, total: 0 });
   const [shownExtras, setShownExtras] = useState<Record<string, boolean>>({});
+  const [autoAudio, setAutoAudio] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem('nihongo_chat_auto_audio');
+      return saved === null ? true : saved === 'true';
+    } catch {
+      return true;
+    }
+  });
 
-  // Reset chat when unit changes
+  const toggleAutoAudio = () => {
+    sound.playTap();
+    setAutoAudio(prev => {
+      const next = !prev;
+      try {
+        localStorage.setItem('nihongo_chat_auto_audio', String(next));
+      } catch {
+        // ignore
+      }
+      if (!next) sound.stopSpeech();
+      return next;
+    });
+  };
+
+  // Restore saved step for this unit (or start at 0)
   useEffect(() => {
-    setStepIndex(0);
+    let savedIdx = 0;
+    try {
+      const raw = localStorage.getItem(`nihongo_theory_chat_step_${unitTheory.unitId}`);
+      const parsed = raw ? parseInt(raw, 10) : 0;
+      if (!Number.isNaN(parsed) && parsed > 0 && parsed < steps.length) {
+        savedIdx = parsed;
+      }
+    } catch {
+      savedIdx = 0;
+    }
+
+    setStepIndex(savedIdx);
     setQuizAnswers({});
     setWordBuilderSelection({});
     setWordBuilderSubmitted({});
     setShownExtras({});
     setScore({ correct: 0, total: 0 });
-    const first = steps[0];
+    const target = steps[savedIdx] || steps[0];
     setMessages(
-      first
+      target
         ? [
             {
-              id: `msg-0-${first.id}`,
+              id: `msg-${savedIdx}-${target.id}`,
               sender: 'sensei',
-              kind: first.kind,
-              text: first.text,
-              subText: first.subText,
-              bullets: first.bullets,
-              tip: first.tip,
-              example: first.example,
-              quiz: first.quiz,
-              wordBuild: first.wordBuild
+              kind: target.kind,
+              text: savedIdx > 0 ? `📌 Retomando donde te quedaste:\n${target.text}` : target.text,
+              subText: target.subText,
+              bullets: target.bullets,
+              tip: target.tip,
+              example: target.example,
+              quiz: target.quiz,
+              wordBuild: target.wordBuild
             }
           ]
         : []
     );
     setIsTyping(false);
   }, [unitTheory.unitId, steps]);
+
+  // Persist current step per unit
+  useEffect(() => {
+    try {
+      localStorage.setItem(`nihongo_theory_chat_step_${unitTheory.unitId}`, String(stepIndex));
+    } catch {
+      // ignore
+    }
+  }, [unitTheory.unitId, stepIndex]);
 
   // Smoothly scroll ONLY the inner chat box (never the outer IonContent page!)
   useEffect(() => {
@@ -404,10 +447,12 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
         }
       ]);
 
-      if (nextStep.quiz?.audioText) {
-        sound.speakJapanese(nextStep.quiz.audioText, 0.9, charProfile.id);
-      } else if (nextStep.example && nextStep.kind === 'speak') {
-        sound.speakJapanese(nextStep.example.audioText || nextStep.example.japanese, 0.9, charProfile.id);
+      if (autoAudio) {
+        if (nextStep.quiz?.audioText) {
+          sound.speakJapanese(nextStep.quiz.audioText, 0.9, charProfile.id);
+        } else if (nextStep.example && nextStep.kind === 'speak') {
+          sound.speakJapanese(nextStep.example.audioText || nextStep.example.japanese, 0.9, charProfile.id);
+        }
       }
     }, 240);
   };
@@ -542,6 +587,11 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
 
   const handleRestart = () => {
     sound.playTap();
+    try {
+      localStorage.removeItem(`nihongo_theory_chat_step_${unitTheory.unitId}`);
+    } catch {
+      // ignore
+    }
     setStepIndex(0);
     setQuizAnswers({});
     setWordBuilderSelection({});
@@ -592,14 +642,30 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={handleRestart}
-          className="p-2 rounded-xl bg-white dark:bg-[#131f24] border border-gray-200 dark:border-[#283842] text-gray-500 hover:text-indigo-500 transition-colors cursor-pointer"
-          title="Reiniciar clase"
-        >
-          <RotateCcw className="w-4 h-4" />
-        </button>
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={toggleAutoAudio}
+            className={`px-2 py-1.5 rounded-xl border text-[10px] font-black flex items-center gap-1 transition-colors cursor-pointer ${
+              autoAudio
+                ? 'bg-indigo-500/15 border-indigo-400/50 text-indigo-700 dark:text-indigo-300'
+                : 'bg-white dark:bg-[#131f24] border-gray-200 dark:border-[#283842] text-gray-400'
+            }`}
+            title={autoAudio ? 'Auto-audio activado' : 'Auto-audio silenciado'}
+          >
+            {autoAudio ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
+            <span className="hidden sm:inline">{autoAudio ? 'Auto' : 'Mudo'}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleRestart}
+            className="p-2 rounded-xl bg-white dark:bg-[#131f24] border border-gray-200 dark:border-[#283842] text-gray-500 hover:text-indigo-500 transition-colors cursor-pointer"
+            title="Reiniciar clase"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </button>
+        </div>
       </div>
 
       {/* Thin Progress Bar */}
@@ -642,7 +708,7 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
                       tip: targetStep.tip
                     }
                   ]);
-                  if (targetStep.example?.audioText || targetStep.example?.japanese) {
+                  if (autoAudio && (targetStep.example?.audioText || targetStep.example?.japanese)) {
                     sound.speakJapanese(
                       targetStep.example.audioText || targetStep.example.japanese,
                       0.9,
@@ -884,6 +950,23 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
                           );
                         })}
                       </div>
+                      {quizAnswers[msg.id] !== undefined && quizAnswers[msg.id] !== msg.quiz.correctIndex && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            sound.playTap();
+                            setQuizAnswers(prev => {
+                              const copy = { ...prev };
+                              delete copy[msg.id];
+                              return copy;
+                            });
+                          }}
+                          className="self-start px-3 py-1 rounded-xl bg-amber-100 dark:bg-amber-900/40 border border-amber-300 dark:border-amber-700/60 text-amber-800 dark:text-amber-200 font-black text-[11px] flex items-center gap-1 cursor-pointer hover:brightness-95 transition-all"
+                        >
+                          <RotateCcw className="w-3 h-3" />
+                          <span>Reintentar</span>
+                        </button>
+                      )}
                     </div>
                   )}
 
@@ -946,7 +1029,7 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
                           })}
                         </div>
 
-                        {!submitted && (
+                        {!submitted ? (
                           <button
                             type="button"
                             disabled={selectedIds.length === 0}
@@ -955,6 +1038,28 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
                           >
                             Comprobar Oración ✓
                           </button>
+                        ) : (
+                          (() => {
+                            const builtStr = selectedIds
+                              .map(id => wb.bankChips.find(c => c.id === id)?.word || '')
+                              .join('');
+                            const targetStr = wb.targetTokens.join('');
+                            if (builtStr === targetStr) return null;
+                            return (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  sound.playTap();
+                                  setWordBuilderSubmitted(prev => ({ ...prev, [msg.id]: false }));
+                                  setWordBuilderSelection(prev => ({ ...prev, [msg.id]: [] }));
+                                }}
+                                className="self-start px-3 py-1 rounded-xl bg-amber-100 dark:bg-amber-900/40 border border-amber-300 dark:border-amber-700/60 text-amber-800 dark:text-amber-200 font-black text-[11px] flex items-center gap-1 cursor-pointer hover:brightness-95 transition-all"
+                              >
+                                <RotateCcw className="w-3 h-3" />
+                                <span>Reintentar oración</span>
+                              </button>
+                            );
+                          })()
                         )}
                       </div>
                     );

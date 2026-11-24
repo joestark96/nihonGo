@@ -1293,9 +1293,22 @@ export const QuizModal: React.FC<QuizModalProps> = ({
                 <div>
                   <h4 className="text-lg font-black text-duo-green-dark">¡Excelente!</h4>
                   {currentExercise.type === 'listening' && currentExercise.japaneseVoiceText && (
-                    <p className="text-xs font-black text-emerald-800 dark:text-emerald-200 font-['Noto_Sans_JP'] mb-0.5">
-                      🔊 {currentExercise.japaneseVoiceText}
-                    </p>
+                    <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                      <p className="text-xs font-black text-emerald-800 dark:text-emerald-200 font-['Noto_Sans_JP']">
+                        🔊 {currentExercise.japaneseVoiceText}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          sound.playTap();
+                          playCurrentExerciseVoice(0.9);
+                        }}
+                        className="px-2 py-0.5 rounded-lg bg-emerald-600/15 hover:bg-emerald-600/25 text-emerald-800 dark:text-emerald-200 font-black text-[10px] flex items-center gap-1 cursor-pointer transition-colors"
+                      >
+                        <Volume2 className="w-3 h-3" />
+                        <span>Repetir</span>
+                      </button>
+                    </div>
                   )}
                   <p className="text-xs font-bold text-duo-green-dark/80">{currentExercise.explanation}</p>
                 </div>
@@ -1323,9 +1336,22 @@ export const QuizModal: React.FC<QuizModalProps> = ({
                     </p>
                   )}
                   {currentExercise.type === 'listening' && currentExercise.japaneseVoiceText && (
-                    <p className="text-xs font-black text-red-900 dark:text-red-200 font-['Noto_Sans_JP']">
-                      🔊 Audio: {currentExercise.japaneseVoiceText}
-                    </p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="text-xs font-black text-red-900 dark:text-red-200 font-['Noto_Sans_JP']">
+                        🔊 Audio: {currentExercise.japaneseVoiceText}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          sound.playTap();
+                          playCurrentExerciseVoice(0.9);
+                        }}
+                        className="px-2 py-0.5 rounded-lg bg-red-600/15 hover:bg-red-600/25 text-red-900 dark:text-red-200 font-black text-[10px] flex items-center gap-1 cursor-pointer transition-colors"
+                      >
+                        <Volume2 className="w-3 h-3" />
+                        <span>Repetir</span>
+                      </button>
+                    </div>
                   )}
                   {currentExercise.explanation && (
                     <p className="text-[11px] md:text-xs font-semibold text-duo-red-dark/90 mt-0.5">{currentExercise.explanation}</p>
