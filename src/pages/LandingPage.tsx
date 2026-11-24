@@ -455,16 +455,100 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           </div>
 
           <div className="space-y-4">
-            {/* v1.1.4 */}
+            {/* v1.1.14 */}
             <div className="p-5 sm:p-6 rounded-3xl bg-emerald-50/70 dark:bg-[#18272e] border-2 border-duo-green shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.1.4</span>
+                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.1.14</span>
                   <span className="text-xs font-black uppercase tracking-wider text-duo-green">Actual</span>
                 </div>
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Mejoras de Examen, Workbook y UX</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Voces en Workbook y Medallas en Roadmap</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <li>• <strong>Voces fieles por personaje en Workbook:</strong> Detección automática del personaje en preguntas y diálogos del Cuaderno para que Mary, Takeshi, Yamashita y el resto respondan con su voz oficial.</li>
+                <li>• <strong>Bronce, Plata y Oro en el Roadmap:</strong> Los nodos completados ahora cambian de color según tus estrellas obtenidas (1 estrella = Bronce, 2 estrellas = Plata, 3 estrellas = Oro).</li>
+              </ul>
+            </div>
+
+            {/* v1.1.13 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-duo-blue/15 text-duo-blue font-black text-xs">v1.1.13</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Lectura Hiragana y Vocabulario Genki I</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
+                <li>• <strong>Hiragana preservado en opciones:</strong> Al ocultar romaji en lecciones avanzadas, se conserva la lectura en hiragana dentro de paréntesis (ej. 二年生 (にねんせい)).</li>
+                <li>• <strong>Expansión de vocabulario (L1–L8):</strong> Ampliación del banco de vocabulario Genki I con nuevas palabras clave como かく (escribir).</li>
+              </ul>
+            </div>
+
+            {/* v1.1.12 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 font-black text-xs">v1.1.12</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Filtro de Ejercicios de Escucha</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
+                <li>• <strong>Preguntas de gramática intactas:</strong> Se evita convertir preguntas conceptuales en ejercicios de audio usando subtítulos mixtos, manteniendo claridad total en cada ejercicio.</li>
+              </ul>
+            </div>
+
+            {/* v1.1.11 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-teal-500/15 text-teal-600 dark:text-teal-400 font-black text-xs">v1.1.11</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Pausas en Diálogos y Fonética</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
+                <li>• <strong>Pausa natural entre pregunta y respuesta:</strong> Los diálogos de teoría ahora hacen una pausa clara antes de decir la respuesta.</li>
+                <li>• <strong>Pronunciación correcta de はたち (20 años):</strong> Normalización fonética a 二十歳 para evitar que el motor TTS lo confunda con わたし.</li>
+              </ul>
+            </div>
+
+            {/* v1.1.8 – v1.1.10 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-purple-500/15 text-purple-600 dark:text-purple-400 font-black text-xs">v1.1.8 – v1.1.10</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Modo Chat Interactivo con tu Sensei</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
+                <li>• <strong>Aprende teoría conversando:</strong> Nuevo modo chat guiado por tu personaje seleccionado con explicaciones compactas paso a paso y ejemplos con audio.</li>
+                <li>• <strong>Retos didácticos integrados:</strong> Practica al momento con construcción de oraciones con fichas, escucha a ciegas, mini-quizzes y pronunciación por voz.</li>
+                <li>• <strong>Scroll interno fluido:</strong> Al interactuar en el chat, la vista se mantiene en el mensaje actual sin saltar al inicio.</li>
+              </ul>
+            </div>
+
+            {/* v1.1.7 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-amber-500/15 text-amber-600 dark:text-amber-400 font-black text-xs">v1.1.7</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Economía Balanceada y 12 Logros</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
+                <li>• <strong>Economía de gemas y corazones:</strong> Reajuste de precios para rellenar vidas y recompensas más equilibradas al avanzar y saltar lecciones.</li>
+                <li>• <strong>12 logros progresivos:</strong> Ampliación de medallas e hitos de aprendizaje a largo plazo.</li>
+              </ul>
+            </div>
+
+            {/* v1.1.5 – v1.1.6 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-400 font-black text-xs">v1.1.5 – v1.1.6</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Audio de こ y Versionado Automático</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
+                <li>• <strong>Corrección del sonido こ (ko):</strong> Reemplazo de audio corrupto y normalización fonética de こ a コ para una pronunciación nítida.</li>
+                <li>• <strong>Versionado automatizado:</strong> Flujo de compilación sincronizado entre Web y Android con npm run bump.</li>
+              </ul>
+            </div>
+
+            {/* v1.1.4 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-black text-xs">v1.1.4</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Mejoras de Examen, Workbook y UX</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
                 <li>• <strong>Saltos de unidad precisos:</strong> Al saltar lecciones o unidades, el examen ahora solo incluye temas de lecciones no completadas/superadas.</li>
                 <li>• <strong>Confirmación al salir:</strong> Al presionar cerrar en una lección o examen en curso, ahora solicita confirmación para evitar perder el progreso accidentalmente.</li>
                 <li>• <strong>Voces variadas en Workbook:</strong> Los diálogos y ejercicios de escucha del Cuaderno alternan voces distintas de personajes Genki para cada interlocutor.</li>
