@@ -610,6 +610,59 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
         />
       </div>
 
+      {/* Topic Quick-Jump Bar */}
+      {unitTheory.sections.length > 1 && (
+        <div className="px-3 py-2 bg-white dark:bg-[#18272e] border-b border-duo-gray-200 dark:border-[#283842] flex items-center gap-1.5 overflow-x-auto no-scrollbar">
+          <span className="text-[10px] font-black uppercase tracking-wider text-gray-400 flex-shrink-0 mr-0.5">
+            Temas:
+          </span>
+          {unitTheory.sections.map((sec, sIdx) => {
+            const targetIdx = steps.findIndex(st => st.sectionIndex === sIdx && st.kind === 'lesson-card');
+            const currentSecIdx = steps[stepIndex]?.sectionIndex ?? -1;
+            const isCurrent = currentSecIdx === sIdx;
+            if (targetIdx === -1) return null;
+            return (
+              <button
+                key={sec.id}
+                type="button"
+                onClick={() => {
+                  sound.playTap();
+                  const targetStep = steps[targetIdx];
+                  if (!targetStep) return;
+                  setStepIndex(targetIdx);
+                  setMessages([
+                    {
+                      id: `msg-jump-${targetStep.id}-${Date.now()}`,
+                      sender: 'sensei',
+                      kind: targetStep.kind,
+                      text: targetStep.text,
+                      subText: targetStep.subText,
+                      bullets: targetStep.bullets,
+                      example: targetStep.example,
+                      tip: targetStep.tip
+                    }
+                  ]);
+                  if (targetStep.example?.audioText || targetStep.example?.japanese) {
+                    sound.speakJapanese(
+                      targetStep.example.audioText || targetStep.example.japanese,
+                      0.9,
+                      charProfile.id
+                    );
+                  }
+                }}
+                className={`px-2.5 py-1 rounded-full text-[10px] font-black whitespace-nowrap transition-all cursor-pointer flex-shrink-0 ${
+                  isCurrent
+                    ? 'bg-indigo-600 text-white shadow-2xs'
+                    : 'bg-gray-100 dark:bg-[#131f24] text-gray-600 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/40'
+                }`}
+              >
+                {sIdx + 1}. {sec.title.length > 20 ? `${sec.title.slice(0, 20)}…` : sec.title}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
       {/* Inner Chat Feed */}
       <div
         ref={chatContainerRef}

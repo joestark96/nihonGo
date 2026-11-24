@@ -31,7 +31,7 @@ interface LandingPageProps {
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
   const [downloadStarted, setDownloadStarted] = useState(false);
-  const APK_DOWNLOAD_URL = `https://github.com/joestark96/genki-duo/raw/main/releases/nihongo-v${APP_VERSION}.apk`;
+  const APK_DOWNLOAD_URL = `https://github.com/joestark96/nihonGo/raw/main/releases/nihongo-v${APP_VERSION}.apk`;
 
   const handleDownloadApk = () => {
     setDownloadStarted(true);
@@ -74,7 +74,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           {/* Nav Links & Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
             <a
-              href="https://github.com/joestark96/genki-duo"
+              href="https://github.com/joestark96/nihonGo"
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 sm:px-3 sm:py-1.5 rounded-xl border border-gray-200 dark:border-[#283842] text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 font-black text-xs flex items-center gap-1.5 transition-colors"
@@ -385,7 +385,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
                 </button>
 
                 <a
-                  href="https://github.com/joestark96/genki-duo/releases"
+                  href="https://github.com/joestark96/nihonGo/releases"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="py-3.5 px-5 rounded-2xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-black text-xs uppercase tracking-wider transition-colors flex items-center gap-1.5"
@@ -455,16 +455,30 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           </div>
 
           <div className="space-y-4">
-            {/* v1.1.14 */}
+            {/* v1.2.0 */}
             <div className="p-5 sm:p-6 rounded-3xl bg-emerald-50/70 dark:bg-[#18272e] border-2 border-duo-green shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.1.14</span>
+                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.2.0</span>
                   <span className="text-xs font-black uppercase tracking-wider text-duo-green">Actual</span>
                 </div>
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Voces en Workbook y Medallas en Roadmap</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Actualizaciones, Estrellas, Repaso de Errores y Saltos en Chat</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <li>• <strong>Detector de actualizaciones en la app:</strong> Nuevo verificador en tu Perfil para comprobar si hay una versión nueva en GitHub y descargar el APK al instante.</li>
+                <li>• <strong>Estrellas visibles y atajo a 3★ Oro:</strong> Los nodos completados muestran 1, 2 o 3 estrellitas junto al color Bronce/Plata/Oro, con un botón rápido para perfeccionar lecciones pendientes.</li>
+                <li>• <strong>Audio instantáneo y repaso de errores:</strong> Precarga del siguiente ejercicio, transcripción automática al comprobar listening y botón «Repasar mis errores» al terminar una lección.</li>
+                <li>• <strong>Salto rápido de temas en Chat con Sensei:</strong> Barra superior para ir directo a cualquier tema gramatical de la unidad.</li>
+              </ul>
+            </div>
+
+            {/* v1.1.14 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-duo-green/15 text-duo-green font-black text-xs">v1.1.14</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Voces en Workbook y Medallas en Roadmap</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
                 <li>• <strong>Voces fieles por personaje en Workbook:</strong> Detección automática del personaje en preguntas y diálogos del Cuaderno para que Mary, Takeshi, Yamashita y el resto respondan con su voz oficial.</li>
                 <li>• <strong>Bronce, Plata y Oro en el Roadmap:</strong> Los nodos completados ahora cambian de color según tus estrellas obtenidas (1 estrella = Bronce, 2 estrellas = Plata, 3 estrellas = Oro).</li>
               </ul>
@@ -643,7 +657,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
               Descargar APK
             </button>
             <a
-              href="https://github.com/joestark96/genki-duo"
+              href="https://github.com/joestark96/nihonGo"
               target="_blank"
               rel="noopener noreferrer"
               className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white flex items-center gap-1 font-black"

@@ -201,10 +201,12 @@ export const RoadmapNode: React.FC<RoadmapNodeProps> = ({
           )}
         </div>
 
-        {/* Crown / Stars badge at bottom-right */}
+        {/* Crown / Stars badge at bottom-right showing 1, 2 or 3 earned stars */}
         {isCompleted && (
-          <div className={`absolute -bottom-1 -right-1 ${colors.badgeBg || 'bg-duo-yellow-dark'} text-white rounded-full p-1 border-2 border-white shadow-sm flex items-center justify-center`}>
-            <Star className="w-3.5 h-3.5 fill-white" />
+          <div className={`absolute -bottom-1.5 -right-2 ${colors.badgeBg || 'bg-duo-yellow-dark'} text-white rounded-full px-1.5 py-0.5 border-2 border-white shadow-sm flex items-center justify-center gap-0.5`}>
+            {Array.from({ length: Math.min(3, Math.max(1, node.stars || 1)) }).map((_, idx) => (
+              <Star key={idx} className="w-2.5 h-2.5 fill-white" />
+            ))}
           </div>
         )}
       </button>

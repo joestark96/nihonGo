@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { User, Flame, Zap, Heart, Gem, Database, RotateCcw, Award, CheckCircle2, Volume2, Moon, Sun, Type, Sparkles, Trophy, Target, Gift, Cloud, CloudUpload, CloudDownload, Share2, AlertCircle, Bell, Clock } from 'lucide-react';
+import { User, Flame, Zap, Heart, Gem, Database, RotateCcw, Award, CheckCircle2, Volume2, Moon, Sun, Type, Sparkles, Trophy, Target, Gift, Cloud, CloudUpload, CloudDownload, Share2, AlertCircle, Bell, Clock, Download, RefreshCw } from 'lucide-react';
 import { UserProfile, Unit } from '../types';
 import { sound, CHARACTER_VOICES } from '../services/sound';
 import { getLocalDateKey, getDailyQuestStats } from '../utils/dateUtils';
@@ -9,6 +9,7 @@ import { backupService, NihonGoBackupPayload } from '../services/backupService';
 import { notificationService } from '../services/notificationService';
 import { loadJlptTowerProgress, getHighestJlptRank } from './JlptTowerPage';
 import { ConfirmModal } from '../components/UI/ConfirmModal';
+import { checkForAppUpdate, CURRENT_APP_VERSION, UpdateCheckResult } from '../services/updateChecker';
 
 interface ProfilePageProps {
   profile: UserProfile;
@@ -81,6 +82,20 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
       }
     }
   }, [completedCount, profile.xp, claimedQuests, todayKey]);
+
+  const [updateStatus, setUpdateStatus] = useState<UpdateCheckResult | null>(null);
+  const [checkingUpdate, setCheckingUpdate] = useState(false);
+
+  const handleCheckUpdate = async () => {
+    setCheckingUpdate(true);
+    const res = await checkForAppUpdate();
+    setUpdateStatus(res);
+    setCheckingUpdate(false);
+  };
+
+  useEffect(() => {
+    handleCheckUpdate();
+  }, []);
 
   const kanaCompletedCount = units[0]?.nodes.filter(n => n.stars > 0).length || 0;
   const genki1Count = units
@@ -963,6 +978,54 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
           </div>
         </div>
       )}
+
+      {/* App Version & Update Checker */}
+      <h3 className="text-sm font-black text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">Versión y Actualizaciones</h3>
+      <div className="bg-white dark:bg-[#18272e] p-4 rounded-2xl border-2 border-duo-gray-200 dark:border-[#283842] shadow-duo-card dark:shadow-none mb-5 transition-colors">
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-5 h-5 text-duo-green" />
+            <span className="text-xs font-black text-gray-800 dark:text-gray-100">
+              NihonGo! v{CURRENT_APP_VERSION}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              sound.playTap();
+              handleCheckUpdate();
+            }}
+            disabled={checkingUpdate}
+            className="px-2.5 py-1 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-black text-[11px] flex items-center gap-1 transition-all cursor-pointer disabled:opacity-60"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${checkingUpdate ? 'animate-spin' : ''}`} />
+            <span>{checkingUpdate ? 'Buscando...' : 'Buscar'}</span>
+          </button>
+        </div>
+
+        {updateStatus?.hasUpdate ? (
+          <div className="mt-2 p-3 rounded-xl bg-duo-green-light/50 dark:bg-duo-green/15 border border-duo-green/50 flex flex-col gap-2">
+            <p className="text-xs font-black text-duo-green-dark dark:text-green-300">
+              ¡Nueva versión v{updateStatus.latestVersion} disponible!
+            </p>
+            <a
+              href={updateStatus.downloadUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-2 px-3 bg-duo-green hover:bg-duo-green-dark text-white font-black text-xs rounded-xl shadow-duo-btn-sm flex items-center justify-center gap-1.5 transition-all"
+            >
+              <Download className="w-4 h-4" />
+              <span>Descargar APK v{updateStatus.latestVersion}</span>
+            </a>
+          </div>
+        ) : (
+          <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400">
+            {updateStatus?.error
+              ? 'No se pudo comprobar en línea en este momento.'
+              : 'Tienes la versión más reciente instalada.'}
+          </p>
+        )}
+      </div>
 
       {/* SQLite Local Persistence Section */}
       <h3 className="text-sm font-black text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">Persistencia de Datos</h3>

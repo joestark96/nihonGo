@@ -162,8 +162,11 @@ export const QuizModal: React.FC<QuizModalProps> = ({
   onPassJumpAhead,
   onDeductHeart
 }) => {
-  const exercises = lesson.exercises;
+  const [activeExercises, setActiveExercises] = useState<Exercise[]>(lesson.exercises);
+  const exercises = activeExercises;
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [mistakenIds, setMistakenIds] = useState<string[]>([]);
+  const [isReviewingMistakes, setIsReviewingMistakes] = useState(false);
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [shuffledOptions, setShuffledOptions] = useState<ExerciseOption[]>([]);
 
@@ -272,9 +275,13 @@ export const QuizModal: React.FC<QuizModalProps> = ({
         setShuffledRightPairs(rights);
       }
 
-      // Preload audio for instantaneous 0ms playback on click
+      // Preload audio for current AND next exercise for instantaneous 0ms playback
       if (currentExercise.japaneseVoiceText) {
         sound.preloadAudio(currentExercise.japaneseVoiceText);
+      }
+      const nextExercise = exercises[currentIndex + 1];
+      if (nextExercise?.japaneseVoiceText) {
+        sound.preloadAudio(nextExercise.japaneseVoiceText);
       }
 
       // Auto play audio for listening exercise
@@ -323,6 +330,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
     } else {
       sound.playIncorrect();
       setWrongAttempts(prev => prev + 1);
+      setMistakenIds(prev => (prev.includes(currentExercise.id) ? prev : [...prev, currentExercise.id]));
       setShowTranscript(true);
 
       if (isJumpAhead) {
@@ -364,6 +372,8 @@ export const QuizModal: React.FC<QuizModalProps> = ({
 
       if (isJumpAhead) {
         setStatus('jump-passed');
+      } else if (isReviewingMistakes) {
+        setStatus('completed');
       } else if (isPractice) {
         setStatus('completed');
         onCompleteLesson(lesson.id, 25, 3);
@@ -432,6 +442,9 @@ export const QuizModal: React.FC<QuizModalProps> = ({
       sound.playIncorrect();
       setMismatchedPair({ left: leftId, right: rightId });
       setWrongAttempts(prev => prev + 1);
+      if (currentExercise) {
+        setMistakenIds(prev => (prev.includes(currentExercise.id) ? prev : [...prev, currentExercise.id]));
+      }
 
       if (isJumpAhead) {
         const remaining = jumpChancesLeft - 1;
@@ -605,10 +618,16 @@ export const QuizModal: React.FC<QuizModalProps> = ({
             )}
           </div>
           <h2 className="text-2xl font-black text-gray-800 dark:text-gray-100 mb-1">
-            {isPractice ? '¡Entrenamiento completado!' : '¡Lección completada!'}
+            {isReviewingMistakes
+              ? '¡Errores repasados!'
+              : isPractice
+              ? '¡Entrenamiento completado!'
+              : '¡Lección completada!'}
           </h2>
           <p className="text-gray-500 dark:text-gray-400 font-bold text-sm mb-6">
-            {isPractice
+            {isReviewingMistakes
+              ? `Has reforzado los ${exercises.length} ejercicio(s) pendientes.`
+              : isPractice
               ? `Has repasado ${lesson.exercises.length} ejercicios de tus lecciones cursadas.`
               : `Has dominado: ${lesson.title}`}
           </p>
@@ -617,24 +636,46 @@ export const QuizModal: React.FC<QuizModalProps> = ({
             <div className="bg-duo-yellow-light/60 dark:bg-duo-yellow/10 border-2 border-duo-yellow rounded-2xl p-4 flex flex-col items-center">
               <span className="text-xs font-black text-duo-yellow-dark dark:text-duo-yellow uppercase">EXP Ganada</span>
               <span className="text-2xl font-black text-duo-yellow-dark dark:text-duo-yellow flex items-center gap-1">
-                <Sparkles className="w-5 h-5" /> {isPractice ? '+25 XP' : '+20 XP'}
+                <Sparkles className="w-5 h-5" /> {isReviewingMistakes ? 'Repaso' : isPractice ? '+25 XP' : '+20 XP'}
               </span>
             </div>
             <div className="bg-duo-green-light/60 dark:bg-duo-green/10 border-2 border-duo-green rounded-2xl p-4 flex flex-col items-center">
               <span className="text-xs font-black text-duo-green-dark dark:text-duo-green uppercase">Precisión</span>
               <span className="text-2xl font-black text-duo-green">
-                {wrongAttempts === 0 ? '100%' : `${Math.max(60, Math.round(((lesson.exercises.length - wrongAttempts) / lesson.exercises.length) * 100))}%`}
+                {wrongAttempts === 0 ? '100%' : `${Math.max(60, Math.round(((exercises.length - wrongAttempts) / exercises.length) * 100))}%`}
               </span>
             </div>
           </div>
         </div>
 
-        <button
-          onClick={handleClose}
-          className="w-full max-w-sm mx-auto py-3.5 bg-duo-green hover:bg-duo-green-dark text-white font-black text-lg rounded-2xl shadow-[0_5px_0_0_#46a302] active:translate-y-1 active:shadow-none transition-all uppercase tracking-wider"
-        >
-          Continuar
-        </button>
+        <div className="w-full max-w-sm mx-auto flex flex-col gap-2.5">
+          {!isReviewingMistakes && mistakenIds.length > 0 && (
+            <button
+              onClick={() => {
+                sound.playTap();
+                const missed = lesson.exercises.filter(e => mistakenIds.includes(e.id));
+                if (missed.length > 0) {
+                  setActiveExercises(missed);
+                  setIsReviewingMistakes(true);
+                  setMistakenIds([]);
+                  setCurrentIndex(0);
+                  setWrongAttempts(0);
+                  setStatus('answering');
+                }
+              }}
+              className="w-full py-3 bg-amber-500 hover:bg-amber-600 text-white font-black text-sm rounded-2xl shadow-[0_4px_0_0_#b45309] active:translate-y-1 active:shadow-none transition-all uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <RotateCcw className="w-4 h-4" />
+              <span>Repasar mis {mistakenIds.length} error{mistakenIds.length > 1 ? 'es' : ''}</span>
+            </button>
+          )}
+          <button
+            onClick={handleClose}
+            className="w-full py-3.5 bg-duo-green hover:bg-duo-green-dark text-white font-black text-lg rounded-2xl shadow-[0_5px_0_0_#46a302] active:translate-y-1 active:shadow-none transition-all uppercase tracking-wider cursor-pointer"
+          >
+            Continuar
+          </button>
+        </div>
       </div>
     );
   }
@@ -1251,6 +1292,11 @@ export const QuizModal: React.FC<QuizModalProps> = ({
                 <CheckCircle2 className="w-8 h-8 text-duo-green flex-shrink-0" />
                 <div>
                   <h4 className="text-lg font-black text-duo-green-dark">¡Excelente!</h4>
+                  {currentExercise.type === 'listening' && currentExercise.japaneseVoiceText && (
+                    <p className="text-xs font-black text-emerald-800 dark:text-emerald-200 font-['Noto_Sans_JP'] mb-0.5">
+                      🔊 {currentExercise.japaneseVoiceText}
+                    </p>
+                  )}
                   <p className="text-xs font-bold text-duo-green-dark/80">{currentExercise.explanation}</p>
                 </div>
               </div>
@@ -1274,6 +1320,11 @@ export const QuizModal: React.FC<QuizModalProps> = ({
                     <p className="text-xs md:text-sm font-bold text-red-950 dark:text-red-200">
                       <span className="font-black text-duo-red-dark underline">Solución:</span>{' '}
                       <span className="font-['Noto_Sans_JP']">{getCorrectAnswerDisplay()}</span>
+                    </p>
+                  )}
+                  {currentExercise.type === 'listening' && currentExercise.japaneseVoiceText && (
+                    <p className="text-xs font-black text-red-900 dark:text-red-200 font-['Noto_Sans_JP']">
+                      🔊 Audio: {currentExercise.japaneseVoiceText}
                     </p>
                   )}
                   {currentExercise.explanation && (

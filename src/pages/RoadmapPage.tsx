@@ -238,6 +238,40 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
         </button>
       </div>
 
+      {/* Quick shortcut to perfect Bronze/Silver nodes to 3★ Gold */}
+      {(() => {
+        const isWb = roadmapMode === 'workbook';
+        const improvableNodes = units.flatMap(u =>
+          u.nodes
+            .filter(n => (isWb ? isWorkbookNode(n) : !isWorkbookNode(n)) && n.unlocked && n.stars > 0 && n.stars < 3)
+            .map(n => ({ unitId: u.id, unitTitle: u.title, node: n }))
+        );
+        if (improvableNodes.length === 0) return null;
+        const firstTarget = improvableNodes[0];
+        return (
+          <button
+            type="button"
+            onClick={() => {
+              sound.playTap();
+              const el = document.getElementById(`roadmap-node-${firstTarget.node.id}`);
+              if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+              setSelectedNodeForPopover(firstTarget);
+            }}
+            className="w-full max-w-sm mx-auto mb-5 py-2 px-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-700/60 text-amber-800 dark:text-amber-300 font-black text-xs flex items-center justify-between gap-2 shadow-2xs hover:brightness-95 transition-all cursor-pointer"
+          >
+            <span className="flex items-center gap-1.5">
+              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500 flex-shrink-0" />
+              <span>Subir a 3★ Oro ({improvableNodes.length} pendiente{improvableNodes.length > 1 ? 's' : ''})</span>
+            </span>
+            <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-lg bg-amber-400/20">
+              Ir →
+            </span>
+          </button>
+        );
+      })()}
+
       {/* Banner de Modo Cuaderno de Trabajo */}
       {roadmapMode === 'workbook' && (
         <div className="w-full mb-6 p-4 rounded-3xl bg-gradient-to-r from-indigo-600/90 via-purple-600/90 to-indigo-700/90 text-white shadow-md border border-indigo-400/30 flex items-center justify-between animate-fade-in">
