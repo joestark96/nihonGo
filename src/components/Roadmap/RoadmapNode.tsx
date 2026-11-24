@@ -74,10 +74,30 @@ export const RoadmapNode: React.FC<RoadmapNodeProps> = ({
       };
     }
     if (isCompleted) {
+      if (node.stars >= 3) {
+        // Oro (3 estrellas)
+        return {
+          bg: 'bg-duo-yellow',
+          border: 'border-duo-yellow-dark',
+          shadow: 'shadow-[0_6px_0_0_#e5b400]',
+          badgeBg: 'bg-duo-yellow-dark'
+        };
+      }
+      if (node.stars === 2) {
+        // Plata (2 estrellas)
+        return {
+          bg: 'bg-gradient-to-b from-slate-300 to-slate-500',
+          border: 'border-slate-600',
+          shadow: 'shadow-[0_6px_0_0_#475569]',
+          badgeBg: 'bg-slate-600'
+        };
+      }
+      // Bronce (1 estrella)
       return {
-        bg: 'bg-duo-yellow',
-        border: 'border-duo-yellow-dark',
-        shadow: 'shadow-[0_6px_0_0_#e5b400]'
+        bg: 'bg-gradient-to-b from-[#d97736] to-[#b45309]',
+        border: 'border-[#92400e]',
+        shadow: 'shadow-[0_6px_0_0_#78350f]',
+        badgeBg: 'bg-[#92400e]'
       };
     }
     if (isWorkbook) {
@@ -183,7 +203,7 @@ export const RoadmapNode: React.FC<RoadmapNodeProps> = ({
 
         {/* Crown / Stars badge at bottom-right */}
         {isCompleted && (
-          <div className="absolute -bottom-1 -right-1 bg-duo-yellow-dark text-white rounded-full p-1 border-2 border-white shadow-sm flex items-center justify-center">
+          <div className={`absolute -bottom-1 -right-1 ${colors.badgeBg || 'bg-duo-yellow-dark'} text-white rounded-full p-1 border-2 border-white shadow-sm flex items-center justify-center`}>
             <Star className="w-3.5 h-3.5 fill-white" />
           </div>
         )}

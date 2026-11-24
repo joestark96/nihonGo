@@ -853,6 +853,20 @@ class SoundService {
     playStep();
   }
 
+  private detectCharacterFromText(raw: string): string | undefined {
+    const t = (raw || '').toLowerCase();
+    if (!t) return undefined;
+    if (t.includes('メアリー') || t.includes('mary')) return 'mary';
+    if (t.includes('たけし') || t.includes('takeshi')) return 'takeshi';
+    if (t.includes('やました') || t.includes('山下') || t.includes('yamashita') || t.includes('先生')) return 'yamashita';
+    if (t.includes('みちこ') || t.includes('michiko')) return 'michiko';
+    if (t.includes('ロバート') || t.includes('robert')) return 'robert';
+    if (t.includes('けん') || t.includes('ken')) return 'ken';
+    if (t.includes('スー') || /\bsue\b/.test(t)) return 'sue';
+    if (t.includes('ソラ') || t.includes('sora')) return 'sora';
+    return undefined;
+  }
+
   /**
    * Reproduce audios de ejercicios (especialmente Workbook) asignando voces distintas
    * a cada interlocutor cuando hay diálogos (ej. "Pregunta。ー Respuesta。") y usando
@@ -881,16 +895,31 @@ class SoundService {
     }
 
     if (dialogueTurns.length > 1) {
-      // Diálogo multi-turno: alternar entre dos personajes contrastantes (hombre / mujer)
+      // Diálogo multi-turno: si se menciona a un personaje en la pregunta (ej. "メアリーさんはなんさいですか"),
+      // ese personaje responde en el segundo turno con su propia voz oficial.
       const maleVoices = ['takeshi', 'ken', 'yamashita', 'robert'];
       const femaleVoices = ['mary', 'michiko', 'sue', 'sora'];
-      const startMale = hash % 2 === 0;
-      const speakerA = startMale
-        ? maleVoices[hash % maleVoices.length]
-        : femaleVoices[hash % femaleVoices.length];
-      const speakerB = startMale
-        ? femaleVoices[(hash >> 2) % femaleVoices.length]
-        : maleVoices[(hash >> 2) % maleVoices.length];
+      const interviewee =
+        this.detectCharacterFromText(dialogueTurns[0]) ||
+        this.detectCharacterFromText(options?.prompt || '');
+
+      let speakerA: string;
+      let speakerB: string;
+      if (interviewee) {
+        speakerB = interviewee;
+        const intervieweeIsFemale = femaleVoices.includes(interviewee);
+        speakerA = intervieweeIsFemale
+          ? maleVoices[hash % maleVoices.length]
+          : femaleVoices[hash % femaleVoices.length];
+      } else {
+        const startMale = hash % 2 === 0;
+        speakerA = startMale
+          ? maleVoices[hash % maleVoices.length]
+          : femaleVoices[hash % femaleVoices.length];
+        speakerB = startMale
+          ? femaleVoices[(hash >> 2) % femaleVoices.length]
+          : maleVoices[(hash >> 2) % maleVoices.length];
+      }
 
       for (let i = 0; i < dialogueTurns.length; i++) {
         if (this.currentSequenceId !== seqId) return;
@@ -905,20 +934,11 @@ class SoundService {
     }
 
     if (isWorkbook) {
-      // En Workbook de un solo turno, elegir un personaje apropiado según el contexto o hash
-      const promptAndText = `${options?.prompt || ''} ${text}`.toLowerCase();
-      let workbookSpeaker: string | undefined;
-      if (promptAndText.includes('takeshi') || promptAndText.includes('たけし')) workbookSpeaker = 'takeshi';
-      else if (promptAndText.includes('mary') || promptAndText.includes('メアリー')) workbookSpeaker = 'mary';
-      else if (promptAndText.includes('yamashita') || promptAndText.includes('やました') || promptAndText.includes('先生')) workbookSpeaker = 'yamashita';
-      else if (promptAndText.includes('michiko') || promptAndText.includes('みちこ')) workbookSpeaker = 'michiko';
-      else if (promptAndText.includes('robert') || promptAndText.includes('ロバート')) workbookSpeaker = 'robert';
-      else if (promptAndText.includes('ken') || promptAndText.includes('けん')) workbookSpeaker = 'ken';
-      else if (promptAndText.includes('sue') || promptAndText.includes('スー')) workbookSpeaker = 'sue';
-      else if (promptAndText.includes('sora') || promptAndText.includes('ソラ')) workbookSpeaker = 'sora';
-      else {
-        workbookSpeaker = CHARACTER_VOICES[hash % CHARACTER_VOICES.length].id;
-      }
+      // En Workbook de un solo turno, elegir primero por el texto hablado y luego por el prompt o hash
+      const workbookSpeaker =
+        this.detectCharacterFromText(text) ||
+        this.detectCharacterFromText(options?.prompt || '') ||
+        CHARACTER_VOICES[hash % CHARACTER_VOICES.length].id;
 
       await this.speakJapanese(text, rate, workbookSpeaker, true);
       return;
