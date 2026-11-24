@@ -465,7 +465,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
                 <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Filtro en Flashcards y Gestos Atrás en Android</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
-                <li>• <strong>Filtro por progreso del Roadmap en Flashcards:</strong> Nuevo botón para repasar únicamente Kanjis, Vocabulario y Frases hasta la lección que llevas desbloqueada.</li>
+                <li>• <strong>Filtro por progreso y Modo Aleatorio en Flashcards:</strong> Nuevo filtro para repasar solo hasta la lección alcanzada en el Roadmap y botón «Aleatorio» para mezclar las tarjetas.</li>
                 <li>• <strong>Soporte nativo para gesto/botón Atrás en Android:</strong> Al deslizar hacia atrás o pulsar Atrás en el teléfono, cierra modales, pide confirmación al salir de una lección o vuelve a la pestaña anterior en lugar de cerrar la app.</li>
               </ul>
             </div>

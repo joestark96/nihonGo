@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Volume2, RotateCw, Check, Clock, Eye, Sparkles, Filter, Search, Award, BookOpen } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Volume2, RotateCw, Check, Clock, Eye, Sparkles, Filter, Search, Award, BookOpen, Shuffle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { Flashcard, FlashcardCategory, JLPTLevel } from '../../types';
 import { sound } from '../../services/sound';
@@ -26,6 +26,8 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
       return false;
     }
   });
+  const [isShuffleMode, setIsShuffleMode] = useState<boolean>(false);
+  const [shuffleSeed, setShuffleSeed] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -82,7 +84,17 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
     return matchesCategory && matchesJlpt && matchesSearch && matchesProgress;
   });
 
-  const currentCard: Flashcard | undefined = filteredCards[currentIndex];
+  const displayCards = useMemo(() => {
+    if (!isShuffleMode) return filteredCards;
+    const arr = [...filteredCards];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }, [filteredCards, isShuffleMode, shuffleSeed]);
+
+  const currentCard: Flashcard | undefined = displayCards[currentIndex];
 
   // Preload audio as soon as a card is displayed for instant 0ms playback
   useEffect(() => {
@@ -128,7 +140,7 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
       setIsFlipped(false);
       setSwipeDirection(null);
       setIsAnimating(false);
-      if (currentIndex < filteredCards.length - 1) {
+      if (currentIndex < displayCards.length - 1) {
         setCurrentIndex(prev => prev + 1);
       } else {
         setCurrentIndex(0);
@@ -137,17 +149,17 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
   };
 
   const handleNext = () => {
-    if (isAnimating) return;
+    if (isAnimating || displayCards.length === 0) return;
     sound.playTap();
     setIsFlipped(false);
-    setCurrentIndex((currentIndex + 1) % filteredCards.length);
+    setCurrentIndex((currentIndex + 1) % displayCards.length);
   };
 
   const handlePrev = () => {
-    if (isAnimating) return;
+    if (isAnimating || displayCards.length === 0) return;
     sound.playTap();
     setIsFlipped(false);
-    setCurrentIndex((currentIndex - 1 + filteredCards.length) % filteredCards.length);
+    setCurrentIndex((currentIndex - 1 + displayCards.length) % displayCards.length);
   };
 
   return (
@@ -180,8 +192,8 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
         ))}
       </div>
 
-      {/* Roadmap Progress Filter Toggle */}
-      <div className="w-full mt-2">
+      {/* Roadmap Progress Filter & Shuffle Mode Row */}
+      <div className="w-full mt-2 flex items-center gap-1.5">
         <button
           type="button"
           onClick={() => {
@@ -198,7 +210,7 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
             setCurrentIndex(0);
             setIsFlipped(false);
           }}
-          className={`w-full py-1.5 px-3 rounded-xl border-2 text-[11px] font-black flex items-center justify-between gap-2 transition-all cursor-pointer ${
+          className={`flex-1 min-w-0 py-1.5 px-2.5 rounded-xl border-2 text-[11px] font-black flex items-center justify-between gap-1.5 transition-all cursor-pointer ${
             onlyRoadmapProgress
               ? 'bg-emerald-50 dark:bg-duo-green/15 border-duo-green text-duo-green-dark dark:text-green-300'
               : 'bg-white dark:bg-[#18272e] border-duo-gray-200 dark:border-[#283842] text-gray-500 dark:text-gray-400 hover:border-duo-blue'
@@ -206,10 +218,10 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
         >
           <span className="flex items-center gap-1.5 truncate">
             <Filter className="w-3.5 h-3.5 flex-shrink-0" />
-            <span className="truncate">Solo hasta tu avance (Lección {maxUnlockedLesson})</span>
+            <span className="truncate">Hasta Lección {maxUnlockedLesson}</span>
           </span>
           <span
-            className={`px-2 py-0.5 rounded-md text-[10px] uppercase flex-shrink-0 ${
+            className={`px-1.5 py-0.5 rounded-md text-[9px] uppercase flex-shrink-0 ${
               onlyRoadmapProgress
                 ? 'bg-duo-green text-white'
                 : 'bg-gray-100 dark:bg-gray-800 text-gray-500'
@@ -217,6 +229,30 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
           >
             {onlyRoadmapProgress ? 'Activo' : 'Todo'}
           </span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            sound.playTap();
+            if (!isShuffleMode) {
+              setIsShuffleMode(true);
+              setShuffleSeed(s => s + 1);
+            } else {
+              setIsShuffleMode(false);
+            }
+            setCurrentIndex(0);
+            setIsFlipped(false);
+          }}
+          className={`py-1.5 px-2.5 rounded-xl border-2 text-[11px] font-black flex items-center gap-1.5 transition-all cursor-pointer flex-shrink-0 ${
+            isShuffleMode
+              ? 'bg-purple-50 dark:bg-purple-900/30 border-duo-purple text-duo-purple dark:text-purple-300'
+              : 'bg-white dark:bg-[#18272e] border-duo-gray-200 dark:border-[#283842] text-gray-500 dark:text-gray-400 hover:border-duo-purple'
+          }`}
+          title={isShuffleMode ? 'Desactivar modo aleatorio' : 'Mezclar tarjetas aleatoriamente'}
+        >
+          <Shuffle className="w-3.5 h-3.5" />
+          <span>Aleatorio</span>
         </button>
       </div>
 
@@ -275,7 +311,7 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
 
       {/* Progress Counter & Controls */}
       <div className="w-full flex justify-between items-center text-xs font-bold text-gray-400 px-1 my-1">
-        <span>Tarjeta {filteredCards.length > 0 ? currentIndex + 1 : 0} de {filteredCards.length}</span>
+        <span>Tarjeta {displayCards.length > 0 ? currentIndex + 1 : 0} de {displayCards.length}</span>
         <button
           onClick={() => setShowRomaji(!showRomaji)}
           className="flex items-center gap-1 text-duo-blue hover:underline"
@@ -562,7 +598,7 @@ export const FlashcardDeck: React.FC<FlashcardDeckProps> = ({
               ← Anterior
             </button>
             <span className="text-[11px] font-bold text-gray-400 dark:text-gray-500">
-              {filteredCards.length > 0 ? currentIndex + 1 : 0} de {filteredCards.length}
+              {displayCards.length > 0 ? currentIndex + 1 : 0} de {displayCards.length}
             </span>
             <button
               onClick={handleNext}
