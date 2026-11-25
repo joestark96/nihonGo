@@ -465,7 +465,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
                 <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Arquitectura Modular SOLID</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
-                <li>• <strong>Refactorización integral SOLID:</strong> Separación limpia de responsabilidades en QuizModal (componentes por tipo de ejercicio y formateadores), Chat con Sensei (constructor de pasos y burbujas), motor de audio (perfiles, fonética y efectos) y navegación Android.</li>
+                <li>• <strong>Fase 1 — Quiz y Ejercicios:</strong> Extracción de componentes por tipo de ejercicio (opción múltiple, ordenamiento, pares, habla y diálogo), pantallas de resultado y formateadores de opciones.</li>
+                <li>• <strong>Fase 2 — Chat con Sensei:</strong> Separación del generador de pasos/retos interactivos y del componente de burbuja de chat respecto al controlador principal.</li>
+                <li>• <strong>Fase 3 — Motor de Audio:</strong> División en módulos de perfiles de voz, normalización fonética japonesa y efectos Web Audio API manteniendo compatibilidad total.</li>
+                <li>• <strong>Fase 4 — Navegación y Roadmap:</strong> Extracción del hook de navegación/gesto Atrás en Android y del modal de detalle de lección.</li>
               </ul>
             </div>
 
