@@ -1038,8 +1038,11 @@ export const QuizModal: React.FC<QuizModalProps> = ({
             </div>
           )}
 
-          {/* Audio button for listening exercise (Duolingo Normal & Slow/Turtle speed) */}
-          {currentExercise.type === 'listening' && (
+          {/* Audio button for listening exercise OR audio-based word-order (e.g. Workbook "situación auditiva") */}
+          {(currentExercise.type === 'listening' ||
+            (currentExercise.type === 'word-order' &&
+              Boolean(currentExercise.japaneseVoiceText) &&
+              /auditiva|audio|escucha|escuchó|dictado/i.test(currentExercise.prompt))) && (
             <div className="flex items-center justify-center gap-4 my-6">
               <button
                 onClick={() => {

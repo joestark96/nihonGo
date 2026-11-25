@@ -455,16 +455,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           </div>
 
           <div className="space-y-4">
-            {/* v1.2.6 */}
+            {/* v1.2.7 */}
             <div className="p-5 sm:p-6 rounded-3xl bg-emerald-50/70 dark:bg-[#18272e] border-2 border-duo-green shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.2.6</span>
+                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.2.7</span>
                   <span className="text-xs font-black uppercase tracking-wider text-duo-green">Actual</span>
                 </div>
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Control de Vidas y Ejercicios de Habla en Lecciones</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Audio en Ordenamiento Auditivo del Workbook</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <li>• <strong>Reproductor de audio en ejercicios de ordenar frase auditiva:</strong> Los ejercicios del Workbook L3–L23 («Ordena la frase clave de la situación auditiva») ahora muestran los botones Escuchar y Lento para oír la frase antes de ordenarla.</li>
+              </ul>
+            </div>
+
+            {/* v1.2.6 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-duo-green/15 text-duo-green font-black text-xs">v1.2.6</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Control de Vidas y Ejercicios de Habla en Lecciones</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
                 <li>• <strong>Bloqueo real sin corazones:</strong> Al entrar a una lección con 0 vidas ya muestra correctamente la pantalla de «Sin vidas» en lugar de permitir jugar.</li>
                 <li>• <strong>Ejercicios de habla en lecciones:</strong> Ahora cada lección incluye práctica de pronunciación con micrófono para hablar en voz alta (con opción de continuar si no puedes hablar en ese momento).</li>
               </ul>
