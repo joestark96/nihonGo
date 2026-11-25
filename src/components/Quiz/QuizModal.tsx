@@ -254,6 +254,10 @@ export const QuizModal: React.FC<QuizModalProps> = ({
   // Reset exercise state when moving to next and stop previous speech
   useEffect(() => {
     sound.stopSpeech();
+    if (!isJumpAhead && !isPractice && heartsLeft <= 0) {
+      setStatus('game-over');
+      return;
+    }
     if (currentExercise) {
       setSelectedOptionId(null);
       setSelectedLeft(null);
@@ -1173,6 +1177,50 @@ export const QuizModal: React.FC<QuizModalProps> = ({
           </div>
         )}
 
+        {/* 1.5 Speaking Practice Exercise */}
+        {currentExercise.type === 'speaking' && currentExercise.japaneseVoiceText && (
+          <div className="flex flex-col items-center gap-4 my-2">
+            <div className="w-full p-5 rounded-3xl bg-gradient-to-br from-emerald-50 to-sky-50 dark:from-emerald-950/30 dark:to-sky-950/30 border-2 border-emerald-200 dark:border-emerald-800/60 flex flex-col items-center text-center gap-3">
+              <p className="text-2xl font-black text-gray-800 dark:text-gray-100 font-['Noto_Sans_JP']">
+                {currentExercise.promptSub || currentExercise.japaneseVoiceText}
+              </p>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    sound.playTap();
+                    playCurrentExerciseVoice(0.9);
+                  }}
+                  className="px-4 py-2 rounded-xl bg-duo-blue hover:bg-duo-blue-dark text-white font-black text-xs flex items-center gap-1.5 shadow-duo-btn-sm active:translate-y-0.5 transition-all cursor-pointer"
+                >
+                  <Volume2 className="w-4 h-4" />
+                  <span>Escuchar ejemplo</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    sound.playTap();
+                    playCurrentExerciseVoice(0.7);
+                  }}
+                  className="px-3 py-2 rounded-xl bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-200 font-black text-xs cursor-pointer"
+                  title="Escuchar lento"
+                >
+                  🐢
+                </button>
+              </div>
+            </div>
+
+            <div className="w-full">
+              <SpeechPracticeButton
+                targetJapanese={currentExercise.promptSub || currentExercise.japaneseVoiceText}
+                targetFurigana={currentExercise.japaneseVoiceText}
+                onSuccess={() => setStatus('correct')}
+              />
+            </div>
+          </div>
+        )}
+
         {/* 2. Word-order Exercise */}
         {currentExercise.type === 'word-order' && (
           <div className="flex flex-col gap-6">
@@ -1293,7 +1341,20 @@ export const QuizModal: React.FC<QuizModalProps> = ({
         }`}
       >
         <div className="max-w-lg mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          {status === 'answering' && (
+          {status === 'answering' && currentExercise.type === 'speaking' && (
+            <button
+              type="button"
+              onClick={() => {
+                sound.playTap();
+                handleContinue();
+              }}
+              className="w-full py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 font-black text-xs rounded-2xl transition-all uppercase tracking-wider cursor-pointer"
+            >
+              No puedo hablar ahora (Continuar)
+            </button>
+          )}
+
+          {status === 'answering' && currentExercise.type !== 'speaking' && (
             <button
               onClick={handleCheck}
               disabled={!canCheck()}

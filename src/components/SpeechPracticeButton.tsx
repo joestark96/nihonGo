@@ -8,6 +8,7 @@ interface SpeechPracticeButtonProps {
   targetJapanese: string;
   targetFurigana?: string;
   compact?: boolean;
+  onSuccess?: () => void;
 }
 
 function computeSimilarity(spoken: string, ...targets: (string | undefined)[]): number {
@@ -17,7 +18,8 @@ function computeSimilarity(spoken: string, ...targets: (string | undefined)[]): 
 export const SpeechPracticeButton: React.FC<SpeechPracticeButtonProps> = ({
   targetJapanese,
   targetFurigana,
-  compact = false
+  compact = false,
+  onSuccess
 }) => {
   const [listening, setListening] = useState(false);
   const [result, setResult] = useState<{ transcript: string; score: number; error?: string } | null>(null);
@@ -50,6 +52,7 @@ export const SpeechPracticeButton: React.FC<SpeechPracticeButtonProps> = ({
         setResult({ transcript: bestTranscript, score: bestScore });
         if (bestScore >= 60) {
           sound.playCorrect();
+          onSuccess?.();
         } else {
           sound.playTap();
         }

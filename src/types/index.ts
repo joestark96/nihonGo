@@ -1,4 +1,4 @@
-export type ExerciseType = 'multiple-choice' | 'word-order' | 'match-pairs' | 'listening' | 'dialogue-reading';
+export type ExerciseType = 'multiple-choice' | 'word-order' | 'match-pairs' | 'listening' | 'dialogue-reading' | 'speaking';
 
 export interface DialogueLine {
   speaker: string;

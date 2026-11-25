@@ -314,17 +314,38 @@ export function expandLessonExercises(node: LessonNode, unit?: Unit, targetCount
     }
   }
 
+  // 4.5 Inject 1 dedicated speaking practice exercise per non-pure-kana lesson
+  const speakingList: Exercise[] = [];
+  if (!isPureKanaNode && !baseExercises.some(e => e.type === 'speaking')) {
+    const speakCandidate = [...baseExercises, ...generatedExercises].find(
+      ex =>
+        ex.japaneseVoiceText &&
+        ex.japaneseVoiceText.trim().length >= 2 &&
+        !/[➔a-zA-Z]/.test(ex.japaneseVoiceText)
+    );
+    if (speakCandidate?.japaneseVoiceText) {
+      speakingList.push({
+        id: `gen-speak-${node.id}`,
+        type: 'speaking',
+        prompt: 'Pronuncia esta frase en japonés en voz alta:',
+        promptSub: speakCandidate.japaneseVoiceText,
+        japaneseVoiceText: speakCandidate.japaneseVoiceText,
+        explanation: speakCandidate.explanation || '¡Excelente pronunciación!'
+      });
+    }
+  }
+
   // 5. Combine and balance types
   // Interleave original base exercises with complementary generated ones
   const finalExercises: Exercise[] = [];
-  const neededFromGenerated = Math.max(0, targetCount - baseExercises.length);
+  const neededFromGenerated = Math.max(0, targetCount - baseExercises.length - speakingList.length);
   const selectedGenerated = shuffle(generatedExercises).slice(0, neededFromGenerated);
 
   // Combine
   const combined = [...baseExercises, ...selectedGenerated];
 
   // Interleave so exercise types alternate nicely
-  // Preferred type sequence: multiple-choice, match-pairs, listening, word-order, listening, multiple-choice...
+  // Preferred type sequence: multiple-choice, match-pairs, listening, word-order, dialogue, speaking...
   const mcList = combined.filter(e => e.type === 'multiple-choice');
   const matchPairsList = combined.filter(e => e.type === 'match-pairs');
   const listeningList = combined.filter(e => e.type === 'listening');
@@ -332,7 +353,7 @@ export function expandLessonExercises(node: LessonNode, unit?: Unit, targetCount
   const dialogueList = combined.filter(e => e.type === 'dialogue-reading');
 
   // Push in pleasant pedagogy rhythm
-  const queues = [mcList, matchPairsList, listeningList, wordOrderList, dialogueList];
+  const queues = [mcList, matchPairsList, listeningList, wordOrderList, dialogueList, speakingList];
   while (finalExercises.length < targetCount && queues.some(q => q.length > 0)) {
     for (const queue of queues) {
       if (queue.length > 0 && finalExercises.length < targetCount) {
