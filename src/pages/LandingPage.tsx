@@ -455,16 +455,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           </div>
 
           <div className="space-y-4">
-            {/* v1.2.7 */}
+            {/* v1.3.0 */}
             <div className="p-5 sm:p-6 rounded-3xl bg-emerald-50/70 dark:bg-[#18272e] border-2 border-duo-green shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.2.7</span>
+                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.3.0</span>
                   <span className="text-xs font-black uppercase tracking-wider text-duo-green">Actual</span>
                 </div>
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Audio en Ordenamiento Auditivo del Workbook</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Arquitectura Modular SOLID</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <li>• <strong>Refactorización integral SOLID:</strong> Separación limpia de responsabilidades en QuizModal (componentes por tipo de ejercicio y formateadores), Chat con Sensei (constructor de pasos y burbujas), motor de audio (perfiles, fonética y efectos) y navegación Android.</li>
+              </ul>
+            </div>
+
+            {/* v1.2.7 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-duo-green/15 text-duo-green font-black text-xs">v1.2.7</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Audio en Ordenamiento Auditivo del Workbook</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
                 <li>• <strong>Reproductor de audio en ejercicios de ordenar frase auditiva:</strong> Los ejercicios del Workbook L3–L23 («Ordena la frase clave de la situación auditiva») ahora muestran los botones Escuchar y Lento para oír la frase antes de ordenarla.</li>
               </ul>
             </div>

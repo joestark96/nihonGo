@@ -23,6 +23,7 @@ import { LandingPage } from './pages/LandingPage';
 import { Capacitor } from '@capacitor/core';
 import { getLocalDateKey, recordDailyLessonActivity, isStreakBroken } from './utils/dateUtils';
 import { notificationService } from './services/notificationService';
+import { useAndroidBackNavigation } from './hooks/useAndroidBackNavigation';
 
 // Ionic core CSS
 import '@ionic/react/css/core.css';
@@ -86,52 +87,8 @@ export const App: React.FC = () => {
   const [theoryUnitId, setTheoryUnitId] = useState<number>(0);
   const [nextHeartMinutes, setNextHeartMinutes] = useState<number | null>(null);
   const ionContentRef = useRef<HTMLIonContentElement>(null);
-  const tabHistoryRef = useRef<NavTab[]>(['roadmap']);
-  const isPoppingBackRef = useRef(false);
-  const activeTabRef = useRef<NavTab>('roadmap');
 
-  // Track tab navigation history & handle Android hardware/gesture back button
-  useEffect(() => {
-    activeTabRef.current = activeTab;
-    if (isPoppingBackRef.current) {
-      isPoppingBackRef.current = false;
-      return;
-    }
-    const hist = tabHistoryRef.current;
-    if (hist[hist.length - 1] !== activeTab) {
-      hist.push(activeTab);
-      if (hist.length > 20) hist.shift();
-    }
-  }, [activeTab]);
-
-  useEffect(() => {
-    (window as any).__handleNihongoBack = () => {
-      const ev = new CustomEvent('nihongo-back', { cancelable: true });
-      const notCancelled = window.dispatchEvent(ev);
-      if (!notCancelled) {
-        return true;
-      }
-      const hist = tabHistoryRef.current;
-      if (hist.length > 1) {
-        hist.pop();
-        const prevTab = hist[hist.length - 1] || 'roadmap';
-        isPoppingBackRef.current = true;
-        setActiveTab(prevTab);
-        return true;
-      }
-      if (activeTabRef.current !== 'roadmap') {
-        tabHistoryRef.current = ['roadmap'];
-        isPoppingBackRef.current = true;
-        setActiveTab('roadmap');
-        return true;
-      }
-      return false;
-    };
-
-    return () => {
-      delete (window as any).__handleNihongoBack;
-    };
-  }, []);
+  useAndroidBackNavigation(activeTab, setActiveTab);
 
   // Gestión de scroll: resetear al inicio si nos movemos a otra pestaña distinta del roadmap
   useEffect(() => {

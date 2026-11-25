@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Unit, LessonNode, UserProfile } from '../types';
 import { RoadmapNode } from '../components/Roadmap/RoadmapNode';
+import { NodeDetailModal } from '../components/Roadmap/NodeDetailModal';
 import { QuizModal } from '../components/Quiz/QuizModal';
 import { BookOpen, Sparkles, CheckCircle2, FastForward, ShieldAlert, Award, Dumbbell, Compass, X, Star, Play, RotateCcw, Lock, BookMarked, Volume2, Headphones } from 'lucide-react';
 import { sound } from '../services/sound';
@@ -556,253 +557,24 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
 
       {/* Popover de Lección al tocar un nodo del Roadmap */}
       {selectedNodeForPopover && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in"
-          onClick={() => setSelectedNodeForPopover(null)}
-        >
-          <div
-            className="bg-white dark:bg-[#18272e] border-2 border-duo-gray-200 dark:border-[#283842] rounded-3xl p-5 shadow-2xl max-w-sm w-full flex flex-col gap-4 animate-scale-up relative"
-            onClick={e => e.stopPropagation()}
-          >
-            {/* Botón cerrar */}
-            <button
-              onClick={() => {
-                sound.playTap();
-                setSelectedNodeForPopover(null);
-              }}
-              className="absolute top-4 right-4 p-1.5 rounded-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#20333d] transition-colors cursor-pointer"
-              aria-label="Cerrar ventana"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            {/* Si es ejercicio de Workbook, mostrar cintillo distintivo */}
-            {(selectedNodeForPopover.node.title.toLowerCase().includes('workbook') || selectedNodeForPopover.node.id.includes('wb')) && (
-              <div className="bg-gradient-to-r from-indigo-500 via-purple-600 to-indigo-600 text-white px-3 py-1.5 rounded-xl font-black text-xs uppercase tracking-wider flex items-center justify-between shadow-xs mt-1">
-                <span className="flex items-center gap-1.5">
-                  <BookMarked className="w-4 h-4 stroke-[2.5px]" />
-                  <span>Genki Workbook • Cuaderno Oficial</span>
-                </span>
-                <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded-md font-black">Práctica</span>
-              </div>
-            )}
-
-            {/* Cabecera de la Lección */}
-            <div className="flex items-center gap-3 pr-6">
-              <div
-                className={`w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-md flex-shrink-0 ${
-                  isWorkbookNode(selectedNodeForPopover.node)
-                    ? 'bg-gradient-to-tr from-indigo-600 to-purple-600 shadow-[0_4px_0_0_#4338ca]'
-                    : !selectedNodeForPopover.node.unlocked
-                    ? 'bg-amber-500 shadow-[0_4px_0_0_#d97706]'
-                    : selectedNodeForPopover.node.stars > 0
-                    ? 'bg-duo-yellow shadow-[0_4px_0_0_#e5b400]'
-                    : 'bg-duo-green shadow-[0_4px_0_0_#46a302]'
-                }`}
-              >
-                {isWorkbookNode(selectedNodeForPopover.node) ? (
-                  selectedNodeForPopover.node.icon === 'Headphones' ? (
-                    <Headphones className="w-7 h-7 stroke-[2.5px]" />
-                  ) : (
-                    <BookMarked className="w-7 h-7 stroke-[2.5px]" />
-                  )
-                ) : !selectedNodeForPopover.node.unlocked ? (
-                  <Lock className="w-7 h-7 stroke-[2.5px]" />
-                ) : selectedNodeForPopover.node.stars > 0 ? (
-                  <Star className="w-7 h-7 fill-white stroke-[2.5px]" />
-                ) : (
-                  <Sparkles className="w-7 h-7 stroke-[2.5px]" />
-                )}
-              </div>
-
-              <div className="min-w-0">
-                <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600 dark:text-indigo-400">
-                  {selectedNodeForPopover.unitTitle}
-                </span>
-                <h3 className="text-base font-black text-gray-800 dark:text-gray-100 leading-snug">
-                  {selectedNodeForPopover.node.title}
-                </h3>
-                <p className="text-xs font-bold text-gray-400 dark:text-gray-500">
-                  {selectedNodeForPopover.node.japaneseTitle}
-                </p>
-              </div>
-            </div>
-
-            {/* Indicador de Estado y Estrellas */}
-            <div className="flex items-center justify-between p-2.5 rounded-2xl bg-gray-50 dark:bg-[#131f24] border border-gray-200 dark:border-[#283842]">
-              <span className="text-xs font-black text-gray-600 dark:text-gray-300">
-                {!selectedNodeForPopover.node.unlocked
-                  ? '🔒 Estado: Bloqueada'
-                  : selectedNodeForPopover.node.stars > 0
-                  ? 'Estado: ¡Completada!'
-                  : 'Estado: Disponible'}
-              </span>
-              <div className="flex items-center gap-1">
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`w-4 h-4 ${
-                      selectedNodeForPopover.node.unlocked && i < selectedNodeForPopover.node.stars
-                        ? 'fill-amber-400 text-amber-500'
-                        : 'text-gray-300 dark:text-gray-600'
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Reproductor de Audio si el ejercicio de Workbook contiene pistas de voz */}
-            {isWorkbookNode(selectedNodeForPopover.node) &&
-              selectedNodeForPopover.node.exercises.some(e => Boolean(e.japaneseVoiceText)) && (
-                <div className="p-3 rounded-2xl bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-950/50 dark:to-purple-950/50 border border-indigo-200 dark:border-indigo-800/60 flex flex-col gap-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-black uppercase text-indigo-700 dark:text-indigo-300 flex items-center gap-1.5">
-                      <Headphones className="w-3.5 h-3.5" />
-                      Pista de Audio del Cuaderno
-                    </span>
-                    <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-indigo-200/60 dark:bg-indigo-900/60 text-indigo-800 dark:text-indigo-200">
-                      {selectedNodeForPopover.node.exercises.filter(e => Boolean(e.japaneseVoiceText)).length} pistas de voz
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => {
-                        sound.playTap();
-                        const firstAudio = selectedNodeForPopover.node.exercises.find(e => Boolean(e.japaneseVoiceText));
-                        if (firstAudio?.japaneseVoiceText) {
-                          sound.speakExerciseAudio(firstAudio.japaneseVoiceText, 0.9, {
-                            isWorkbook: true,
-                            exerciseId: firstAudio.id,
-                            prompt: firstAudio.prompt
-                          });
-                        }
-                      }}
-                      className="flex-1 py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all cursor-pointer"
-                    >
-                      <Volume2 className="w-4 h-4" />
-                      <span>Escuchar Diálogo</span>
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        sound.playTap();
-                        const firstAudio = selectedNodeForPopover.node.exercises.find(e => Boolean(e.japaneseVoiceText));
-                        if (firstAudio?.japaneseVoiceText) {
-                          sound.speakExerciseAudio(firstAudio.japaneseVoiceText, 0.70, {
-                            isWorkbook: true,
-                            exerciseId: firstAudio.id,
-                            prompt: firstAudio.prompt
-                          });
-                        }
-                      }}
-                      className="py-2 px-2.5 rounded-xl bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-200 font-black text-xs flex items-center justify-center gap-1 active:scale-95 transition-all cursor-pointer"
-                      title="Escuchar audio a velocidad lenta (0.7x)"
-                    >
-                      <span>🐢</span>
-                      <span className="text-[10px]">Lento</span>
-                    </button>
-                  </div>
-                </div>
-              )}
-
-            {/* Botones de Acción */}
-            {!selectedNodeForPopover.node.unlocked ? (
-              <div className="flex flex-col gap-2.5 mt-1">
-                <div className="p-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 rounded-2xl text-xs font-bold text-amber-800 dark:text-amber-300">
-                  ⚡ Esta lección está bloqueada. Puedes saltar directamente hasta aquí aprobando un examen especial con los temas pendientes. (Máx 3 errores).
-                </div>
-
-                <button
-                  onClick={() => {
-                    const uId = selectedNodeForPopover.unitId;
-                    const nId = selectedNodeForPopover.node.id;
-                    setSelectedNodeForPopover(null);
-                    handleStartMultiJump(uId, nId);
-                  }}
-                  className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-duo-orange hover:brightness-105 text-white font-black text-xs rounded-2xl shadow-[0_4px_0_0_#d97706] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
-                >
-                  <FastForward className="w-4 h-4 stroke-[2.5px]" />
-                  <span>Hacer Examen y Saltar hasta aquí</span>
-                </button>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    onClick={() => {
-                      sound.playTap();
-                      const targetUnitId = selectedNodeForPopover.unitId;
-                      setSelectedNodeForPopover(null);
-                      if (onOpenTheory) onOpenTheory(targetUnitId);
-                    }}
-                    className="py-2.5 px-3 bg-sky-500 hover:bg-sky-600 text-white font-black text-xs rounded-xl shadow-[0_3px_0_0_#0284c7] active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                  >
-                    <BookOpen className="w-3.5 h-3.5" />
-                    <span>Ver Teoría</span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      sound.playTap();
-                      setSelectedNodeForPopover(null);
-                      handleScrollToLatest();
-                    }}
-                    className="py-2.5 px-3 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-black text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                  >
-                    <Compass className="w-3.5 h-3.5" />
-                    <span>Lección actual</span>
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-2.5 mt-1">
-                {/* Botón 1: Iniciar Lección */}
-                <button
-                  onClick={() => {
-                    sound.playTap();
-                    const parentUnit = units.find(u => u.id === selectedNodeForPopover.unitId);
-                    const targetLesson = expandLessonExercises(selectedNodeForPopover.node, parentUnit);
-                    setSelectedNodeForPopover(null);
-                    setIsJumpAheadActive(false);
-                    setIsPracticeActive(false);
-                    setActiveQuizLesson(targetLesson);
-                  }}
-                  className={`w-full py-3.5 text-white font-black text-xs rounded-2xl active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider ${
-                    isWorkbookNode(selectedNodeForPopover.node)
-                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:brightness-105 shadow-[0_4px_0_0_#4338ca]'
-                      : 'bg-duo-green hover:bg-duo-green-dark shadow-[0_4px_0_0_#46a302]'
-                  }`}
-                >
-                  <Play className="w-4 h-4 fill-white stroke-[2px]" />
-                  <span>
-                    {isWorkbookNode(selectedNodeForPopover.node)
-                      ? selectedNodeForPopover.node.stars > 0
-                        ? 'Repasar Cuaderno (Workbook)'
-                        : '¡Hacer Ejercicios de Workbook!'
-                      : selectedNodeForPopover.node.stars > 0
-                      ? 'Repasar Lección'
-                      : 'Iniciar Lección'}
-                  </span>
-                </button>
-
-                {/* Botón 2: Ver Teoría de la Lección */}
-                <button
-                  onClick={() => {
-                    sound.playTap();
-                    const targetUnitId = selectedNodeForPopover.unitId;
-                    setSelectedNodeForPopover(null);
-                    if (onOpenTheory) {
-                      onOpenTheory(targetUnitId);
-                    }
-                  }}
-                  className="w-full py-3 bg-sky-500 hover:bg-sky-600 text-white font-black text-xs rounded-2xl shadow-[0_4px_0_0_#0284c7] active:translate-y-1 active:shadow-none transition-all flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
-                >
-                  <BookOpen className="w-4 h-4 stroke-[2.5px]" />
-                  <span>Ver Teoría y Gramática</span>
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
+        <NodeDetailModal
+          node={selectedNodeForPopover.node}
+          unitId={selectedNodeForPopover.unitId}
+          unitTitle={selectedNodeForPopover.unitTitle}
+          isWorkbook={isWorkbookNode(selectedNodeForPopover.node)}
+          onClose={() => setSelectedNodeForPopover(null)}
+          onStartLesson={() => {
+            const parentUnit = units.find(u => u.id === selectedNodeForPopover.unitId);
+            const targetLesson = expandLessonExercises(selectedNodeForPopover.node, parentUnit);
+            setSelectedNodeForPopover(null);
+            setIsJumpAheadActive(false);
+            setIsPracticeActive(false);
+            setActiveQuizLesson(targetLesson);
+          }}
+          onStartMultiJump={handleStartMultiJump}
+          onOpenTheory={onOpenTheory}
+          onScrollToLatest={handleScrollToLatest}
+        />
       )}
 
       {/* Quiz Modal (Supports standard lesson, Jump Ahead exam, and Practice mode) */}
