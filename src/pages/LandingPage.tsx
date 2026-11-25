@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Download,
   Play,
@@ -31,6 +31,7 @@ interface LandingPageProps {
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
   const [downloadStarted, setDownloadStarted] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const APK_DOWNLOAD_URL = `https://github.com/joestark96/nihonGo/raw/main/releases/nihongo-v${APP_VERSION}.apk`;
 
   const handleDownloadApk = () => {
@@ -53,12 +54,18 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-100 dark:from-[#0f171c] dark:via-[#131f24] dark:to-[#0b1114] text-gray-800 dark:text-gray-100 font-['Nunito',sans-serif] selection:bg-duo-green selection:text-white">
+    <div
+      ref={scrollContainerRef}
+      className="h-screen w-full overflow-y-auto scroll-smooth bg-gradient-to-b from-gray-50 via-white to-gray-100 dark:from-[#0f171c] dark:via-[#131f24] dark:to-[#0b1114] text-gray-800 dark:text-gray-100 font-['Nunito',sans-serif] selection:bg-duo-green selection:text-white"
+    >
       {/* Top Navbar */}
       <header className="sticky top-0 z-30 bg-white/80 dark:bg-[#131f24]/80 backdrop-blur-md border-b border-gray-200 dark:border-[#283842] transition-colors">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           {/* Brand */}
-          <div className="flex items-center gap-2.5 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <div
+            className="flex items-center gap-2.5 cursor-pointer"
+            onClick={() => scrollContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
             <div className="w-10 h-10 rounded-2xl bg-duo-green flex items-center justify-center text-white font-black text-xl shadow-[0_3px_0_0_#46a302]">
               日
             </div>
