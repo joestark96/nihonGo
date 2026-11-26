@@ -462,16 +462,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           </div>
 
           <div className="space-y-4">
-            {/* v1.3.0 */}
+            {/* v1.3.1 */}
             <div className="p-5 sm:p-6 rounded-3xl bg-emerald-50/70 dark:bg-[#18272e] border-2 border-duo-green shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.3.0</span>
+                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.3.1</span>
                   <span className="text-xs font-black uppercase tracking-wider text-duo-green">Actual</span>
                 </div>
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Arquitectura Modular SOLID</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Guía Visual y Audio en Ejercicios Escritos del Workbook</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <li>• <strong>Traducción y audio en «Ordena la oración del ejercicio escrito» (L3–L23):</strong> Ahora estos ejercicios del Workbook muestran automáticamente la frase en español y los botones Escuchar / Lento para poder resolverlos sin depender del libro físico.</li>
+              </ul>
+            </div>
+
+            {/* v1.3.0 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-duo-green/15 text-duo-green font-black text-xs">v1.3.0</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Arquitectura Modular SOLID</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
                 <li>• <strong>Fase 1 — Quiz y Ejercicios:</strong> Extracción de componentes por tipo de ejercicio (opción múltiple, ordenamiento, pares, habla y diálogo), pantallas de resultado y formateadores de opciones.</li>
                 <li>• <strong>Fase 2 — Chat con Sensei:</strong> Separación del generador de pasos/retos interactivos y del componente de burbuja de chat respecto al controlador principal.</li>
                 <li>• <strong>Fase 3 — Motor de Audio:</strong> División en módulos de perfiles de voz, normalización fonética japonesa y efectos Web Audio API manteniendo compatibilidad total.</li>

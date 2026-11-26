@@ -352,7 +352,16 @@ export const QuizModal: React.FC<QuizModalProps> = ({
     currentExercise.type === 'listening' ||
     (currentExercise.type === 'word-order' &&
       Boolean(currentExercise.japaneseVoiceText) &&
-      /auditiva|audio|escucha|escuchó|dictado/i.test(currentExercise.prompt));
+      /auditiva|audio|escucha|escuchó|dictado|ejercicio escrito|ordena la oración/i.test(currentExercise.prompt));
+
+  // For Workbook "ejercicio escrito" word-order prompts that lack a Spanish sentence in the prompt,
+  // extract the Spanish meaning from explanation's parenthetical (e.g. "(Practicar todos los días es importante)").
+  const wordOrderSpanishHint =
+    currentExercise.type === 'word-order' &&
+    /ejercicio escrito|ordena la oración/i.test(currentExercise.prompt) &&
+    currentExercise.explanation
+      ? currentExercise.explanation.match(/\(([^()]+)\)\.?$/)?.[1]?.trim() || null
+      : null;
 
   const correctAnswerDisplay = getCorrectAnswerDisplay(currentExercise, isIntroLesson);
 
@@ -444,6 +453,12 @@ export const QuizModal: React.FC<QuizModalProps> = ({
           <h2 className="text-lg md:text-2xl font-black text-gray-800 dark:text-gray-100 mb-2">
             {currentExercise.prompt}
           </h2>
+
+          {wordOrderSpanishHint && (
+            <div className="inline-flex items-center gap-1.5 mt-1 mb-2 px-3 py-1.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800/60 text-xs md:text-sm font-black text-indigo-800 dark:text-indigo-200">
+              <span>🇪🇸 «{wordOrderSpanishHint}»</span>
+            </div>
+          )}
 
           {currentExercise.promptSub && currentExercise.type !== 'word-order' && currentExercise.type !== 'listening' && currentExercise.type !== 'speaking' && (
             <div className="flex items-center gap-2 mt-2">
