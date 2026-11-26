@@ -1,4 +1,21 @@
 import { UnitTheory, TheoryExample, unitTheories } from '../../data/theoryData';
+import { genkiCurriculum } from '../../data/genkiCurriculum';
+import { genkiVocabulary } from '../../data/vocabularyData';
+
+export interface ChatVoiceNote {
+  speaker: string;
+  japanese: string;
+  romaji?: string;
+  spanish: string;
+  audioText: string;
+}
+
+export interface ChatVocabNote {
+  japanese: string;
+  furigana: string;
+  romaji: string;
+  spanish: string;
+}
 
 export interface ChatQuiz {
   prompt: string;
@@ -21,13 +38,16 @@ export interface ChatWordBuild {
 
 export interface ChatStep {
   id: string;
-  kind: 'greeting' | 'lesson-card' | 'quiz' | 'listen-pick' | 'word-build' | 'speak' | 'summary';
+  kind: 'greeting' | 'voice-intro' | 'vocab-intro' | 'lesson-card' | 'quiz' | 'listen-pick' | 'word-build' | 'speak' | 'summary';
   text: string;
   subText?: string;
   bullets?: string[];
   tip?: string;
   example?: TheoryExample;
   extraExamples?: TheoryExample[];
+  voiceTitle?: string;
+  voiceNotes?: ChatVoiceNote[];
+  vocabNotes?: ChatVocabNote[];
   quiz?: ChatQuiz;
   wordBuild?: ChatWordBuild;
   sectionIndex: number;
@@ -44,6 +64,9 @@ export interface ChatMessage {
   bullets?: string[];
   tip?: string;
   example?: TheoryExample;
+  voiceTitle?: string;
+  voiceNotes?: ChatVoiceNote[];
+  vocabNotes?: ChatVocabNote[];
   quiz?: ChatQuiz;
   wordBuild?: ChatWordBuild;
   isFeedbackSuccess?: boolean;
@@ -151,6 +174,63 @@ export function buildTheoryChatSteps(
     sectionTitle: 'Bienvenida',
     userAckText: '¡Sí, empecemos! 🚀'
   });
+
+  // Notas de voz estilo WhatsApp antes de comenzar el Tema 1
+  const curriculumUnit = genkiCurriculum.find(u => u.id === unitTheory.unitId);
+  const firstDialogueEx = curriculumUnit?.nodes
+    .flatMap(n => n.exercises)
+    .find(ex => ex.dialogueLines && ex.dialogueLines.length > 0);
+
+  const voiceNotes: ChatVoiceNote[] = firstDialogueEx?.dialogueLines
+    ? firstDialogueEx.dialogueLines.slice(0, 5).map(l => ({
+        speaker: l.speaker,
+        japanese: l.japanese,
+        romaji: l.romaji,
+        spanish: l.spanish,
+        audioText: l.audioText || l.japanese
+      }))
+    : unitExamples.slice(0, 3).map(ex => ({
+        speaker: senseiName,
+        japanese: ex.japanese,
+        romaji: ex.romaji,
+        spanish: ex.spanish,
+        audioText: ex.audioText || ex.japanese
+      }));
+
+  if (voiceNotes.length > 0) {
+    list.push({
+      id: `voice-intro-${unitTheory.unitId}`,
+      kind: 'voice-intro',
+      text: `Antes de ver la teoría, escucha estas notas de voz del diálogo de la unidad para ir afinando el oído:`,
+      voiceTitle: firstDialogueEx?.dialogueTitle || `Vista previa: ${unitTheory.title}`,
+      voiceNotes,
+      sectionIndex: 0,
+      sectionTitle: 'Audio Intro',
+      userAckText: '🎧 ¡Escuchado! Ver vocabulario'
+    });
+  }
+
+  const lessonVocab = genkiVocabulary
+    .filter(v => v.lesson === unitTheory.unitId)
+    .slice(0, 6)
+    .map(v => ({
+      japanese: v.japanese,
+      furigana: v.furigana,
+      romaji: v.romaji,
+      spanish: v.spanish
+    }));
+
+  if (lessonVocab.length > 0) {
+    list.push({
+      id: `vocab-intro-${unitTheory.unitId}`,
+      kind: 'vocab-intro',
+      text: `Aquí tienes el vocabulario clave que usarás en esta lección. Toca cada palabra para escucharla:`,
+      vocabNotes: lessonVocab,
+      sectionIndex: 0,
+      sectionTitle: 'Vocabulario Clave',
+      userAckText: '📚 ¡Listo! Vamos al Tema 1'
+    });
+  }
 
   unitTheory.sections.forEach((sec, sIdx) => {
     const bullets = sec.content.map(c => c.replace(/\*\*/g, '')).slice(0, 4);

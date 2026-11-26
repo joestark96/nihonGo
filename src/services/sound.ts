@@ -496,7 +496,7 @@ class SoundService {
     }
   }
 
-  public speakDialogueSequence(
+  public async speakDialogueSequence(
     lines: { speaker: string; audioText: string }[],
     rate: number = 0.9,
     onLineStart?: (idx: number) => void,
@@ -508,22 +508,22 @@ class SoundService {
     }
     if (!lines || lines.length === 0) return;
 
-    let currentIdx = 0;
-    const playStep = () => {
-      if (currentIdx >= lines.length) {
-        onComplete?.();
-        return;
+    const seqId = ++this.currentSequenceId;
+
+    for (let i = 0; i < lines.length; i++) {
+      if (this.currentSequenceId !== seqId) return;
+      const line = lines[i];
+      onLineStart?.(i);
+      await this.speakJapanese(line.audioText, rate, line.speaker, true);
+      if (this.currentSequenceId !== seqId) return;
+      if (i < lines.length - 1) {
+        await new Promise(r => window.setTimeout(r, 420));
       }
-      const line = lines[currentIdx];
-      onLineStart?.(currentIdx);
-      this.speakJapanese(line.audioText, rate, line.speaker);
+    }
 
-      const waitMs = Math.max(2800, line.audioText.length * (rate < 0.75 ? 310 : 210) + 900);
-      currentIdx++;
-      this.sequenceTimer = window.setTimeout(playStep, waitMs);
-    };
-
-    playStep();
+    if (this.currentSequenceId === seqId) {
+      onComplete?.();
+    }
   }
 
   public async speakExerciseAudio(

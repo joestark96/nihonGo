@@ -29,6 +29,7 @@ export const TheoryPage: React.FC<TheoryPageProps> = ({
   onDeductHeart
 }) => {
   const [selectedUnitId, setSelectedUnitId] = useState<number>(initialUnitId);
+  const [lockedUnitNotice, setLockedUnitNotice] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [studyMode, setStudyMode] = useState<'guide' | 'chat'>('guide');
@@ -36,6 +37,17 @@ export const TheoryPage: React.FC<TheoryPageProps> = ({
 
   // Curriculum source (from state or static master)
   const curriculumUnits = units && units.length > 0 ? units : genkiCurriculum;
+  const isUnitUnlocked = (uId: number): boolean => {
+    if (uId === 0) return true;
+    for (let i = 0; i < uId; i++) {
+      const prev = curriculumUnits.find(u => u.id === i);
+      const prevHasProgress = Boolean(
+        prev?.nodes.some(n => n.stars > 0 || n.completedSteps >= n.totalSteps)
+      );
+      if (!prevHasProgress) return false;
+    }
+    return true;
+  };
   const currentTheoryUnit = unitTheories.find(u => u.unitId === selectedUnitId) || unitTheories[0];
   const currentCurriculumUnit = curriculumUnits.find(u => u.id === selectedUnitId) || curriculumUnits[0];
 
@@ -135,19 +147,39 @@ export const TheoryPage: React.FC<TheoryPageProps> = ({
         <label className="block text-[11px] font-black uppercase text-gray-500 dark:text-gray-400 tracking-wider mb-1.5 ml-1 flex items-center justify-between">
           <span>Unidad / Lección de Genki:</span>
           <span className="text-duo-green dark:text-green-400 font-bold">
-            {unitTheories.length} unidades disponibles
+            {curriculumUnits.filter(u => isUnitUnlocked(u.id)).length} / {unitTheories.length} desbloqueadas
           </span>
         </label>
         <CustomSelect
           value={selectedUnitId}
-          onChange={(val) => setSelectedUnitId(Number(val))}
+          onChange={(val) => {
+            const nextId = Number(val);
+            if (!isUnitUnlocked(nextId)) {
+              sound.playIncorrect();
+              setLockedUnitNotice(`🔒 Completa primero las unidades anteriores en Aprender para desbloquear la Lección ${nextId}.`);
+              return;
+            }
+            setLockedUnitNotice(null);
+            setSelectedUnitId(nextId);
+          }}
           title="Unidad / Lección de Genki"
           buttonClassName="w-full flex items-center justify-between gap-2 bg-white dark:bg-[#18272e] border-2 border-duo-gray-300 dark:border-[#283842] hover:border-indigo-500 focus:border-indigo-500 rounded-2xl py-3 px-4 text-xs md:text-sm font-black text-gray-800 dark:text-gray-100 shadow-[0_4px_0_0_#e5e5e5] dark:shadow-none focus:outline-none transition-all cursor-pointer text-left"
-          options={curriculumUnits.map((unit) => ({
-            value: unit.id,
-            label: unit.id === 0 ? 'Unidad 0: Alfabetos Kana' : `Lección ${unit.id}: ${unit.title}`,
-          }))}
+          options={curriculumUnits.map((unit) => {
+            const unlocked = isUnitUnlocked(unit.id);
+            const baseLabel = unit.id === 0 ? 'Unidad 0: Alfabetos Kana' : `Lección ${unit.id}: ${unit.title}`;
+            return {
+              value: unit.id,
+              label: unlocked ? baseLabel : `🔒 ${baseLabel}`,
+              description: unlocked ? undefined : 'Completa las lecciones anteriores para desbloquear',
+              disabled: !unlocked,
+            };
+          })}
         />
+        {lockedUnitNotice && (
+          <p className="mt-2 px-3 py-2 rounded-xl bg-amber-500/15 border border-amber-400/40 text-xs font-bold text-amber-700 dark:text-amber-300">
+            {lockedUnitNotice}
+          </p>
+        )}
       </div>
 
       {/* Study Mode Switcher: Guía vs Chat con Sensei */}

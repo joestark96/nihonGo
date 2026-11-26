@@ -7,6 +7,7 @@ export interface SelectOption<T extends string | number = string | number> {
   value: T;
   label: string;
   description?: string;
+  disabled?: boolean;
 }
 
 interface CustomSelectProps<T extends string | number = string | number> {
@@ -160,15 +161,21 @@ export function CustomSelect<T extends string | number>({
               ) : (
                 filteredOptions.map((opt) => {
                   const isSelected = opt.value === value;
+                  const isOptDisabled = Boolean(opt.disabled);
                   return (
                     <button
                       key={String(opt.value)}
                       type="button"
-                      onClick={() => handleSelect(opt.value)}
-                      className={`w-full flex items-center justify-between gap-3 px-3.5 py-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
-                        isSelected
-                          ? 'bg-duo-blue/10 dark:bg-duo-blue/20 border-duo-blue text-duo-blue-dark dark:text-blue-300'
-                          : 'bg-gray-50/70 dark:bg-[#131f24] border-transparent hover:border-duo-gray-300 dark:hover:border-[#283842] text-gray-800 dark:text-gray-100'
+                      disabled={isOptDisabled}
+                      onClick={() => {
+                        if (!isOptDisabled) handleSelect(opt.value);
+                      }}
+                      className={`w-full flex items-center justify-between gap-3 px-3.5 py-3 rounded-2xl border-2 text-left transition-all ${
+                        isOptDisabled
+                          ? 'bg-gray-100/70 dark:bg-[#111b20] border-transparent text-gray-400 dark:text-gray-500 opacity-60 cursor-not-allowed'
+                          : isSelected
+                            ? 'bg-duo-blue/10 dark:bg-duo-blue/20 border-duo-blue text-duo-blue-dark dark:text-blue-300 cursor-pointer'
+                            : 'bg-gray-50/70 dark:bg-[#131f24] border-transparent hover:border-duo-gray-300 dark:hover:border-[#283842] text-gray-800 dark:text-gray-100 cursor-pointer'
                       }`}
                     >
                       <div className="flex flex-col min-w-0 flex-1">

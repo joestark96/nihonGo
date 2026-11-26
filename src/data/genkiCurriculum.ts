@@ -6517,25 +6517,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb3-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L3: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L3: Transforma a negativo formal el verbo 「のみます」(beber):",
+            "japaneseVoiceText": "のみません",
             "options": [
               {
                 "id": "opt-wb3-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "のみません",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb3-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "のみませんでした"
               },
               {
                 "id": "opt-wb3-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "のみますか"
+              },
+              {
+                "id": "opt-wb3-g2-1d",
+                "text": "のみました"
               }
             ],
             "correctAnswerId": "opt-wb3-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "En presente/futuro, la forma negativa formal de 〜ます es 〜ません: のみます → のみません."
           },
           {
             "id": "ex-wb3-g2-2",
@@ -7790,25 +7794,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb4-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L4: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L4: Transforma a pasado negativo el verbo 「いきます」(ir):",
+            "japaneseVoiceText": "いきませんでした",
             "options": [
               {
                 "id": "opt-wb4-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "いきませんでした",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb4-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "いきません"
               },
               {
                 "id": "opt-wb4-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "いきました"
+              },
+              {
+                "id": "opt-wb4-g2-1d",
+                "text": "いきます"
               }
             ],
             "correctAnswerId": "opt-wb4-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "El pasado negativo formal se forma cambiando 〜ます por 〜ませんでした."
           },
           {
             "id": "ex-wb4-g2-2",
@@ -9049,25 +9057,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb5-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L5: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L5: Transforma a pasado afirmativo el い-adjetivo 「たのしい」(divertido):",
+            "japaneseVoiceText": "たのしかったです",
             "options": [
               {
                 "id": "opt-wb5-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "たのしかったです",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb5-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "たのしいでした"
               },
               {
                 "id": "opt-wb5-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "たのしくなかったです"
+              },
+              {
+                "id": "opt-wb5-g2-1d",
+                "text": "たのしいかったです"
               }
             ],
             "correctAnswerId": "opt-wb5-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "Los い-adjetivos cambian la い final por かったです en pasado: たのしい → たのしかったです."
           },
           {
             "id": "ex-wb5-g2-2",
@@ -10226,12 +10238,12 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb6-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L6: Selecciona la transformación correcta para la oración:",
+            "prompt": "Del Workbook L6: Transforma 「かきます」(escribir) a petición cortés (\"Escríbalo en japonés, por favor\"):",
             "japaneseVoiceText": "にほんごでかいてください。",
             "options": [
               {
                 "id": "opt-wb6-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "日本語で書いてください。",
                 "isCorrect": true
               },
               {
@@ -10241,10 +10253,14 @@ export const genkiCurriculum: Unit[] = [
               {
                 "id": "opt-wb6-g2-1c",
                 "text": "日本語で書くそうです。"
+              },
+              {
+                "id": "opt-wb6-g2-1d",
+                "text": "日本語で書きましょう。"
               }
             ],
             "correctAnswerId": "opt-wb6-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "La forma て + ください expresa una petición cortés: 書きます → 書いてください."
           },
           {
             "id": "ex-wb6-g2-2",
@@ -11346,25 +11362,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb7-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L7: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L7: Expresa \"Estoy viviendo en Tokio\" usando 「すむ」(vivir):",
+            "japaneseVoiceText": "とうきょうにすんでいます。",
             "options": [
               {
                 "id": "opt-wb7-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "とうきょうに すんでいます。",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb7-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "とうきょうに すみます。"
               },
               {
                 "id": "opt-wb7-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "とうきょうを すんでいます。"
+              },
+              {
+                "id": "opt-wb7-g2-1d",
+                "text": "とうきょうで すみました。"
               }
             ],
             "correctAnswerId": "opt-wb7-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "Con 住む (vivir) se usa la forma 〜ています y la partícula に para el lugar de residencia."
           },
           {
             "id": "ex-wb7-g2-2",
@@ -12537,25 +12557,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb8-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L8: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L8: Transforma a forma corta (diccionario) el verbo 「たべます」(comer):",
+            "japaneseVoiceText": "たべる",
             "options": [
               {
                 "id": "opt-wb8-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "たべる",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb8-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "たべた"
               },
               {
                 "id": "opt-wb8-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "たべない"
+              },
+              {
+                "id": "opt-wb8-g2-1d",
+                "text": "たべて"
               }
             ],
             "correctAnswerId": "opt-wb8-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "たべます es un verbo-ru: se quita ます y se añade る → たべる."
           },
           {
             "id": "ex-wb8-g2-2",
@@ -13552,25 +13576,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb9-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L9: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L9: Transforma a forma corta pasada el verbo 「いきます」(ir):",
+            "japaneseVoiceText": "いった",
             "options": [
               {
                 "id": "opt-wb9-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "いった",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb9-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "いく"
               },
               {
                 "id": "opt-wb9-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "いかない"
+              },
+              {
+                "id": "opt-wb9-g2-1d",
+                "text": "いって"
               }
             ],
             "correctAnswerId": "opt-wb9-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "行く (いく) es irregular en forma た/て: いく → いった."
           },
           {
             "id": "ex-wb9-g2-2",
@@ -14812,25 +14840,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb10-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L10: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L10: Elige la forma correcta para \"El tren es más rápido que el autobús\":",
+            "japaneseVoiceText": "でんしゃのほうがバスよりはやいです。",
             "options": [
               {
                 "id": "opt-wb10-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "でんしゃのほうが バスより はやいです。",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb10-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "でんしゃより バスのほうが はやいです。"
               },
               {
                 "id": "opt-wb10-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "でんしゃは バスが いちばん はやいです。"
+              },
+              {
+                "id": "opt-wb10-g2-1d",
+                "text": "でんしゃと バスが はやいです。"
               }
             ],
             "correctAnswerId": "opt-wb10-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "Estructura de comparación: [A]のほうが [B]より [Adjetivo] です."
           },
           {
             "id": "ex-wb10-g2-2",
@@ -15824,25 +15856,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb11-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L11: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L11: Expresa \"Quiero ir a Japón\" transformando 「いきます」:",
+            "japaneseVoiceText": "にほんにいきたいです。",
             "options": [
               {
                 "id": "opt-wb11-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "にほんに いきたいです。",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb11-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "にほんに いったことがあります。"
               },
               {
                 "id": "opt-wb11-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "にほんに いくはずです。"
+              },
+              {
+                "id": "opt-wb11-g2-1d",
+                "text": "にほんに いきました。"
               }
             ],
             "correctAnswerId": "opt-wb11-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "Raíz Masu + たいです expresa deseo: いきます → いきたいです."
           },
           {
             "id": "ex-wb11-g2-2",
@@ -16843,25 +16879,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb12-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L12: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L12: Da el consejo \"Es mejor tomar medicina\" usando 「のむ」:",
+            "japaneseVoiceText": "くすりをのんだほうがいいです。",
             "options": [
               {
                 "id": "opt-wb12-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "くすりを のんだほうが いいです。",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb12-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "くすりを のむほうが いいです。"
               },
               {
                 "id": "opt-wb12-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "くすりを のんで いいです。"
+              },
+              {
+                "id": "opt-wb12-g2-1d",
+                "text": "くすりを のみたいほうが いいです。"
               }
             ],
             "correctAnswerId": "opt-wb12-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "Para dar consejos afirmativos se usa Forma Pasada (た) + ほうがいいです."
           },
           {
             "id": "ex-wb12-g2-2",
@@ -17939,25 +17979,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb13-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L13: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L13: Transforma 「はなします」(hablar) a forma potencial (\"Puedo hablar japonés\"):",
+            "japaneseVoiceText": "にほんごがはなせます。",
             "options": [
               {
                 "id": "opt-wb13-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "にほんごが はなせます。",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb13-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "にほんごを はなします。"
               },
               {
                 "id": "opt-wb13-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "にほんごが はなさせます。"
+              },
+              {
+                "id": "opt-wb13-g2-1d",
+                "text": "にほんごを はなされます。"
               }
             ],
             "correctAnswerId": "opt-wb13-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "Verbos-u cambian la vocal -u por -e + ます: はなす → はなせます (con partícula が)."
           },
           {
             "id": "ex-wb13-g2-2",
@@ -19026,25 +19070,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb14-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L14: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L14: Expresa \"Mi amigo me ayudó (hizo el favor)\" usando 「てつだう」:",
+            "japaneseVoiceText": "ともだちがてつだってくれました。",
             "options": [
               {
                 "id": "opt-wb14-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "ともだちが てつだって くれました。",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb14-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "ともだちが てつだって あげました。"
               },
               {
                 "id": "opt-wb14-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "ともだちを てつだって もらいました。"
+              },
+              {
+                "id": "opt-wb14-g2-1d",
+                "text": "ともだちが てつだいました。"
               }
             ],
             "correctAnswerId": "opt-wb14-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "Cuando alguien hace algo por ti, se usa 〜てくれました."
           },
           {
             "id": "ex-wb14-g2-2",
@@ -20115,25 +20163,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb15-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L15: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L15: Transforma 「やすみます」(descansar) a forma volitiva casual (\"¡Descansemos!\"):",
+            "japaneseVoiceText": "やすもう！",
             "options": [
               {
                 "id": "opt-wb15-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "やすもう！",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb15-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "やすみましょう！"
               },
               {
                 "id": "opt-wb15-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "やすんでおこう！"
+              },
+              {
+                "id": "opt-wb15-g2-1d",
+                "text": "やすめる！"
               }
             ],
             "correctAnswerId": "opt-wb15-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "Verbos-u en volitivo casual cambian -u por -ou: やすむ → やすもう."
           },
           {
             "id": "ex-wb15-g2-2",
@@ -21205,25 +21257,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb16-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L16: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L16: Expresa \"Perdón por llegar tarde\" usando 「おくれる」:",
+            "japaneseVoiceText": "おくれてすみませんでした。",
             "options": [
               {
                 "id": "opt-wb16-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "おくれて すみませんでした。",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb16-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "おくれる すみませんでした。"
               },
               {
                 "id": "opt-wb16-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "おくれた すみませんでした。"
+              },
+              {
+                "id": "opt-wb16-g2-1d",
+                "text": "おくれて ください。"
               }
             ],
             "correctAnswerId": "opt-wb16-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "La causa de disculpa va en forma て + すみませんでした."
           },
           {
             "id": "ex-wb16-g2-2",
@@ -22288,25 +22344,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb17-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L17: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L17: Expresa \"Dicen que mañana lloverá\" (rumor) usando 「あめが ふる」:",
+            "japaneseVoiceText": "あしたあめがふるそうです。",
             "options": [
               {
                 "id": "opt-wb17-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "あした あめが ふるそうです。",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb17-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "あした あめが ふりそうです。"
               },
               {
                 "id": "opt-wb17-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "あした あめが ふったはずです。"
+              },
+              {
+                "id": "opt-wb17-g2-1d",
+                "text": "あした あめが ふらなければなりません。"
               }
             ],
             "correctAnswerId": "opt-wb17-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "Forma corta + そうです transmite algo que escuchaste (\"dicen que...\")."
           },
           {
             "id": "ex-wb17-g2-2",
@@ -23369,25 +23429,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb18-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L18: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L18: Expresa \"Olvidé mi paraguas (con pesar)\" usando 「わすれる」:",
+            "japaneseVoiceText": "かさをわすれてしまいました。",
             "options": [
               {
                 "id": "opt-wb18-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "かさを わすれてしまいました。",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb18-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "かさを わすれておきました。"
               },
               {
                 "id": "opt-wb18-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "かさを わすれてみました。"
+              },
+              {
+                "id": "opt-wb18-g2-1d",
+                "text": "かさを わすれてあります。"
               }
             ],
             "correctAnswerId": "opt-wb18-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "〜てしまいました expresa una acción terminada o hecha por accidente/pesar."
           },
           {
             "id": "ex-wb18-g2-2",
@@ -24461,25 +24525,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb19-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L19: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L19: Transforma 「よみます」(leer) a honorífico (Sonkeigo) para un profesor:",
+            "japaneseVoiceText": "およみになります",
             "options": [
               {
                 "id": "opt-wb19-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "お読みになります",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb19-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "お読みします"
               },
               {
                 "id": "opt-wb19-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "読まれますか"
+              },
+              {
+                "id": "opt-wb19-g2-1d",
+                "text": "読んであげます"
               }
             ],
             "correctAnswerId": "opt-wb19-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "La fórmula honorífica estándar (Sonkeigo) es お + raíz Masu + になります."
           },
           {
             "id": "ex-wb19-g2-2",
@@ -25535,25 +25603,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb20-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L20: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L20: Transforma 「もちます」(cargar/llevar) a forma humilde (Kenjougo):",
+            "japaneseVoiceText": "おもちします",
             "options": [
               {
                 "id": "opt-wb20-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "お持ちします",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb20-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "お持ちになります"
               },
               {
                 "id": "opt-wb20-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "持たれます"
+              },
+              {
+                "id": "opt-wb20-g2-1d",
+                "text": "持ってくださいます"
               }
             ],
             "correctAnswerId": "opt-wb20-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "La fórmula humilde estándar (Kenjougo) es お + raíz Masu + します."
           },
           {
             "id": "ex-wb20-g2-2",
@@ -26627,25 +26699,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb21-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L21: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L21: Transforma 「ほめます」(elogiar) a voz pasiva (\"Fui elogiado por el profesor\"):",
+            "japaneseVoiceText": "せんせいにほめられました。",
             "options": [
               {
                 "id": "opt-wb21-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "先生に ほめられました。",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb21-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "先生に ほめさせました。"
               },
               {
                 "id": "opt-wb21-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "先生が ほめました。"
+              },
+              {
+                "id": "opt-wb21-g2-1d",
+                "text": "先生を ほめられました。"
               }
             ],
             "correctAnswerId": "opt-wb21-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "Verbos-ru en pasiva cambian る por られる: ほめる → ほめられました."
           },
           {
             "id": "ex-wb21-g2-2",
@@ -27712,25 +27788,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb22-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L22: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L22: Transforma 「まちます」(esperar) a forma causativa (\"Hizo esperar\"):",
+            "japaneseVoiceText": "またせました",
             "options": [
               {
                 "id": "opt-wb22-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "待たせました",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb22-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "待たれました"
               },
               {
                 "id": "opt-wb22-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "待たせられました"
+              },
+              {
+                "id": "opt-wb22-g2-1d",
+                "text": "待ってしまいました"
               }
             ],
             "correctAnswerId": "opt-wb22-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "Verbos-u en causativa cambian -u por -a + せる: まつ → 待たせました."
           },
           {
             "id": "ex-wb22-g2-2",
@@ -28800,25 +28880,29 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb23-g2-1",
             "type": "multiple-choice",
-            "prompt": "Del Workbook L23: Selecciona la transformación correcta para la oración:",
-            "japaneseVoiceText": "にほんごでかいてください。",
+            "prompt": "Del Workbook L23: Transforma 「うたいます」(cantar) a forma causativo-pasiva (\"Fui obligado a cantar\"):",
+            "japaneseVoiceText": "うたわせられました",
             "options": [
               {
                 "id": "opt-wb23-g2-1a",
-                "text": "日本語で書いてください (Escríbalo en japonés, por favor).",
+                "text": "歌わせられました",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb23-g2-1b",
-                "text": "日本語を書いてあります。"
+                "text": "歌われました"
               },
               {
                 "id": "opt-wb23-g2-1c",
-                "text": "日本語で書くそうです。"
+                "text": "歌わせました"
+              },
+              {
+                "id": "opt-wb23-g2-1d",
+                "text": "歌ってしまいました"
               }
             ],
             "correctAnswerId": "opt-wb23-g2-1a",
-            "explanation": "Nihongo de kaite kudasai."
+            "explanation": "Causativo-pasiva: 待たせられる / 歌わせられました (\"ser obligado a...\")."
           },
           {
             "id": "ex-wb23-g2-2",

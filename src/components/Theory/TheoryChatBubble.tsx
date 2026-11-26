@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Volume2,
   RotateCcw,
@@ -8,7 +8,10 @@ import {
   HelpCircle,
   Puzzle,
   Headphones,
-  Mic
+  Mic,
+  Play,
+  Square,
+  Languages
 } from 'lucide-react';
 import { sound } from '../../services/sound';
 import { SpeechPracticeButton } from '../SpeechPracticeButton';
@@ -45,6 +48,66 @@ export const TheoryChatBubble: React.FC<TheoryChatBubbleProps> = ({
   onCheckWordBuild,
   onRetryWordBuild
 }) => {
+  const [showVoiceText, setShowVoiceText] = useState(false);
+  const [activeVoiceIdx, setActiveVoiceIdx] = useState<number | null>(null);
+  const [voiceProgress, setVoiceProgress] = useState(0);
+  const progressTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (progressTimerRef.current) window.clearInterval(progressTimerRef.current);
+    };
+  }, []);
+
+  const startProgressAnimation = (estMs: number) => {
+    if (progressTimerRef.current) window.clearInterval(progressTimerRef.current);
+    setVoiceProgress(5);
+    const start = Date.now();
+    progressTimerRef.current = window.setInterval(() => {
+      const pct = Math.min(100, Math.round(((Date.now() - start) / estMs) * 100));
+      setVoiceProgress(pct);
+      if (pct >= 100 && progressTimerRef.current) {
+        window.clearInterval(progressTimerRef.current);
+      }
+    }, 80);
+  };
+
+  const stopVoicePlayback = () => {
+    sound.stopSpeech();
+    if (progressTimerRef.current) window.clearInterval(progressTimerRef.current);
+    setActiveVoiceIdx(null);
+    setVoiceProgress(0);
+  };
+
+  const playSingleVoiceNote = async (idx: number, audioText: string, speaker: string) => {
+    const estMs = Math.max(1500, audioText.length * 190);
+    setActiveVoiceIdx(idx);
+    startProgressAnimation(estMs);
+    await sound.speakJapanese(audioText, 0.9, speaker);
+    if (progressTimerRef.current) window.clearInterval(progressTimerRef.current);
+    setActiveVoiceIdx(null);
+    setVoiceProgress(0);
+  };
+
+  const playAllVoiceNotes = async () => {
+    if (!msg.voiceNotes?.length) return;
+    await sound.speakDialogueSequence(
+      msg.voiceNotes.map(v => ({ speaker: v.speaker, audioText: v.audioText })),
+      0.9,
+      idx => {
+        const note = msg.voiceNotes?.[idx];
+        const estMs = Math.max(1800, (note?.audioText.length || 8) * 190);
+        setActiveVoiceIdx(idx);
+        startProgressAnimation(estMs);
+      },
+      () => {
+        if (progressTimerRef.current) window.clearInterval(progressTimerRef.current);
+        setActiveVoiceIdx(null);
+        setVoiceProgress(0);
+      }
+    );
+  };
+
   if (msg.sender === 'user') {
     return (
       <div className="flex justify-end animate-fade-in">
@@ -74,9 +137,25 @@ export const TheoryChatBubble: React.FC<TheoryChatBubbleProps> = ({
               ? 'bg-purple-50/90 dark:bg-purple-950/30 border-purple-300 dark:border-purple-700 text-gray-800 dark:text-gray-100 font-bold'
               : msg.kind === 'speak'
               ? 'bg-pink-50/80 dark:bg-pink-950/30 border-pink-300 dark:border-pink-700 text-gray-800 dark:text-gray-100 font-bold'
+              : msg.kind === 'voice-intro'
+              ? 'bg-emerald-50/90 dark:bg-[#112a24] border-emerald-300 dark:border-emerald-700 text-gray-800 dark:text-gray-100 font-semibold'
+              : msg.kind === 'vocab-intro'
+              ? 'bg-amber-50/90 dark:bg-[#232015] border-amber-300 dark:border-amber-700 text-gray-800 dark:text-gray-100 font-semibold'
               : 'bg-white dark:bg-[#18272e] border-gray-200 dark:border-[#283842] text-gray-800 dark:text-gray-100 font-semibold'
           }`}
         >
+          {msg.kind === 'voice-intro' && (
+            <div className="flex items-center gap-1 text-[10px] font-black uppercase text-emerald-600 dark:text-emerald-400 mb-1">
+              <Headphones className="w-3.5 h-3.5" />
+              <span>Notas de Voz · {msg.voiceTitle || 'Diálogo'}</span>
+            </div>
+          )}
+          {msg.kind === 'vocab-intro' && (
+            <div className="flex items-center gap-1 text-[10px] font-black uppercase text-amber-600 dark:text-amber-400 mb-1">
+              <Languages className="w-3.5 h-3.5" />
+              <span>Vocabulario Clave de la Lección</span>
+            </div>
+          )}
           {msg.kind === 'quiz' && (
             <div className="flex items-center gap-1 text-[10px] font-black uppercase text-purple-600 dark:text-purple-400 mb-1">
               <HelpCircle className="w-3.5 h-3.5" />
@@ -110,6 +189,140 @@ export const TheoryChatBubble: React.FC<TheoryChatBubbleProps> = ({
             <p className="mt-1 text-[11px] font-medium text-gray-600 dark:text-gray-300">
               {msg.subText}
             </p>
+          )}
+
+          {msg.voiceNotes && msg.voiceNotes.length > 0 && (
+            <div className="mt-2.5 space-y-2">
+              <button
+                onClick={() => (activeVoiceIdx !== null ? stopVoicePlayback() : playAllVoiceNotes())}
+                className={`w-full py-2 px-3 rounded-xl text-white font-black text-[11px] flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer ${
+                  activeVoiceIdx !== null ? 'bg-rose-500 hover:bg-rose-600' : 'bg-emerald-500 hover:bg-emerald-600'
+                }`}
+              >
+                {activeVoiceIdx !== null ? (
+                  <>
+                    <Square className="w-3.5 h-3.5 fill-current" /> Detener ({activeVoiceIdx + 1}/{msg.voiceNotes.length})
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-3.5 h-3.5 fill-current" /> Reproducir diálogo completo
+                  </>
+                )}
+              </button>
+
+              {msg.voiceNotes.map((note, vIdx) => {
+                const estSec = Math.max(2, Math.round(note.audioText.length / 4));
+                const isPlayingThis = activeVoiceIdx === vIdx;
+                const bars = [5, 11, 8, 14, 10, 6, 13, 9, 12, 7, 14, 10, 6, 11, 8, 5, 10, 13, 7, 9];
+                return (
+                  <div
+                    key={`${msg.id}-vn-${vIdx}`}
+                    className={`p-2.5 rounded-xl border transition-all space-y-1.5 ${
+                      isPlayingThis
+                        ? 'bg-emerald-100/90 dark:bg-emerald-900/40 border-emerald-500 ring-2 ring-emerald-400/40'
+                        : 'bg-white/90 dark:bg-[#182f2a] border-emerald-200 dark:border-emerald-800/70'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <button
+                        onClick={() =>
+                          isPlayingThis
+                            ? stopVoicePlayback()
+                            : playSingleVoiceNote(vIdx, note.audioText, note.speaker)
+                        }
+                        className={`w-8 h-8 rounded-full text-white flex items-center justify-center shrink-0 shadow-2xs active:scale-95 cursor-pointer ${
+                          isPlayingThis ? 'bg-rose-500' : 'bg-emerald-500'
+                        }`}
+                        title={isPlayingThis ? 'Detener' : `Escuchar nota de ${note.speaker}`}
+                      >
+                        {isPlayingThis ? (
+                          <Square className="w-3 h-3 fill-current" />
+                        ) : (
+                          <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
+                        )}
+                      </button>
+
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between text-[10px] font-black text-emerald-700 dark:text-emerald-300 mb-1">
+                          <span>{note.speaker}{isPlayingThis ? ' · Reproduciendo...' : ''}</span>
+                          <span>0:{String(estSec).padStart(2, '0')}</span>
+                        </div>
+                        {/* Ondas de audio con progreso visual */}
+                        <div className="flex items-center gap-[2px] h-4">
+                          {bars.map((h, bIdx) => {
+                            const barPct = ((bIdx + 1) / bars.length) * 100;
+                            const filled = isPlayingThis && voiceProgress >= barPct;
+                            return (
+                              <span
+                                key={bIdx}
+                                className={`flex-1 rounded-full transition-colors ${
+                                  filled
+                                    ? 'bg-emerald-600 dark:bg-emerald-300'
+                                    : 'bg-emerald-500/30 dark:bg-emerald-400/30'
+                                }`}
+                                style={{ height: `${h}px` }}
+                              />
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+
+                    {showVoiceText && (
+                      <div className="pt-1.5 border-t border-emerald-100 dark:border-emerald-800/50 space-y-0.5">
+                        <p className="text-xs font-black font-['Noto_Sans_JP'] text-gray-900 dark:text-white">
+                          {note.japanese}
+                        </p>
+                        {showRomaji && note.romaji && (
+                          <p className="text-[10px] font-bold text-duo-blue">{note.romaji}</p>
+                        )}
+                        <p className="text-[11px] font-semibold text-gray-600 dark:text-gray-300">
+                          🇪🇸 {note.spanish}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              <button
+                onClick={() => {
+                  sound.playTap();
+                  setShowVoiceText(v => !v);
+                }}
+                className="text-[11px] font-black text-emerald-700 dark:text-emerald-300 hover:underline cursor-pointer"
+              >
+                {showVoiceText ? '🙈 Ocultar transcripción' : '👀 Ver transcripción y traducción'}
+              </button>
+            </div>
+          )}
+
+          {msg.vocabNotes && msg.vocabNotes.length > 0 && (
+            <div className="mt-2.5 space-y-1.5">
+              {msg.vocabNotes.map((w, wIdx) => (
+                <button
+                  key={`${msg.id}-voc-${wIdx}`}
+                  onClick={() => sound.speakJapanese(w.furigana || w.japanese, 0.9, senseiVoiceId)}
+                  className="w-full p-2.5 rounded-xl bg-white/90 dark:bg-[#18272e] border border-amber-200 dark:border-amber-800/60 hover:border-amber-500 flex items-center justify-between gap-2 text-left cursor-pointer"
+                >
+                  <div className="min-w-0">
+                    <span className="text-xs font-black font-['Noto_Sans_JP'] text-gray-900 dark:text-white mr-1.5">
+                      {w.japanese}
+                    </span>
+                    {w.furigana && w.furigana !== w.japanese && (
+                      <span className="text-[10px] font-bold text-gray-400">({w.furigana})</span>
+                    )}
+                    {showRomaji && (
+                      <div className="text-[10px] font-bold text-duo-blue">{w.romaji}</div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <span className="text-[11px] font-bold text-gray-700 dark:text-gray-200">{w.spanish}</span>
+                    <Volume2 className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                  </div>
+                </button>
+              ))}
+            </div>
           )}
 
           {msg.bullets && msg.bullets.length > 0 && (

@@ -166,13 +166,18 @@ export const TheoryChatMode: React.FC<TheoryChatModeProps> = ({
           bullets: nextStep.bullets,
           tip: nextStep.tip,
           example: nextStep.example,
+          voiceTitle: nextStep.voiceTitle,
+          voiceNotes: nextStep.voiceNotes,
+          vocabNotes: nextStep.vocabNotes,
           quiz: nextStep.quiz,
           wordBuild: nextStep.wordBuild
         }
       ]);
 
       if (autoAudio) {
-        if (nextStep.quiz?.audioText) {
+        if (nextStep.kind === 'voice-intro' && nextStep.voiceNotes?.length) {
+          // El usuario puede reproducirlas con barra de progreso en la burbuja
+        } else if (nextStep.quiz?.audioText) {
           sound.speakJapanese(nextStep.quiz.audioText, 0.9, charProfile.id);
         } else if (nextStep.example && nextStep.kind === 'speak') {
           sound.speakJapanese(nextStep.example.audioText || nextStep.example.japanese, 0.9, charProfile.id);
