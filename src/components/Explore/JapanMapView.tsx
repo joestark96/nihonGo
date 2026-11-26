@@ -268,7 +268,7 @@ export const JapanMapView: React.FC<JapanMapViewProps> = ({ onAwardReward }) => 
           <div>
             <div className="flex items-center gap-2">
               <span className="text-xs font-black px-2 py-0.5 rounded-lg bg-duo-blue/15 text-duo-blue">
-                Región {selectedRegion.order} · {selectedRegion.city}
+                Región {selectedRegion.order}
               </span>
               {isSelectedStamped && (
                 <span className="inline-flex items-center gap-1 text-xs font-black px-2 py-0.5 rounded-lg bg-duo-green/15 text-duo-green">
@@ -309,14 +309,31 @@ export const JapanMapView: React.FC<JapanMapViewProps> = ({ onAwardReward }) => 
               {selectedRegion.summary}
             </p>
 
-            <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-400/30 text-xs font-bold text-amber-800 dark:text-amber-200">
-              💡 <span className="font-black">Dato cultural:</span> {selectedRegion.culturalFact}
+            <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-400/30 space-y-2.5 text-xs font-bold text-amber-800 dark:text-amber-200">
+              <div>
+                💡 <span className="font-black">Dato cultural:</span> {selectedRegion.culturalFact}
+              </div>
+              <div>
+                <div className="text-[11px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 mb-1.5">
+                  🏙️ Ciudades principales de {selectedRegion.name}
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {selectedRegion.cities.map(cityName => (
+                    <span
+                      key={cityName}
+                      className="px-2 py-0.5 rounded-lg bg-white/70 dark:bg-[#1a2930]/80 border border-amber-400/30 text-[11px] font-extrabold text-amber-900 dark:text-amber-100"
+                    >
+                      {cityName}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
 
             {/* Vocabulario útil de la región */}
             <div className="space-y-2">
               <div className="text-xs font-black uppercase tracking-wider text-duo-gray-400">
-                Palabras clave de {selectedRegion.city}
+                Palabras clave de {selectedRegion.name}
               </div>
               <div className="grid grid-cols-1 gap-2">
                 {selectedRegion.usefulVocab.map(word => (
