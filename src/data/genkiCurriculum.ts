@@ -5999,7 +5999,7 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "no-ni-rel",
-                "text": "きょう (hoy) y まいにち (todos los días)",
+                "text": "きょう (hoy)",
                 "isCorrect": true
               },
               {
@@ -6009,6 +6009,10 @@ export const genkiCurriculum: Unit[] = [
               {
                 "id": "ni-day",
                 "text": "にちようび (el domingo)"
+              },
+              {
+                "id": "ni-half",
+                "text": "9時半 (a las 9:30)"
               }
             ],
             "correctAnswerId": "no-ni-rel",

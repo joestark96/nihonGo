@@ -272,9 +272,13 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
         try {
           const payload = await backupService.exportBackupData();
           const fileName = `nihongo-respaldo-${getLocalDateKey()}.json`;
-          backupService.downloadBackupFile(JSON.stringify(payload, null, 2), fileName);
+          const dl = await backupService.downloadBackupFile(JSON.stringify(payload, null, 2), fileName);
           setLastBackupAt(backupService.getLastBackupDate());
-          setBackupStatusMessage(`📥 Respaldo descargado (${fileName}). Puedes subirlo a tu Google Drive.`);
+          setBackupStatusMessage(
+            dl.savedPath
+              ? `📥 Respaldo guardado en ${dl.savedPath}.`
+              : `📥 Respaldo descargado (${fileName}). Puedes subirlo a tu Google Drive.`
+          );
         } catch {
           setBackupErrorMessage('No se pudo generar la copia de seguridad.');
         }
@@ -291,9 +295,13 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
     try {
       const payload = await backupService.exportBackupData();
       const fileName = `nihongo-respaldo-${getLocalDateKey()}.json`;
-      backupService.downloadBackupFile(JSON.stringify(payload, null, 2), fileName);
+      const dl = await backupService.downloadBackupFile(JSON.stringify(payload, null, 2), fileName);
       setLastBackupAt(backupService.getLastBackupDate());
-      setBackupStatusMessage(`📥 Archivo "${fileName}" guardado correctamente.`);
+      setBackupStatusMessage(
+        dl.savedPath
+          ? `📥 Archivo guardado en ${dl.savedPath}.`
+          : `📥 Archivo "${fileName}" guardado correctamente.`
+      );
     } catch {
       setBackupErrorMessage('Error al descargar el archivo de respaldo.');
     }

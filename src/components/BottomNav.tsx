@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Map, BookOpen, Layers, BookA, MessageSquare, Languages, PenTool, Mic, User, ChevronUp, Library, Check, Target, Trophy } from 'lucide-react';
+import { Map, BookOpen, Layers, BookA, MessageSquare, Languages, PenTool, Mic, User, ChevronUp, Library, Check, Target, Trophy, Compass } from 'lucide-react';
 import { sound } from '../services/sound';
 
-export type NavTab = 'roadmap' | 'theory' | 'flashcards' | 'kanas' | 'readings' | 'vocabulary' | 'writing' | 'speaking' | 'profile' | 'mastery' | 'jlpt';
+export type NavTab = 'roadmap' | 'theory' | 'flashcards' | 'kanas' | 'readings' | 'vocabulary' | 'writing' | 'speaking' | 'profile' | 'mastery' | 'jlpt' | 'explore';
 
 interface BottomNavProps {
   activeTab: NavTab;
@@ -253,7 +253,36 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onTabChange }) 
           </button>
         </div>
 
-        {/* 3. Perfil (Profile) */}
+        {/* 3. Explorar (Minijuegos + Mapa de Japón) */}
+        <button
+          onClick={() => {
+            sound.playTap();
+            setMenuOpen(false);
+            if (activeTab === 'explore') {
+              window.dispatchEvent(new CustomEvent('scroll-to-top'));
+            } else {
+              onTabChange('explore');
+            }
+          }}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-2xl transition-all duration-150 cursor-pointer ${
+            activeTab === 'explore'
+              ? 'text-duo-green font-black scale-105'
+              : 'text-gray-400 dark:text-gray-400 font-bold hover:text-gray-600 dark:hover:text-gray-200'
+          }`}
+        >
+          <div
+            className={`p-1.5 rounded-xl transition-all ${
+              activeTab === 'explore'
+                ? 'bg-duo-green-light/40 dark:bg-duo-green/20 border-2 border-duo-green'
+                : 'border-2 border-transparent'
+            }`}
+          >
+            <Compass className={`w-5 h-5 ${activeTab === 'explore' ? 'stroke-[2.5px]' : 'stroke-2'}`} />
+          </div>
+          <span className="text-[11px] mt-0.5 tracking-tight">Explorar</span>
+        </button>
+
+        {/* 4. Perfil (Profile) */}
         <button
           onClick={() => {
             sound.playTap();

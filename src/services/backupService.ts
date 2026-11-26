@@ -1,3 +1,6 @@
+import { Capacitor } from '@capacitor/core';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
 import { dbService } from './db';
 import { UserProfile } from '../types';
 import pkg from '../../package.json';
@@ -74,7 +77,35 @@ export const backupService = {
     };
   },
 
-  downloadBackupFile(jsonString: string, fileName: string): void {
+  async downloadBackupFile(jsonString: string, fileName: string): Promise<{ savedPath?: string }> {
+    if (Capacitor.isNativePlatform()) {
+      try {
+        await Filesystem.writeFile({
+          path: fileName,
+          data: jsonString,
+          directory: Directory.Documents,
+          encoding: Encoding.UTF8,
+          recursive: true,
+        });
+        return { savedPath: `Documentos/${fileName}` };
+      } catch {
+        // Fallback: escribir en caché y abrir selector nativo para guardar en Archivos/Drive
+        const cached = await Filesystem.writeFile({
+          path: fileName,
+          data: jsonString,
+          directory: Directory.Cache,
+          encoding: Encoding.UTF8,
+        });
+        await Share.share({
+          title: `Respaldo NihonGo! (${fileName})`,
+          text: 'Guarda este archivo JSON en tu dispositivo o Google Drive.',
+          files: [cached.uri],
+          dialogTitle: 'Guardar archivo de respaldo',
+        });
+        return { savedPath: fileName };
+      }
+    }
+
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
@@ -84,9 +115,10 @@ export const backupService = {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+    return {};
   },
 
-  async exportToDriveOrShare(): Promise<{ shared: boolean; fileName: string }> {
+  async exportToDriveOrShare(): Promise<{ shared: boolean; fileName: string; savedPath?: string }> {
     const payload = await this.exportBackupData();
     const now = new Date();
     const yyyy = now.getFullYear();
@@ -95,6 +127,23 @@ export const backupService = {
     const datePart = `${yyyy}-${mm}-${dd}`;
     const fileName = `nihongo-respaldo-${datePart}.json`;
     const jsonString = JSON.stringify(payload, null, 2);
+
+    if (Capacitor.isNativePlatform()) {
+      const writeRes = await Filesystem.writeFile({
+        path: fileName,
+        data: jsonString,
+        directory: Directory.Cache,
+        encoding: Encoding.UTF8,
+      });
+      await Share.share({
+        title: `Respaldo NihonGo! (${datePart})`,
+        text: 'Guarda este archivo en tu Google Drive o Archivos para respaldar tu progreso de NihonGo!.',
+        files: [writeRes.uri],
+        dialogTitle: 'Guardar respaldo en Drive / Compartir',
+      });
+      return { shared: true, fileName };
+    }
+
     const file = new File([jsonString], fileName, { type: 'application/json' });
 
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -105,8 +154,8 @@ export const backupService = {
       });
       return { shared: true, fileName };
     } else {
-      this.downloadBackupFile(jsonString, fileName);
-      return { shared: false, fileName };
+      const dl = await this.downloadBackupFile(jsonString, fileName);
+      return { shared: false, fileName, savedPath: dl.savedPath };
     }
   },
 

@@ -89,6 +89,46 @@ export function tokenizeJapaneseForBuilder(sentence: string): string[] {
   return merged.length >= 2 ? merged : [clean];
 }
 
+function isQuestionExample(ex: TheoryExample): boolean {
+  return /[？?]/.test(ex.japanese) || /[¿?]/.test(ex.spanish);
+}
+
+function isShortWordExample(ex: TheoryExample): boolean {
+  const clean = ex.japanese.replace(/\[.*?\]|\(.*?\)|（.*?）|[。．！!？?\s]/g, '');
+  return clean.length <= 6 && !/[。．]/.test(ex.japanese);
+}
+
+function pickChatDistractors(
+  target: TheoryExample,
+  unitPool: TheoryExample[],
+  globalPool: TheoryExample[],
+  field: 'spanish' | 'japanese',
+  seed: number,
+  count = 3
+): string[] {
+  const targetVal = target[field];
+  const targetIsQ = isQuestionExample(target);
+  const targetIsShort = isShortWordExample(target);
+
+  const collectUnique = (items: TheoryExample[]) =>
+    Array.from(new Set(items.map(e => e[field]).filter(v => v && v !== targetVal)));
+
+  const sameUnitSameShape = collectUnique(
+    unitPool.filter(e => isQuestionExample(e) === targetIsQ && isShortWordExample(e) === targetIsShort)
+  );
+  const globalSameShape = collectUnique(
+    globalPool.filter(e => isQuestionExample(e) === targetIsQ && isShortWordExample(e) === targetIsShort)
+  );
+  const sameUnitAny = collectUnique(unitPool);
+  const globalAny = collectUnique(globalPool);
+
+  const ordered = Array.from(
+    new Set([...sameUnitSameShape, ...globalSameShape, ...sameUnitAny, ...globalAny])
+  ).slice(0, 12);
+
+  return deterministicShuffle(ordered, seed).slice(0, count);
+}
+
 export function buildTheoryChatSteps(
   unitTheory: UnitTheory,
   senseiName: string,
@@ -114,8 +154,19 @@ export function buildTheoryChatSteps(
 
   unitTheory.sections.forEach((sec, sIdx) => {
     const bullets = sec.content.map(c => c.replace(/\*\*/g, '')).slice(0, 4);
-    const firstEx = sec.examples?.[0];
-    const extraExamples = sec.examples?.slice(1) || [];
+    const examples = sec.examples || [];
+    const firstEx = examples[0];
+    // Reservamos el último ejemplo para el reto y evitamos mostrarlo como "otro ejemplo"
+    // antes de preguntar (para no regalar la respuesta en el chat).
+    let challengeEx = examples.length >= 2 ? examples[examples.length - 1] : firstEx;
+    const extraExamples = examples.length >= 3 ? examples.slice(1, -1) : [];
+
+    if (examples.length === 1) {
+      const altUnitExamples = unitExamples.filter(e => e.japanese !== firstEx.japanese);
+      if (altUnitExamples.length > 0) {
+        challengeEx = altUnitExamples[sIdx % altUnitExamples.length];
+      }
+    }
 
     list.push({
       id: `card-${sec.id}`,
@@ -128,11 +179,10 @@ export function buildTheoryChatSteps(
       tip: sec.tip,
       sectionIndex: sIdx,
       sectionTitle: sec.title,
-      userAckText: sec.examples?.length ? '¡Entendido! Ponme a prueba 💪' : 'Siguiente tema 👉'
+      userAckText: examples.length ? '¡Entendido! Ponme a prueba 💪' : 'Siguiente tema 👉'
     });
 
-    if (sec.examples && sec.examples.length > 0) {
-      const challengeEx = sec.examples[sec.examples.length > 1 ? 1 : 0];
+    if (examples.length > 0 && challengeEx) {
       const tokens = tokenizeJapaneseForBuilder(challengeEx.japanese);
       const pattern = sIdx % 3;
 
@@ -162,10 +212,14 @@ export function buildTheoryChatSteps(
           userAckText: '¡Siguiente reto!'
         });
       } else if (pattern === 1) {
-        const otherSpanish = Array.from(
-          new Set(globalExamples.map(e => e.spanish).filter(sp => sp && sp !== challengeEx.spanish))
-        ).slice(0, 8);
-        const distractors = deterministicShuffle(otherSpanish, sIdx * 17 + unitTheory.unitId).slice(0, 2);
+        const distractors = pickChatDistractors(
+          challengeEx,
+          unitExamples,
+          globalExamples,
+          'spanish',
+          sIdx * 17 + unitTheory.unitId,
+          3
+        );
         const rawOpts = deterministicShuffle(
           [
             { text: challengeEx.spanish, isCorrect: true },
@@ -194,10 +248,14 @@ export function buildTheoryChatSteps(
           });
         }
       } else {
-        const otherJapanese = Array.from(
-          new Set(globalExamples.map(e => e.japanese).filter(jp => jp && jp !== challengeEx.japanese))
-        ).slice(0, 8);
-        const distractors = deterministicShuffle(otherJapanese, sIdx * 23 + unitTheory.unitId).slice(0, 2);
+        const distractors = pickChatDistractors(
+          challengeEx,
+          unitExamples,
+          globalExamples,
+          'japanese',
+          sIdx * 23 + unitTheory.unitId,
+          3
+        );
         const rawOpts = deterministicShuffle(
           [
             { text: challengeEx.japanese, isCorrect: true },

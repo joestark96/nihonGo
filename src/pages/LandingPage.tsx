@@ -462,16 +462,30 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           </div>
 
           <div className="space-y-4">
-            {/* v1.3.2 */}
+            {/* v1.3.3 */}
             <div className="p-5 sm:p-6 rounded-3xl bg-emerald-50/70 dark:bg-[#18272e] border-2 border-duo-green shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.3.2</span>
+                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.3.3</span>
                   <span className="text-xs font-black uppercase tracking-wider text-duo-green">Actual</span>
                 </div>
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Distractores Coherentes en Frases y Verbos</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Pestaña Explorar: Minijuegos, Mapa de Japón y Respaldo Android</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <li>• <strong>Nueva pestaña Explorar con 3 minijuegos:</strong> Kana Blitz (contrarreloj 45s), Parejas Rápidas (vocabulario Genki con audio) y Constructor Express (armar oraciones y partículas), con recompensas de XP y gemas.</li>
+                <li>• <strong>Mapa Interactivo de Japón (8 regiones):</strong> Contornos reales de las 47 prefecturas, pronunciación, datos culturales, vocabulario local y sistema de sellos (駅スタンプ) para desbloquear cada región.</li>
+                <li>• <strong>Respaldo nativo en Android:</strong> Descarga directa del JSON en Documentos y menú nativo para guardar o compartir en Google Drive mediante Capacitor Filesystem y Share.</li>
+                <li>• <strong>Mejoras de calidad y audio:</strong> Corrección de preguntas obvias en Chat con Mary y tiempo con に, y habilitación de voz neural/diccionario para palabras de 2 sílabas como あさ (asa).</li>
+              </ul>
+            </div>
+
+            {/* v1.3.2 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-duo-green/15 text-duo-green font-black text-xs">v1.3.2</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Distractores Coherentes en Frases y Verbos</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
                 <li>• <strong>Opciones más equilibradas sin respuestas obvias:</strong> Las frases completas en forma ます/です (como にほんにいきます) ya no se mezclan con verbos sueltos en diccionario con kanji (como 飲む o 起きる), y los distractores respetan si la respuesta está en hiragana o kanji.</li>
               </ul>
             </div>

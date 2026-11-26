@@ -164,7 +164,7 @@ class SoundService {
     speechId?: number
   ): Promise<boolean> {
     if (!profile.neuralVoiceId || text.length > 120) return false;
-    if (/^[\u3040-\u30ff]{1,2}$/.test(text.trim())) return false;
+    if (/^[\u3040-\u30ff]{1}$/.test(text.trim())) return false;
     if (speechId !== undefined && this.currentSpeechId !== speechId) return false;
 
     const ctx = this.getAudioContext();
@@ -272,7 +272,7 @@ class SoundService {
 
         this.stopActivePlayback();
 
-        const isIsolatedKana = /^[\u3040-\u30ff]{1,2}$/.test(clean);
+        const isIsolatedKana = /^[\u3040-\u30ff]{1}$/.test(clean);
         const isShortWord = !isIsolatedKana && clean.length <= 10 && !/[\s、。！？]/.test(clean);
         const primaryUrl = isShortWord
           ? `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(clean)}&le=jap`
