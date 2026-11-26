@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Map, BookOpen, Layers, BookA, MessageSquare, Languages, PenTool, Mic, User, ChevronUp, Library, Check, Target, Trophy, Compass } from 'lucide-react';
+import { Map, BookOpen, Layers, BookA, MessageSquare, Languages, PenTool, Mic, User, ChevronUp, Library, Check, Target, Trophy, Gamepad2, MapPin, BookMarked } from 'lucide-react';
 import { sound } from '../services/sound';
 
-export type NavTab = 'roadmap' | 'theory' | 'flashcards' | 'kanas' | 'readings' | 'vocabulary' | 'writing' | 'speaking' | 'profile' | 'mastery' | 'jlpt' | 'explore';
+export type NavTab = 'roadmap' | 'theory' | 'flashcards' | 'kanas' | 'readings' | 'vocabulary' | 'writing' | 'speaking' | 'profile' | 'mastery' | 'jlpt' | 'games' | 'japan-map' | 'stories';
 
 interface BottomNavProps {
   activeTab: NavTab;
@@ -21,32 +21,11 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onTabChange }) 
     badgeColor: string;
   }[] = [
     {
-      id: 'jlpt',
-      label: 'Torre JLPT',
-      subtitle: 'Exámenes de nivel N5–N3 y diagnóstico',
-      icon: Trophy,
-      badgeColor: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-400/30'
-    },
-    {
-      id: 'mastery',
-      label: 'Mi Dominio',
-      subtitle: 'Puntuación de palabras y repaso de débiles',
-      icon: Target,
-      badgeColor: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border-indigo-400/30'
-    },
-    {
       id: 'theory',
       label: 'Estudio',
       subtitle: 'Teoría y Guía Gramatical',
       icon: BookOpen,
       badgeColor: 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-400/30'
-    },
-    {
-      id: 'flashcards',
-      label: 'Flashcards',
-      subtitle: 'Tarjetas SRS de repaso',
-      icon: Layers,
-      badgeColor: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-400/30'
     },
     {
       id: 'kanas',
@@ -56,18 +35,18 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onTabChange }) 
       badgeColor: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-400/30'
     },
     {
-      id: 'readings',
-      label: 'Lecturas',
-      subtitle: 'Diálogos (会話) y lecturas',
-      icon: MessageSquare,
-      badgeColor: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-400/30'
-    },
-    {
       id: 'vocabulary',
       label: 'Vocabulario',
       subtitle: 'Listas Genki I y II por lección',
       icon: Languages,
       badgeColor: 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-400/30'
+    },
+    {
+      id: 'flashcards',
+      label: 'Flashcards',
+      subtitle: 'Tarjetas SRS de repaso',
+      icon: Layers,
+      badgeColor: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-400/30'
     },
     {
       id: 'writing',
@@ -82,6 +61,48 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onTabChange }) 
       subtitle: 'Pronunciación con voz y Roleplay',
       icon: Mic,
       badgeColor: 'bg-pink-500/15 text-pink-600 dark:text-pink-400 border-pink-400/30'
+    },
+    {
+      id: 'readings',
+      label: 'Lecturas',
+      subtitle: 'Diálogos (会話) y lecturas',
+      icon: MessageSquare,
+      badgeColor: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-400/30'
+    },
+    {
+      id: 'stories',
+      label: 'Cuentos',
+      subtitle: 'Historias graduadas desde básico a N4',
+      icon: BookMarked,
+      badgeColor: 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-400/30'
+    },
+    {
+      id: 'games',
+      label: 'Minijuegos',
+      subtitle: '7 juegos de kana, vocabulario y kanji',
+      icon: Gamepad2,
+      badgeColor: 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-400/30'
+    },
+    {
+      id: 'japan-map',
+      label: 'Mapa de Japón',
+      subtitle: '8 regiones, cultura y sellos (駅スタンプ)',
+      icon: MapPin,
+      badgeColor: 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-400/30'
+    },
+    {
+      id: 'mastery',
+      label: 'Mi Dominio',
+      subtitle: 'Puntuación de palabras y repaso de débiles',
+      icon: Target,
+      badgeColor: 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border-indigo-400/30'
+    },
+    {
+      id: 'jlpt',
+      label: 'Torre JLPT',
+      subtitle: 'Exámenes de nivel N5–N3 y diagnóstico',
+      icon: Trophy,
+      badgeColor: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-400/30'
     }
   ];
 
@@ -253,36 +274,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onTabChange }) 
           </button>
         </div>
 
-        {/* 3. Explorar (Minijuegos + Mapa de Japón) */}
-        <button
-          onClick={() => {
-            sound.playTap();
-            setMenuOpen(false);
-            if (activeTab === 'explore') {
-              window.dispatchEvent(new CustomEvent('scroll-to-top'));
-            } else {
-              onTabChange('explore');
-            }
-          }}
-          className={`flex flex-col items-center justify-center py-1 px-3 rounded-2xl transition-all duration-150 cursor-pointer ${
-            activeTab === 'explore'
-              ? 'text-duo-green font-black scale-105'
-              : 'text-gray-400 dark:text-gray-400 font-bold hover:text-gray-600 dark:hover:text-gray-200'
-          }`}
-        >
-          <div
-            className={`p-1.5 rounded-xl transition-all ${
-              activeTab === 'explore'
-                ? 'bg-duo-green-light/40 dark:bg-duo-green/20 border-2 border-duo-green'
-                : 'border-2 border-transparent'
-            }`}
-          >
-            <Compass className={`w-5 h-5 ${activeTab === 'explore' ? 'stroke-[2.5px]' : 'stroke-2'}`} />
-          </div>
-          <span className="text-[11px] mt-0.5 tracking-tight">Explorar</span>
-        </button>
-
-        {/* 4. Perfil (Profile) */}
+        {/* 3. Perfil (Profile) */}
         <button
           onClick={() => {
             sound.playTap();

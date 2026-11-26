@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Trophy, RotateCcw, Sparkles, Volume2, Flame } from 'lucide-react';
 import { kanjiList, KanjiItem } from '../../../data/kanjiData';
 import { sound } from '../../../services/sound';
+import { recordMinigameScore } from '../../../utils/gameRecords';
 
 interface KanjiDojoGameProps {
   onAwardReward: (xp: number, gems: number) => void;
@@ -107,6 +108,7 @@ export const KanjiDojoGame: React.FC<KanjiDojoGameProps> = ({ onAwardReward, onE
   const [streak, setStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
+  const [missedQuestions, setMissedQuestions] = useState<DojoQuestion[]>([]);
 
   const current = questions[idx];
 
@@ -118,6 +120,20 @@ export const KanjiDojoGame: React.FC<KanjiDojoGameProps> = ({ onAwardReward, onE
     setStreak(0);
     setBestStreak(0);
     setCorrectCount(0);
+    setMissedQuestions([]);
+    setPhase('playing');
+  };
+
+  const startMistakeReview = () => {
+    if (missedQuestions.length === 0) return;
+    sound.playTap();
+    setQuestions(shuffle(missedQuestions));
+    setIdx(0);
+    setSelected(null);
+    setStreak(0);
+    setBestStreak(0);
+    setCorrectCount(0);
+    setMissedQuestions([]);
     setPhase('playing');
   };
 
@@ -138,6 +154,7 @@ export const KanjiDojoGame: React.FC<KanjiDojoGameProps> = ({ onAwardReward, onE
     } else {
       sound.playIncorrect();
       setStreak(0);
+      setMissedQuestions(prev => [...prev, current]);
     }
   };
 
@@ -147,6 +164,7 @@ export const KanjiDojoGame: React.FC<KanjiDojoGameProps> = ({ onAwardReward, onE
       setPhase('finished');
       sound.playLessonComplete();
       if (correctCount > 0) {
+        recordMinigameScore('kanji-dojo', correctCount);
         onAwardReward(earnedXp, earnedGems);
       }
     } else {
@@ -233,7 +251,7 @@ export const KanjiDojoGame: React.FC<KanjiDojoGameProps> = ({ onAwardReward, onE
         <h3 className="text-2xl font-black text-duo-gray-800 dark:text-white">¡Duelo Terminado!</h3>
         <div className="grid grid-cols-2 gap-2">
           <div className="p-3 rounded-2xl bg-duo-gray-100 dark:bg-[#131f24]">
-            <div className="text-lg font-black text-duo-green">{correctCount}/10</div>
+            <div className="text-lg font-black text-duo-green">{correctCount}/{questions.length}</div>
             <div className="text-[11px] font-bold text-duo-gray-400">Aciertos</div>
           </div>
           <div className="p-3 rounded-2xl bg-duo-gray-100 dark:bg-[#131f24]">
@@ -245,6 +263,14 @@ export const KanjiDojoGame: React.FC<KanjiDojoGameProps> = ({ onAwardReward, onE
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-duo-green/15 border border-duo-green/30 text-duo-green font-black text-sm">
             <Sparkles className="w-4 h-4" /> +{earnedXp} XP {earnedGems > 0 ? `· +${earnedGems} 💎` : ''}
           </div>
+        )}
+        {missedQuestions.length > 0 && (
+          <button
+            onClick={startMistakeReview}
+            className="w-full py-2.5 rounded-2xl bg-amber-500/15 border-2 border-amber-400/40 text-amber-600 dark:text-amber-300 font-black text-sm cursor-pointer"
+          >
+            🔁 Repasar {missedQuestions.length} {missedQuestions.length === 1 ? 'fallado' : 'fallados'}
+          </button>
         )}
         <div className="flex gap-2 pt-2">
           <button

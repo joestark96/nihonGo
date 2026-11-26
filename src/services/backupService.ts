@@ -15,6 +15,9 @@ export interface NihonGoBackupPayload {
   quests?: Record<string, any>;
   dailyStats?: Record<string, any>;
   jlptTower?: any;
+  japanStamps?: string[];
+  minigameRecords?: Record<string, number>;
+  storiesRead?: string[];
 }
 
 const BACKUP_TIMESTAMP_KEY = 'nihongo_last_backup_at';
@@ -57,9 +60,18 @@ export const backupService = {
     }
 
     let jlptTower: any = undefined;
+    let japanStamps: string[] | undefined = undefined;
+    let minigameRecords: Record<string, number> | undefined = undefined;
+    let storiesRead: string[] | undefined = undefined;
     try {
       const rawTower = localStorage.getItem('nihongo_jlpt_tower_v1');
       if (rawTower) jlptTower = JSON.parse(rawTower);
+      const rawStamps = localStorage.getItem('nihongo_japan_stamps_v1');
+      if (rawStamps) japanStamps = JSON.parse(rawStamps);
+      const rawRecords = localStorage.getItem('nihongo_minigame_records_v1');
+      if (rawRecords) minigameRecords = JSON.parse(rawRecords);
+      const rawStories = localStorage.getItem('nihongo_stories_read_v1');
+      if (rawStories) storiesRead = JSON.parse(rawStories);
     } catch {
       // ignore
     }
@@ -74,6 +86,9 @@ export const backupService = {
       quests,
       dailyStats,
       jlptTower,
+      japanStamps,
+      minigameRecords,
+      storiesRead,
     };
   },
 
@@ -200,6 +215,24 @@ export const backupService = {
     if (payload.jlptTower && typeof payload.jlptTower === 'object') {
       try {
         localStorage.setItem('nihongo_jlpt_tower_v1', JSON.stringify(payload.jlptTower));
+      } catch {}
+    }
+
+    if (Array.isArray(payload.japanStamps)) {
+      try {
+        localStorage.setItem('nihongo_japan_stamps_v1', JSON.stringify(payload.japanStamps));
+      } catch {}
+    }
+
+    if (payload.minigameRecords && typeof payload.minigameRecords === 'object') {
+      try {
+        localStorage.setItem('nihongo_minigame_records_v1', JSON.stringify(payload.minigameRecords));
+      } catch {}
+    }
+
+    if (Array.isArray(payload.storiesRead)) {
+      try {
+        localStorage.setItem('nihongo_stories_read_v1', JSON.stringify(payload.storiesRead));
       } catch {}
     }
 

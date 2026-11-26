@@ -19,6 +19,8 @@ import { ProfilePage } from './pages/ProfilePage';
 import { MasteryPage } from './pages/MasteryPage';
 import { JlptTowerPage } from './pages/JlptTowerPage';
 import { ExplorePage } from './components/Explore/ExplorePage';
+import { JapanMapView } from './components/Explore/JapanMapView';
+import { StoriesView } from './components/Explore/StoriesView';
 import { GlobalDownloadBanner } from './components/Audio/GlobalDownloadBanner';
 import { LandingPage } from './pages/LandingPage';
 import { Capacitor } from '@capacitor/core';
@@ -740,8 +742,18 @@ export const App: React.FC = () => {
             {activeTab === 'jlpt' && (
               <JlptTowerPage onAwardReward={handleClaimQuestReward} />
             )}
-            {activeTab === 'explore' && (
+            {activeTab === 'games' && (
               <ExplorePage onAwardReward={handleClaimQuestReward} />
+            )}
+            {activeTab === 'japan-map' && (
+              <div className="max-w-md mx-auto px-4 pt-4 pb-28">
+                <JapanMapView onAwardReward={handleClaimQuestReward} />
+              </div>
+            )}
+            {activeTab === 'stories' && (
+              <div className="max-w-md mx-auto px-4 pt-4 pb-28">
+                <StoriesView onAwardReward={handleClaimQuestReward} />
+              </div>
             )}
             {activeTab === 'profile' && (
               <ProfilePage

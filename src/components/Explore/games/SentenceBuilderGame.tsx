@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Volume2, RotateCcw, Trophy, Sparkles, CheckCircle2, XCircle } from 'lucide-react';
 import { sound } from '../../../services/sound';
+import { recordMinigameScore } from '../../../utils/gameRecords';
 
 interface SentenceBuilderGameProps {
   onAwardReward: (xp: number, gems: number) => void;
@@ -148,6 +149,7 @@ export const SentenceBuilderGame: React.FC<SentenceBuilderGameProps> = ({ onAwar
       sound.playLessonComplete();
       const xp = correctCount * 8 + 10;
       const gems = correctCount >= 4 ? 4 : correctCount >= 2 ? 2 : 0;
+      recordMinigameScore('sentence', correctCount);
       onAwardReward(xp, gems);
     } else {
       setRoundIdx(r => r + 1);

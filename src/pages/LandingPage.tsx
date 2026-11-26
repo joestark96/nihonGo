@@ -462,16 +462,30 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           </div>
 
           <div className="space-y-4">
-            {/* v1.3.4 */}
+            {/* v1.3.5 */}
             <div className="p-5 sm:p-6 rounded-3xl bg-emerald-50/70 dark:bg-[#18272e] border-2 border-duo-green shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.3.4</span>
+                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.3.5</span>
                   <span className="text-xs font-black uppercase tracking-wider text-duo-green">Actual</span>
                 </div>
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">4 Nuevos Minijuegos de Kanji (漢字)</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">12 Cuentos Graduados, Récords y Menú Estudiar Reordenado</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <li>• <strong>12 Cuentos e Historias Graduadas (物語):</strong> Desde nivel Muy Fácil hasta N4+, con audio por párrafo o cuento completo, preguntas de comprensión (+30 XP) y botones para mostrar/ocultar <strong>Kanji (漢字)</strong>, Romaji y Español.</li>
+                <li>• <strong>Menú Estudiar reorganizado:</strong> Minijuegos, Mapa de Japón y Cuentos integrados en el menú Estudiar con orden progresivo (estudio base → práctica/lectura → juegos/retos).</li>
+                <li>• <strong>Récords personales y repaso de errores:</strong> Mejores marcas guardadas por minijuego y botón para repasar los kanjis fallados en Kanji Dojo.</li>
+                <li>• <strong>Backup completo:</strong> Los sellos de Japón, récords de minijuegos y cuentos leídos ahora también se incluyen al exportar e importar respaldos.</li>
+              </ul>
+            </div>
+
+            {/* v1.3.4 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-duo-green/15 text-duo-green font-black text-xs">v1.3.4</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">4 Nuevos Minijuegos de Kanji (漢字)</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
                 <li>• <strong>Kanji Dojo (N5–N3):</strong> Duelo de 10 kanjis por significado, lectura o palabra compuesta con rachas y XP.</li>
                 <li>• <strong>Fábrica de Compuestos:</strong> Combina 2 kanjis del tablero (ej. 学 + 生 = 学生) para formar vocabulario real con audio.</li>
                 <li>• <strong>Cazador de Radicales:</strong> Encuentra en la cuadrícula 3×3 los kanjis que comparten un radical clave (氵, 木, 口, 言, 亻, 日, 女).</li>

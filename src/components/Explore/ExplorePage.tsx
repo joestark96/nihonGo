@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Gamepad2, MapPin, Zap, Layers, Puzzle, Sparkles, Flame, Factory, Search, PenTool } from 'lucide-react';
+import { Zap, Layers, Puzzle, Sparkles, Flame, Factory, Search, PenTool, Trophy } from 'lucide-react';
 import { sound } from '../../services/sound';
+import { getMinigameRecords, MinigameId } from '../../utils/gameRecords';
 import { KanaBlitzGame } from './games/KanaBlitzGame';
 import { MemoryMatchGame } from './games/MemoryMatchGame';
 import { SentenceBuilderGame } from './games/SentenceBuilderGame';
@@ -8,37 +9,36 @@ import { KanjiDojoGame } from './games/KanjiDojoGame';
 import { KanjiCompoundsGame } from './games/KanjiCompoundsGame';
 import { RadicalHunterGame } from './games/RadicalHunterGame';
 import { KanjiBlindDrawGame } from './games/KanjiBlindDrawGame';
-import { JapanMapView } from './JapanMapView';
 
 interface ExplorePageProps {
   onAwardReward: (xp: number, gems: number) => void;
 }
 
-type ExploreSubTab = 'games' | 'map';
-type ActiveGame =
-  | null
-  | 'kana-blitz'
-  | 'memory'
-  | 'sentence'
-  | 'kanji-dojo'
-  | 'kanji-compounds'
-  | 'radical-hunter'
-  | 'kanji-draw';
+type ActiveGame = null | MinigameId;
 
 export const ExplorePage: React.FC<ExplorePageProps> = ({ onAwardReward }) => {
-  const [subTab, setSubTab] = useState<ExploreSubTab>('games');
   const [activeGame, setActiveGame] = useState<ActiveGame>(null);
+  const records = getMinigameRecords();
+
+  const renderRecordBadge = (id: MinigameId, suffix: string) => {
+    const val = records[id];
+    if (val === undefined) return null;
+    return (
+      <span className="inline-flex items-center gap-1 text-[10px] font-black px-2 py-0.5 rounded-lg bg-amber-500/15 text-amber-600 dark:text-amber-300 mt-1">
+        <Trophy className="w-3 h-3" /> Récord: {val} {suffix}
+      </span>
+    );
+  };
 
   return (
     <div className="max-w-md mx-auto px-4 pt-4 pb-28 space-y-4">
-      {/* Header + Switcher */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-black text-duo-gray-800 dark:text-white tracking-tight">
-            Explorar Japón
+            Minijuegos Arcade
           </h2>
           <p className="text-xs font-bold text-duo-gray-400">
-            Minijuegos arcade y ruta interactiva de sellos
+            Practica kana, vocabulario, gramática y kanji jugando
           </p>
         </div>
         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl bg-amber-500/15 text-amber-500 text-xs font-black">
@@ -46,39 +46,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onAwardReward }) => {
         </span>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 p-1.5 rounded-2xl bg-duo-gray-100 dark:bg-[#18272e] border border-duo-gray-200 dark:border-[#283842]">
-        <button
-          onClick={() => {
-            sound.playTap();
-            setSubTab('games');
-          }}
-          className={`py-2.5 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
-            subTab === 'games'
-              ? 'bg-white dark:bg-[#233741] text-duo-blue shadow-sm'
-              : 'text-duo-gray-500 dark:text-gray-400'
-          }`}
-        >
-          <Gamepad2 className="w-4 h-4" /> Minijuegos
-        </button>
-        <button
-          onClick={() => {
-            sound.playTap();
-            setSubTab('map');
-            setActiveGame(null);
-          }}
-          className={`py-2.5 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
-            subTab === 'map'
-              ? 'bg-white dark:bg-[#233741] text-rose-500 shadow-sm'
-              : 'text-duo-gray-500 dark:text-gray-400'
-          }`}
-        >
-          <MapPin className="w-4 h-4" /> Mapa de Japón
-        </button>
-      </div>
-
-      {subTab === 'map' ? (
-        <JapanMapView onAwardReward={onAwardReward} />
-      ) : activeGame === 'kana-blitz' ? (
+      {activeGame === 'kana-blitz' ? (
         <KanaBlitzGame onAwardReward={onAwardReward} onExit={() => setActiveGame(null)} />
       ) : activeGame === 'memory' ? (
         <MemoryMatchGame onAwardReward={onAwardReward} onExit={() => setActiveGame(null)} />
@@ -119,6 +87,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onAwardReward }) => {
                 <p className="text-xs font-bold text-duo-gray-500 dark:text-gray-300 mt-0.5">
                   Contrarreloj de Hiragana y Katakana con multiplicador de combos.
                 </p>
+                {renderRecordBadge('kana-blitz', 'pts')}
               </div>
             </button>
 
@@ -142,6 +111,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onAwardReward }) => {
                 <p className="text-xs font-bold text-duo-gray-500 dark:text-gray-300 mt-0.5">
                   Une 6 parejas japonés ↔ español escuchando cada palabra al tocarla.
                 </p>
+                {renderRecordBadge('memory', 'intentos')}
               </div>
             </button>
 
@@ -165,6 +135,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onAwardReward }) => {
                 <p className="text-xs font-bold text-duo-gray-500 dark:text-gray-300 mt-0.5">
                   Ordena 5 oraciones clave esquivando partículas trampa.
                 </p>
+                {renderRecordBadge('sentence', '/ 5')}
               </div>
             </button>
           </div>
@@ -194,6 +165,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onAwardReward }) => {
                 <p className="text-xs font-bold text-duo-gray-500 dark:text-gray-300 mt-0.5">
                   Duelo de 10 kanjis por significado, lectura o palabra compuesta.
                 </p>
+                {renderRecordBadge('kanji-dojo', '/ 10')}
               </div>
             </button>
 
@@ -217,6 +189,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onAwardReward }) => {
                 <p className="text-xs font-bold text-duo-gray-500 dark:text-gray-300 mt-0.5">
                   Combina 2 kanjis (ej. 学 + 生 = 学生) para formar palabras reales.
                 </p>
+                {renderRecordBadge('kanji-compounds', '/ 6')}
               </div>
             </button>
 
@@ -240,6 +213,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onAwardReward }) => {
                 <p className="text-xs font-bold text-duo-gray-500 dark:text-gray-300 mt-0.5">
                   Encuentra los 3 kanjis que comparten un radical (氵, 木, 口...).
                 </p>
+                {renderRecordBadge('radical-hunter', 'XP')}
               </div>
             </button>
 
@@ -263,6 +237,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onAwardReward }) => {
                 <p className="text-xs font-bold text-duo-gray-500 dark:text-gray-300 mt-0.5">
                   Traza el kanji de memoria siguiendo solo su significado y lectura.
                 </p>
+                {renderRecordBadge('kanji-draw', '/ 5')}
               </div>
             </button>
           </div>

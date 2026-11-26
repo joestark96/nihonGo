@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Timer, Zap, RotateCcw, Volume2, Trophy, Sparkles } from 'lucide-react';
 import { gojuonKanaList } from '../../../data/kanaTableData';
 import { sound } from '../../../services/sound';
+import { recordMinigameScore } from '../../../utils/gameRecords';
 
 interface KanaBlitzGameProps {
   onAwardReward: (xp: number, gems: number) => void;
@@ -89,9 +90,10 @@ export const KanaBlitzGame: React.FC<KanaBlitzGameProps> = ({ onAwardReward, onE
   useEffect(() => {
     if (phase === 'finished' && !rewarded && correctCount > 0) {
       setRewarded(true);
+      recordMinigameScore('kana-blitz', score);
       onAwardReward(earnedXp, earnedGems);
     }
-  }, [phase, rewarded, correctCount, earnedXp, earnedGems, onAwardReward]);
+  }, [phase, rewarded, correctCount, score, earnedXp, earnedGems, onAwardReward]);
 
   const handleAnswer = (choice: string) => {
     if (!question || phase !== 'playing') return;

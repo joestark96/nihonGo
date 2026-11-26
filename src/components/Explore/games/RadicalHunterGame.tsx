@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { RotateCcw, Trophy, Sparkles, Search } from 'lucide-react';
 import { sound } from '../../../services/sound';
+import { recordMinigameScore } from '../../../utils/gameRecords';
 
 interface RadicalHunterGameProps {
   onAwardReward: (xp: number, gems: number) => void;
@@ -119,6 +120,7 @@ export const RadicalHunterGame: React.FC<RadicalHunterGameProps> = ({ onAwardRew
             sound.playLessonComplete();
             const xp = Math.max(15, 40 - mistakes * 3);
             const gems = mistakes <= 2 ? 4 : 2;
+            recordMinigameScore('radical-hunter', xp);
             onAwardReward(xp, gems);
           } else {
             setIdx(i => i + 1);

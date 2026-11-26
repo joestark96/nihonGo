@@ -4,6 +4,7 @@ import { kanjiList, KanjiItem } from '../../../data/kanjiData';
 import { getKanjiVgPathsForCharacter } from '../../../data/strokePathsData';
 import { StrokePracticeCanvas } from '../../Kana/StrokePracticeCanvas';
 import { sound } from '../../../services/sound';
+import { recordMinigameScore } from '../../../utils/gameRecords';
 
 interface KanjiBlindDrawGameProps {
   onAwardReward: (xp: number, gems: number) => void;
@@ -64,6 +65,7 @@ export const KanjiBlindDrawGame: React.FC<KanjiBlindDrawGameProps> = ({ onAwardR
       setFinished(true);
       sound.playLessonComplete();
       if (passedCount > 0) {
+        recordMinigameScore('kanji-draw', passedCount);
         onAwardReward(passedCount * 8 + 10, passedCount >= 4 ? 5 : 2);
       }
     } else {

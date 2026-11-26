@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { RotateCcw, Trophy, Sparkles, Volume2 } from 'lucide-react';
 import { sound } from '../../../services/sound';
+import { recordMinigameScore } from '../../../utils/gameRecords';
 
 interface KanjiCompoundsGameProps {
   onAwardReward: (xp: number, gems: number) => void;
@@ -98,6 +99,7 @@ export const KanjiCompoundsGame: React.FC<KanjiCompoundsGameProps> = ({ onAwardR
       setFinished(true);
       sound.playLessonComplete();
       if (score > 0) {
+        recordMinigameScore('kanji-compounds', score);
         onAwardReward(score * 6 + 10, score >= 5 ? 4 : 2);
       }
     } else {

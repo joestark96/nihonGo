@@ -2,6 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { RotateCcw, Trophy, Sparkles } from 'lucide-react';
 import { genkiVocabulary, VocabWord } from '../../../data/vocabularyData';
 import { sound } from '../../../services/sound';
+import { recordMinigameScore } from '../../../utils/gameRecords';
 
 interface MemoryMatchGameProps {
   onAwardReward: (xp: number, gems: number) => void;
@@ -109,6 +110,7 @@ export const MemoryMatchGame: React.FC<MemoryMatchGameProps> = ({ onAwardReward,
       if (nextMatched.length === 6 && !rewarded) {
         setRewarded(true);
         sound.playLessonComplete();
+        recordMinigameScore('memory', attempts + 1, true);
         onAwardReward(attempts + 1 <= 8 ? 35 : attempts + 1 <= 12 ? 25 : 15, 3);
       }
     } else {
