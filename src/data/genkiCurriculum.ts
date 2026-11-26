@@ -3050,7 +3050,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -3174,7 +3174,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -3298,7 +3298,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "blue",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -3417,7 +3417,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -3525,7 +3525,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -4671,7 +4671,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 5,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -4822,7 +4822,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 7,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -5011,7 +5011,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "blue",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -5132,7 +5132,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -5242,7 +5242,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -6325,7 +6325,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -6510,7 +6510,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -6616,7 +6616,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -7602,7 +7602,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -7787,7 +7787,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -7893,7 +7893,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -8867,7 +8867,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -9050,7 +9050,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -9156,7 +9156,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -10046,7 +10046,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -10231,7 +10231,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -10337,7 +10337,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -11242,7 +11242,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -11340,7 +11340,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "blue",
         "totalSteps": 3,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": []
@@ -11355,7 +11355,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -11461,7 +11461,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -12437,7 +12437,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -12535,7 +12535,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "blue",
         "totalSteps": 3,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": []
@@ -12550,7 +12550,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -12656,7 +12656,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -13456,7 +13456,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -13554,7 +13554,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "blue",
         "totalSteps": 3,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": []
@@ -13569,7 +13569,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -13675,7 +13675,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -14650,7 +14650,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -14833,7 +14833,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -14939,7 +14939,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -15736,7 +15736,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -15834,7 +15834,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "blue",
         "totalSteps": 3,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": []
@@ -15849,7 +15849,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -15955,7 +15955,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -16759,7 +16759,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -16857,7 +16857,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "blue",
         "totalSteps": 3,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": []
@@ -16872,7 +16872,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -16978,7 +16978,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -17787,7 +17787,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -17972,7 +17972,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -18078,7 +18078,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -18877,7 +18877,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -19063,7 +19063,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -19169,7 +19169,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -19970,7 +19970,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -20156,7 +20156,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -20262,7 +20262,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -21064,7 +21064,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -21250,7 +21250,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -21356,7 +21356,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -22151,7 +22151,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -22337,7 +22337,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -22443,7 +22443,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -23236,7 +23236,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -23422,7 +23422,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -23528,7 +23528,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -24332,7 +24332,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -24518,7 +24518,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -24624,7 +24624,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -25410,7 +25410,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -25596,7 +25596,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -25702,7 +25702,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -26506,7 +26506,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -26692,7 +26692,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -26798,7 +26798,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -27595,7 +27595,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -27781,7 +27781,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -27887,7 +27887,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -28687,7 +28687,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Headphones",
         "color": "purple",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -28873,7 +28873,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "BookOpen",
         "color": "green",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [
@@ -28979,7 +28979,7 @@ export const genkiCurriculum: Unit[] = [
         "icon": "Award",
         "color": "orange",
         "totalSteps": 4,
-        "unlocked": true,
+        "unlocked": false,
         "completedSteps": 0,
         "stars": 0,
         "exercises": [

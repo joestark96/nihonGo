@@ -405,14 +405,20 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
               {/* Theory Guide Pill Button */}
               <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-white/20">
                 <button
+                  disabled={!isUnitUnlocked}
                   onClick={() => {
+                    if (!isUnitUnlocked) return;
                     sound.playTap();
                     if (onOpenTheory) onOpenTheory(unit.id);
                   }}
-                  className="px-3 py-1.5 bg-white/20 hover:bg-white/30 active:translate-y-0.5 rounded-xl font-black text-xs text-white flex items-center gap-1.5 transition-all shadow-sm backdrop-blur-sm cursor-pointer"
+                  className={`px-3 py-1.5 rounded-xl font-black text-xs text-white flex items-center gap-1.5 transition-all shadow-sm backdrop-blur-sm ${
+                    isUnitUnlocked
+                      ? 'bg-white/20 hover:bg-white/30 active:translate-y-0.5 cursor-pointer'
+                      : 'bg-black/25 opacity-70 cursor-not-allowed'
+                  }`}
                 >
-                  <BookOpen className="w-3.5 h-3.5" />
-                  Ver Guía de Teoría
+                  {isUnitUnlocked ? <BookOpen className="w-3.5 h-3.5" /> : <Lock className="w-3.5 h-3.5" />}
+                  {isUnitUnlocked ? 'Ver Guía de Teoría' : 'Teoría Bloqueada'}
                 </button>
 
                 {isWorkbook ? (

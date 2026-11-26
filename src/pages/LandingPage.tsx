@@ -474,7 +474,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
                 <li>• <strong>Notas de voz estilo WhatsApp en Chat con Sensei:</strong> Antes del Tema 1, escucha el diálogo de la unidad con reproducción secuencial corregida, ondas con barra de progreso animada y transcripción desplegable.</li>
                 <li>• <strong>Vocabulario clave en el chat:</strong> Tarjeta interactiva después de los diálogos para repasar y escuchar las palabras principales de cada lección.</li>
-                <li>• <strong>Progresión bloqueada en Estudio:</strong> Las unidades posteriores aparecen deshabilitadas (🔒) hasta completar las unidades anteriores en el Roadmap.</li>
+                <li>• <strong>Progresión bloqueada en Roadmap y Estudio:</strong> Únicamente la primera lección de la Unidad 0 inicia desbloqueada; las unidades posteriores y su Guía de Teoría quedan bloqueadas (🔒) hasta avanzar.</li>
+                <li>• <strong>Descargas offline completas:</strong> Ahora la descarga desde Perfil incluye también los audios de Estudio, los 12 Cuentos y el Mapa de Japón.</li>
                 <li>• <strong>21 ejercicios de transformación del Workbook (L3–L23):</strong> Reemplazo de preguntas genéricas por transformaciones reales acordes a la gramática de cada lección.</li>
               </ul>
             </div>

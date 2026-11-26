@@ -1,6 +1,9 @@
 import { getOfflineAudioKey } from '../utils/audioHash';
 import { genkiCurriculum } from '../data/genkiCurriculum';
 import { genkiVocabulary } from '../data/vocabularyData';
+import { unitTheories } from '../data/theoryData';
+import { GRADED_STORIES } from '../data/storiesData';
+import { JAPAN_REGIONS } from '../data/japanMapData';
 
 export interface StoredAudioRecord {
   key: string;
@@ -333,8 +336,31 @@ class AudioStorageService {
     // 2. Vocabulary words from vocabularyData for this lesson
     const vocab = genkiVocabulary.filter(v => v.lesson === unitId);
     vocab.forEach(v => {
-      addText('mary', v.japanese);
+      addText('mary', v.furigana || v.japanese);
     });
+
+    // 3. Study / Theory examples for this unit (Modo Guía & Chat con Sensei)
+    const theory = unitTheories.find(t => t.unitId === unitId);
+    if (theory) {
+      theory.sections.forEach(sec => {
+        sec.examples?.forEach(ex => {
+          addText('mary', ex.audioText || ex.japanese);
+        });
+      });
+    }
+
+    // 4. Graded Stories & Japan Map vocab (included with Unit 0 / All Units)
+    if (unitId === 0) {
+      GRADED_STORIES.forEach(story => {
+        story.paragraphs.forEach(p => {
+          addText('mary', p.audioText || p.japanese);
+        });
+      });
+      JAPAN_REGIONS.forEach(region => {
+        addText('mary', region.cityJapanese);
+        region.usefulVocab.forEach(w => addText('mary', w.reading));
+      });
+    }
 
     return tasks;
   }
