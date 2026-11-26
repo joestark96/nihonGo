@@ -112,13 +112,21 @@ export function expandLessonExercises(node: LessonNode, unit?: Unit, targetCount
     );
     if (direct) return getCategory(direct.pos);
 
+    // Multi-word phrases / polite sentences (e.g. にほんにいきます, だいがくにきます) must NOT be mixed with single dictionary verbs
+    if (
+      /(ます|ません|ました|でした|です)[。．]?$/.test(cJp) ||
+      (cJp.length >= 6 && /[はがをにでへともの]/.test(cJp) && cSp.split(/\s+/).length >= 2)
+    ) {
+      return 'phrase';
+    }
+
     // Heuristics
     const famWords = ['madre', 'padre', 'hermano', 'hermana', 'familia', 'esposo', 'esposa', 'hijo', 'hija', 'amigo', 'profesor', 'estudiante'];
     if (famWords.some(w => cSp.includes(w))) return 'noun';
     if (cSp.startsWith('mi ') || cSp.includes('el ') || cSp.includes('la ') || cSp.includes('los ') || cSp.includes('las ')) return 'noun';
     if (cSp.endsWith('ar') || cSp.endsWith('er') || cSp.endsWith('ir')) return 'verb';
     if (/[い]$/.test(cJp)) return 'adjective';
-    if (/[う|く|ぐ|す|つ|ぬ|ぶ|む|る]$/.test(cJp)) return 'verb';
+    if (/[うくぐすつぬぶむる]$/.test(cJp)) return 'verb';
     return 'other';
   };
 
@@ -157,10 +165,40 @@ export function expandLessonExercises(node: LessonNode, unit?: Unit, targetCount
       return Array.from(new Set([...localKana, ...siblingKanaPool])).filter(t => t !== targetText);
     }
 
+    if (category === 'phrase') {
+      const isPhraseText = (val: string) =>
+        mode === 'spanish'
+          ? val.trim().split(/\s+/).length >= 2 || val.trim().length >= 8
+          : /(ます|ません|ました|でした|です)[。．]?$/.test(val.trim()) || val.trim().length >= 5;
+      const localPhrases = localOptions.filter(t => t !== targetText && isPhraseText(t));
+      if (localPhrases.length >= 3) return localPhrases;
+
+      const siblingPhrases = siblingVocabPairs
+        .map(p => (mode === 'spanish' ? p.right.replace(/\s*\([^\)]*\)/g, '').trim() : cleanJapanese(p.left)))
+        .filter(t => t !== targetText && isPhraseText(t));
+      const mergedPhrases = Array.from(new Set([...localPhrases, ...siblingPhrases]));
+      if (mergedPhrases.length >= 3) return mergedPhrases;
+
+      const fallbackPool = (mode === 'spanish' ? allRightOptions : allLeftOptions).filter(
+        t => t !== targetText && isPhraseText(t)
+      );
+      const mergedFallback = Array.from(new Set([...mergedPhrases, ...fallbackPool]));
+      if (mergedFallback.length >= 3) return mergedFallback;
+      return (mode === 'spanish' ? allRightOptions : allLeftOptions).filter(t => t !== targetText);
+    }
+
     if (category === 'other') {
       const filtered = localOptions.filter(t => t !== targetText);
       return filtered.length >= 3 ? filtered : (mode === 'spanish' ? allRightOptions : allLeftOptions).filter(t => t !== targetText);
     }
+
+    const targetHasKanji = mode === 'japanese' && /[\u4e00-\u9faf]/.test(targetText);
+    const formatVocabOption = (v: typeof genkiVocabulary[number]) =>
+      mode === 'spanish'
+        ? v.spanish.trim()
+        : targetHasKanji
+        ? cleanJapanese(v.japanese)
+        : cleanJapanese(v.furigana || v.japanese);
 
     // 1. First preference: local options of the exact same category
     const localSameCat = localOptions.filter(t => {
@@ -174,7 +212,7 @@ export function expandLessonExercises(node: LessonNode, unit?: Unit, targetCount
     // 2. Second preference: vocabulary of the same category up to current lesson
     const lessonScopedSameCat = genkiVocabulary
       .filter(v => v.lesson <= Math.max(1, node.lessonNumber) && getCategory(v.pos) === category)
-      .map(v => mode === 'spanish' ? v.spanish.trim() : cleanJapanese(v.japanese))
+      .map(formatVocabOption)
       .filter(t => t !== targetText);
 
     const mergedScoped = Array.from(new Set([...localSameCat, ...lessonScopedSameCat]));
@@ -183,7 +221,7 @@ export function expandLessonExercises(node: LessonNode, unit?: Unit, targetCount
     // 3. Third preference: vocabulary of the same category across all lessons
     const vocabSameCat = genkiVocabulary
       .filter(v => getCategory(v.pos) === category)
-      .map(v => mode === 'spanish' ? v.spanish.trim() : cleanJapanese(v.japanese))
+      .map(formatVocabOption)
       .filter(t => t !== targetText);
 
     const merged = Array.from(new Set([...localSameCat, ...vocabSameCat]));

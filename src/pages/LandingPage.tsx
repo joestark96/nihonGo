@@ -462,16 +462,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           </div>
 
           <div className="space-y-4">
-            {/* v1.3.1 */}
+            {/* v1.3.2 */}
             <div className="p-5 sm:p-6 rounded-3xl bg-emerald-50/70 dark:bg-[#18272e] border-2 border-duo-green shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.3.1</span>
+                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.3.2</span>
                   <span className="text-xs font-black uppercase tracking-wider text-duo-green">Actual</span>
                 </div>
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Guía Visual y Audio en Ejercicios Escritos del Workbook</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Distractores Coherentes en Frases y Verbos</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <li>• <strong>Opciones más equilibradas sin respuestas obvias:</strong> Las frases completas en forma ます/です (como にほんにいきます) ya no se mezclan con verbos sueltos en diccionario con kanji (como 飲む o 起きる), y los distractores respetan si la respuesta está en hiragana o kanji.</li>
+              </ul>
+            </div>
+
+            {/* v1.3.1 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-duo-green/15 text-duo-green font-black text-xs">v1.3.1</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Guía Visual y Audio en Ejercicios Escritos del Workbook</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
                 <li>• <strong>Traducción y audio en «Ordena la oración del ejercicio escrito» (L3–L23):</strong> Ahora estos ejercicios del Workbook muestran automáticamente la frase en español y los botones Escuchar / Lento para poder resolverlos sin depender del libro físico.</li>
               </ul>
             </div>
