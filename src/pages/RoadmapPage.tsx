@@ -37,6 +37,14 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
   const [isPracticeActive, setIsPracticeActive] = useState(false);
   const [showImprovableList, setShowImprovableList] = useState(false);
   const [devUnlockAll, setDevUnlockAll] = useState<boolean>(() => isDevUnlockAllEnabled());
+  const [passedUnitExams, setPassedUnitExams] = useState<Record<string, boolean>>(() => {
+    try {
+      const raw = localStorage.getItem('nihongo_unit_exams_v1');
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  });
 
   useEffect(() => {
     const onDevChange = () => setDevUnlockAll(isDevUnlockAllEnabled());
@@ -507,6 +515,88 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
               })}
             </div>
 
+            {/* Examen Final al término del camino de cada unidad */}
+            {(() => {
+              const examKey = `${unit.id}-${roadmapMode}`;
+              const isExamUnlocked = isUnitCompleted || devUnlockAll;
+              const isExamPassed = Boolean(passedUnitExams[examKey]);
+              return (
+                <div className="w-full mt-4 mb-2 px-1">
+                  <div
+                    className={`rounded-3xl p-4 border-2 flex items-center justify-between gap-3 transition-all ${
+                      isExamPassed
+                        ? 'bg-emerald-50/80 dark:bg-emerald-950/30 border-duo-green'
+                        : isExamUnlocked
+                          ? 'bg-amber-50/90 dark:bg-[#242014] border-amber-400 shadow-sm'
+                          : 'bg-gray-100/80 dark:bg-[#142026] border-duo-gray-200 dark:border-[#283842] opacity-75'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div
+                        className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 border-2 ${
+                          isExamPassed
+                            ? 'bg-duo-green/15 border-duo-green text-duo-green'
+                            : isExamUnlocked
+                              ? 'bg-amber-500/15 border-amber-400 text-amber-500'
+                              : 'bg-gray-200 dark:bg-[#1e2d35] border-gray-300 dark:border-[#2c3f49] text-gray-400'
+                        }`}
+                      >
+                        {isExamPassed ? (
+                          <CheckCircle2 className="w-6 h-6" />
+                        ) : isExamUnlocked ? (
+                          <Award className="w-6 h-6" />
+                        ) : (
+                          <Lock className="w-5 h-5" />
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="text-[10px] font-black uppercase tracking-wider text-amber-600 dark:text-amber-400">
+                          {isExamPassed ? '✅ Examen Aprobado' : isExamUnlocked ? '🏆 Examen Final' : '🔒 Examen Final'}
+                        </div>
+                        <h4 className="text-sm font-black text-gray-800 dark:text-white truncate">
+                          Evaluación de {unit.title.split(':')[0]}
+                        </h4>
+                        <p className="text-[11px] font-bold text-gray-500 dark:text-gray-400 truncate">
+                          {isExamUnlocked
+                            ? isExamPassed
+                              ? 'Repasa toda la unidad (+20 XP)'
+                              : 'Demuestra lo aprendido (+50 XP)'
+                            : 'Completa las lecciones de la unidad para abrir'}
+                        </p>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      disabled={!isExamUnlocked}
+                      onClick={() => {
+                        if (!isExamUnlocked) return;
+                        sound.playTap();
+                        const baseReview = createUnitReviewLesson(unit);
+                        if (!baseReview) return;
+                        setIsJumpAheadActive(false);
+                        setIsPracticeActive(false);
+                        setActiveQuizLesson({
+                          ...baseReview,
+                          id: `unit-exam-${examKey}`,
+                          title: `Examen Final: ${unit.title.split(':')[0]}`
+                        });
+                      }}
+                      className={`px-3.5 py-2 rounded-2xl font-black text-xs shrink-0 transition-all ${
+                        !isExamUnlocked
+                          ? 'bg-gray-200 dark:bg-[#23343d] text-gray-400 cursor-not-allowed'
+                          : isExamPassed
+                            ? 'bg-duo-green text-white border-b-4 border-duo-green-dark active:border-b-0 active:translate-y-0.5 cursor-pointer'
+                            : 'bg-amber-500 hover:bg-amber-600 text-white border-b-4 border-amber-700 active:border-b-0 active:translate-y-0.5 cursor-pointer'
+                      }`}
+                    >
+                      {isExamPassed ? 'Repetir' : isExamUnlocked ? 'Iniciar' : 'Bloqueado'}
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
+
             {/* Jump Ahead Challenge Card (Only if unit is unlocked and not fully completed) */}
             {isUnitUnlocked && !isUnitCompleted && (
               <div className="w-full mt-6 mb-2 px-1">
@@ -635,7 +725,20 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
             setIsPracticeActive(false);
           }}
           onCompleteLesson={(nodeId, xp, stars) => {
-            onCompleteLesson(nodeId, xp, stars);
+            if (nodeId.startsWith('unit-exam-')) {
+              const examKey = nodeId.replace('unit-exam-', '');
+              const firstPass = !passedUnitExams[examKey];
+              setPassedUnitExams(prev => {
+                const next = { ...prev, [examKey]: true };
+                try {
+                  localStorage.setItem('nihongo_unit_exams_v1', JSON.stringify(next));
+                } catch {}
+                return next;
+              });
+              onCompleteLesson(nodeId, firstPass ? Math.max(xp, 50) : Math.max(xp, 20), stars);
+            } else {
+              onCompleteLesson(nodeId, xp, stars);
+            }
             setActiveQuizLesson(null);
             setIsJumpAheadActive(false);
             setIsPracticeActive(false);

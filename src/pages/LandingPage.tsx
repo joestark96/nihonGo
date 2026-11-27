@@ -462,16 +462,27 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           </div>
 
           <div className="space-y-4">
-            {/* v1.3.7 */}
+            {/* v1.3.8 */}
             <div className="p-5 sm:p-6 rounded-3xl bg-emerald-50/70 dark:bg-[#18272e] border-2 border-duo-green shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.3.7</span>
+                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.3.8</span>
                   <span className="text-xs font-black uppercase tracking-wider text-duo-green">Actual</span>
                 </div>
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Modo Desarrollador, Barra Flotante y Pulido de Ejercicios</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Examen Final al Término de Cada Unidad</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <li>• <strong>Examen Final de Unidad en el Roadmap:</strong> Al final del camino de cada unidad aparece su evaluación final (bloqueada hasta completar las lecciones de la unidad), con +50 XP al aprobarla por primera vez y opción de repetirla (+20 XP).</li>
+              </ul>
+            </div>
+
+            {/* v1.3.7 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-duo-green/15 text-duo-green font-black text-xs">v1.3.7</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Modo Desarrollador, Barra Flotante y Pulido de Ejercicios</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
                 <li>• <strong>Modo Desarrollador (5 toques en versión en Perfil):</strong> Permite desbloquear todas las lecciones, sumar XP/gemas/corazones, abrir los 8 sellos del mapa y navegar entre ejercicios viendo la respuesta dentro de cualquier lección.</li>
                 <li>• <strong>Barra flotante Libro ↔ Workbook:</strong> Píldora flotante en la esquina inferior izquierda del Roadmap para cambiar de modo desde cualquier altura.</li>
                 <li>• <strong>Ejercicios del Workbook corregidos:</strong> Traducción al español de textos en inglés, audio habilitado en ejercicios de emparejar precios (match-pairs) y limpieza de 88 pistas en opciones de Verdadero/Falso.</li>
