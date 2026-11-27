@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {
   X, Heart, Volume2, CheckCircle2, AlertCircle, ArrowRight,
-  FastForward, Dumbbell
+  FastForward, Dumbbell, Wrench, ChevronLeft, ChevronRight, Eye, EyeOff
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { Exercise, ExerciseOption, LessonNode, MatchPair, UserProfile } from '../../types';
 import { sound } from '../../services/sound';
 import { shuffleArray, getCorrectAnswerDisplay } from './quizFormatters';
+import { isDevModeEnabled } from '../../utils/devMode';
 import {
   JumpPassedScreen,
   JumpFailedScreen,
@@ -45,6 +46,8 @@ export const QuizModal: React.FC<QuizModalProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mistakenIds, setMistakenIds] = useState<string[]>([]);
   const [isReviewingMistakes, setIsReviewingMistakes] = useState(false);
+  const devMode = isDevModeEnabled();
+  const [showDevAnswer, setShowDevAnswer] = useState(false);
 
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [shuffledOptions, setShuffledOptions] = useState<ExerciseOption[]>([]);
@@ -162,7 +165,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
       sound.preloadAudio(nextExercise.japaneseVoiceText);
     }
 
-    if (currentExercise.japaneseVoiceText && currentExercise.type === 'listening') {
+    if (currentExercise.japaneseVoiceText && (currentExercise.type === 'listening' || currentExercise.type === 'match-pairs')) {
       setTimeout(() => playCurrentExerciseVoice(0.9), 150);
     }
 
@@ -350,6 +353,7 @@ export const QuizModal: React.FC<QuizModalProps> = ({
 
   const showAudioButtons =
     currentExercise.type === 'listening' ||
+    (currentExercise.type === 'match-pairs' && Boolean(currentExercise.japaneseVoiceText)) ||
     (currentExercise.type === 'word-order' &&
       Boolean(currentExercise.japaneseVoiceText) &&
       /auditiva|audio|escucha|escuchó|dictado|ejercicio escrito|ordena la oración/i.test(currentExercise.prompt));
@@ -430,6 +434,80 @@ export const QuizModal: React.FC<QuizModalProps> = ({
             <Dumbbell className="w-4 h-4 stroke-[2.5px]" />
             <span>Entrenamiento de Repaso • Ejercicios aleatorios de tus lecciones</span>
           </span>
+        </div>
+      )}
+
+      {/* Developer Mode Bar inside Lesson */}
+      {devMode && (
+        <div className="w-full bg-amber-50 dark:bg-[#231f14] border-b border-amber-300 dark:border-amber-700/60 px-3 py-2">
+          <div className="max-w-lg mx-auto flex flex-col gap-1.5">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5 text-[11px] font-black text-amber-700 dark:text-amber-300">
+                <Wrench className="w-3.5 h-3.5" />
+                <span>DEV · {currentIndex + 1}/{exercises.length}</span>
+                <span className="text-[10px] font-bold opacity-75">({currentExercise.id})</span>
+              </div>
+
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  disabled={currentIndex === 0}
+                  onClick={() => {
+                    sound.playTap();
+                    setStatus('answering');
+                    setSelectedOptionId(null);
+                    setSelectedChipIds([]);
+                    setMatchedPairs([]);
+                    setSelectedLeft(null);
+                    setSelectedRight(null);
+                    setCurrentIndex(i => Math.max(0, i - 1));
+                  }}
+                  className="p-1 rounded-lg bg-white dark:bg-[#18272e] border border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300 disabled:opacity-40 cursor-pointer"
+                  title="Ejercicio anterior"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  disabled={currentIndex >= exercises.length - 1}
+                  onClick={() => {
+                    sound.playTap();
+                    setStatus('answering');
+                    setSelectedOptionId(null);
+                    setSelectedChipIds([]);
+                    setMatchedPairs([]);
+                    setSelectedLeft(null);
+                    setSelectedRight(null);
+                    setCurrentIndex(i => Math.min(exercises.length - 1, i + 1));
+                  }}
+                  className="p-1 rounded-lg bg-white dark:bg-[#18272e] border border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300 disabled:opacity-40 cursor-pointer"
+                  title="Siguiente ejercicio"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    sound.playTap();
+                    setShowDevAnswer(v => !v);
+                  }}
+                  className="px-2 py-1 rounded-lg bg-amber-500 text-white font-black text-[11px] flex items-center gap-1 cursor-pointer"
+                >
+                  {showDevAnswer ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                  <span>{showDevAnswer ? 'Ocultar' : 'Respuesta'}</span>
+                </button>
+              </div>
+            </div>
+
+            {showDevAnswer && (
+              <div className="px-2.5 py-1.5 rounded-xl bg-white/90 dark:bg-[#18272e] border border-amber-300 dark:border-amber-700/60 text-xs font-black text-emerald-700 dark:text-emerald-300">
+                ✅{' '}
+                {currentExercise.type === 'match-pairs' && currentExercise.pairs
+                  ? currentExercise.pairs.map(p => `${p.left} → ${p.right}`).join(' · ')
+                  : getCorrectAnswerDisplay(currentExercise, userProfile.showRomaji)}
+              </div>
+            )}
+          </div>
         </div>
       )}
 

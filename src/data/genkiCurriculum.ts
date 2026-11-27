@@ -4786,26 +4786,13 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb2-a-5",
             "type": "listening",
-            "prompt": "Workbook L2 (Parte A): ¿Cuánto cuesta el chicle (ガム) y cuál es el total con la cola?",
+            "prompt": "Workbook L2 (Parte A): Escucha la cuenta y responde: ¿Cuál es el total de la compra (コーラとガム)?",
             "japaneseVoiceText": "ガムはひゃくえんです。コーラとガムでぜんぶで にひゃくにじゅうえんです。",
             "options": [
-              {
-                "id": "opt-wb2-a5-1",
-                "text": "Chicle ¥100 (Total: ¥220)",
-                "isCorrect": true
-              },
-              {
-                "id": "opt-wb2-a5-2",
-                "text": "Chicle ¥120 (Total: ¥240)"
-              },
-              {
-                "id": "opt-wb2-a5-3",
-                "text": "Chicle ¥80 (Total: ¥200)"
-              },
-              {
-                "id": "opt-wb2-a5-4",
-                "text": "Chicle ¥150 (Total: ¥270)"
-              }
+              { "id": "opt-wb2-a5-1", "text": "¥220", "isCorrect": true },
+              { "id": "opt-wb2-a5-2", "text": "¥100" },
+              { "id": "opt-wb2-a5-3", "text": "¥240" },
+              { "id": "opt-wb2-a5-4", "text": "¥200" }
             ],
             "correctAnswerId": "opt-wb2-a5-1",
             "explanation": "El chicle cuesta ¥100 y el total de la compra suma ¥220 (にひゃくにじゅうえん)."
@@ -4936,45 +4923,30 @@ export const genkiCurriculum: Unit[] = [
           },
           {
             "id": "ex-wb2-c-1",
-            "type": "listening",
-            "prompt": "Workbook L2 (Parte C): Escucha los precios del menú (すきやき・うどん・てんぷら):",
+            "type": "match-pairs",
+            "prompt": "Workbook L2 (Parte C): Escucha y une cada platillo del menú con su precio:",
             "japaneseVoiceText": "すきやきはさんぜんえん、うどんはろっぴゃくえん、てんぷらはせんにひゃくえんです。",
-            "options": [
-              {
-                "id": "opt-wb2-c1-1",
-                "text": "Sukiyaki ¥3,000, Udon ¥600, Tempura ¥1,200",
-                "isCorrect": true
-              },
-              {
-                "id": "opt-wb2-c1-2",
-                "text": "Sukiyaki ¥2,000, Udon ¥800, Tempura ¥1,000"
-              },
-              {
-                "id": "opt-wb2-c1-3",
-                "text": "Sukiyaki ¥3,500, Udon ¥500, Tempura ¥1,500"
-              },
-              {
-                "id": "opt-wb2-c1-4",
-                "text": "Sukiyaki ¥1,200, Udon ¥600, Tempura ¥3,000"
-              }
+            "pairs": [
+              { "id": "p-wb2-c1-1", "left": "Sukiyaki (すきやき)", "right": "¥3,000" },
+              { "id": "p-wb2-c1-2", "left": "Udon (うどん)", "right": "¥600" },
+              { "id": "p-wb2-c1-3", "left": "Tempura (てんぷら)", "right": "¥1,200" }
             ],
-            "correctAnswerId": "opt-wb2-c1-1",
             "explanation": "すきやき = ¥3,000 (さんぜんえん), うどん = ¥600 (ろっぴゃくえん), てんぷら = ¥1,200 (せんにひゃくえん)."
           },
           {
             "id": "ex-wb2-c-2",
             "type": "listening",
-            "prompt": "Workbook L2 (Parte C): Verdadero o Falso: Sukiyaki has fish in it.",
+            "prompt": "Workbook L2 (Parte C): Verdadero o Falso: El sukiyaki lleva pescado.",
             "japaneseVoiceText": "すきやきにはさかながはいっていますか。ー いいえ、ぎゅうにくとやさいですよ。",
             "options": [
               {
                 "id": "opt-wb2-c2-1",
-                "text": "✕ Falso (Tiene carne de res y verduras, no pescado)",
+                "text": "✕ Falso",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb2-c2-2",
-                "text": "◯ Verdadero (El sukiyaki contiene pescado)"
+                "text": "◯ Verdadero"
               }
             ],
             "correctAnswerId": "opt-wb2-c2-1",
@@ -4983,17 +4955,17 @@ export const genkiCurriculum: Unit[] = [
           {
             "id": "ex-wb2-c-3",
             "type": "listening",
-            "prompt": "Workbook L2 (Parte C): Verdadero o Falso: Mary thinks sukiyaki is expensive.",
+            "prompt": "Workbook L2 (Parte C): Verdadero o Falso: Mary piensa que el sukiyaki es caro.",
             "japaneseVoiceText": "さんぜんえんです。ー うーん、たかいですね。",
             "options": [
               {
                 "id": "opt-wb2-c2-3",
-                "text": "◯ Verdadero (Dijo: うーん、たかいですね / Es caro)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb2-c2-4",
-                "text": "✕ Falso (Opina que es muy económico)"
+                "text": "✕ Falso"
               }
             ],
             "correctAnswerId": "opt-wb2-c2-3",
@@ -6360,12 +6332,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb3-bc2-1",
-                "text": "◯ Verdadero (Juega tenis a menudo los domingos)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb3-bc2-2",
-                "text": "× Falso (Nunca hace deporte los domingos)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb3-bc2-1",
@@ -6651,12 +6623,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb3-bc2-1",
-                "text": "◯ Verdadero (Juega tenis a menudo los domingos)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb3-bc2-2",
-                "text": "× Falso (Nunca hace deporte los domingos)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb3-bc2-1",
@@ -7637,12 +7609,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb4-bc2-1",
-                "text": "◯ Verdadero (Esperó frente a McDonald's)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb4-bc2-2",
-                "text": "× Falso (Esperó dentro de la estación de tren)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb4-bc2-1",
@@ -7928,12 +7900,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb4-bc2-1",
-                "text": "◯ Verdadero (Esperó frente a McDonald's)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb4-bc2-2",
-                "text": "× Falso (Esperó dentro de la estación de tren)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb4-bc2-1",
@@ -8902,12 +8874,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb5-bc2-1",
-                "text": "◯ Verdadero (La comida estaba rica, pero un poco picante)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb5-bc2-2",
-                "text": "× Falso (La comida estaba muy dulce y mala)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb5-bc2-1",
@@ -9191,12 +9163,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb5-bc2-1",
-                "text": "◯ Verdadero (La comida estaba rica, pero un poco picante)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb5-bc2-2",
-                "text": "× Falso (La comida estaba muy dulce y mala)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb5-bc2-1",
@@ -10081,12 +10053,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb6-bc2-1",
-                "text": "◯ Verdadero (Ya se va porque mañana debe madrugar)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb6-bc2-2",
-                "text": "× Falso (Se quedará hasta medianoche porque mañana descansa)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb6-bc2-1",
@@ -10372,12 +10344,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb6-bc2-1",
-                "text": "◯ Verdadero (Ya se va porque mañana debe madrugar)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb6-bc2-2",
-                "text": "× Falso (Se quedará hasta medianoche porque mañana descansa)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb6-bc2-1",
@@ -11277,12 +11249,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb7-bc2-1",
-                "text": "◯ Verdadero (Esta cafetería es tranquila y barata)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb7-bc2-2",
-                "text": "× Falso (Esta cafetería es muy ruidosa y cara)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb7-bc2-1",
@@ -11496,12 +11468,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb7-bc2-1",
-                "text": "◯ Verdadero (Esta cafetería es tranquila y barata)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb7-bc2-2",
-                "text": "× Falso (Esta cafetería es muy ruidosa y cara)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb7-bc2-1",
@@ -12472,12 +12444,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb8-bc2-1",
-                "text": "◯ Verdadero (No irá a ningún lado para estudiar para el examen)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb8-bc2-2",
-                "text": "× Falso (Saldrá de paseo con amigos antes del examen)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb8-bc2-1",
@@ -12691,12 +12663,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb8-bc2-1",
-                "text": "◯ Verdadero (No irá a ningún lado para estudiar para el examen)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb8-bc2-2",
-                "text": "× Falso (Saldrá de paseo con amigos antes del examen)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb8-bc2-1",
@@ -13491,12 +13463,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb9-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb9-bc2-2",
-                "text": "× Falso (Se quedará en casa descansando)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb9-bc2-1",
@@ -13710,12 +13682,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb9-bc2-1",
-                "text": "◯ Verdadero (Irá al cine con amigos este fin de semana)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb9-bc2-2",
-                "text": "× Falso (Se quedará en casa descansando)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb9-bc2-1",
@@ -14685,12 +14657,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb10-bc2-1",
-                "text": "◯ Verdadero (Su estación favorita es el otoño por las hojas rojas)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb10-bc2-2",
-                "text": "× Falso (Prefiere el verano porque le gusta el calor)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb10-bc2-1",
@@ -14974,12 +14946,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb10-bc2-1",
-                "text": "◯ Verdadero (Su estación favorita es el otoño por las hojas rojas)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb10-bc2-2",
-                "text": "× Falso (Prefiere el verano porque le gusta el calor)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb10-bc2-1",
@@ -15771,12 +15743,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb11-bc2-1",
-                "text": "◯ Verdadero (Ayer limpió su cuarto y lavó la ropa)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb11-bc2-2",
-                "text": "× Falso (Ayer no hizo ningún quehacer doméstico)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb11-bc2-1",
@@ -15990,12 +15962,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb11-bc2-1",
-                "text": "◯ Verdadero (Ayer limpió su cuarto y lavó la ropa)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb11-bc2-2",
-                "text": "× Falso (Ayer no hizo ningún quehacer doméstico)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb11-bc2-1",
@@ -16794,12 +16766,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb12-bc2-1",
-                "text": "◯ Verdadero (Recomienda tomar medicina y acostarse temprano)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb12-bc2-2",
-                "text": "× Falso (Sugiere salir a correr aunque esté enfermo)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb12-bc2-1",
@@ -17013,12 +16985,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb12-bc2-1",
-                "text": "◯ Verdadero (Recomienda tomar medicina y acostarse temprano)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb12-bc2-2",
-                "text": "× Falso (Sugiere salir a correr aunque esté enfermo)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb12-bc2-1",
@@ -17822,12 +17794,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb13-bc2-1",
-                "text": "◯ Verdadero (El tren llegará al andén 2 y pide retroceder tras la línea amarilla)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb13-bc2-2",
-                "text": "× Falso (El tren fue cancelado y deben salir de la estación)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb13-bc2-1",
@@ -18113,12 +18085,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb13-bc2-1",
-                "text": "◯ Verdadero (El tren llegará al andén 2 y pide retroceder tras la línea amarilla)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb13-bc2-2",
-                "text": "× Falso (El tren fue cancelado y deben salir de la estación)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb13-bc2-1",
@@ -18912,12 +18884,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb14-bc2-1",
-                "text": "◯ Verdadero (Sugiere tomar medicina y dormir temprano si le duele la cabeza)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb14-bc2-2",
-                "text": "× Falso (Sugiere tomar café fuerte y estudiar toda la noche)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb14-bc2-1",
@@ -19204,12 +19176,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb14-bc2-1",
-                "text": "◯ Verdadero (Sugiere tomar medicina y dormir temprano si le duele la cabeza)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb14-bc2-2",
-                "text": "× Falso (Sugiere tomar café fuerte y estudiar toda la noche)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb14-bc2-1",
@@ -20005,12 +19977,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb15-bc2-1",
-                "text": "◯ Verdadero (Planea cenar mañana con amigos en el restaurante que halló ayer)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb15-bc2-2",
-                "text": "× Falso (Comió solo ayer en casa)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb15-bc2-1",
@@ -20297,12 +20269,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb15-bc2-1",
-                "text": "◯ Verdadero (Planea cenar mañana con amigos en el restaurante que halló ayer)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb15-bc2-2",
-                "text": "× Falso (Comió solo ayer en casa)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb15-bc2-1",
@@ -21099,12 +21071,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb16-bc2-1",
-                "text": "◯ Verdadero (Se arrepiente de no haber ido a la fiesta de ayer)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb16-bc2-2",
-                "text": "× Falso (Fue a la fiesta y dice que estuvo muy aburrida)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb16-bc2-1",
@@ -21391,12 +21363,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb16-bc2-1",
-                "text": "◯ Verdadero (Se arrepiente de no haber ido a la fiesta de ayer)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb16-bc2-2",
-                "text": "× Falso (Fue a la fiesta y dice que estuvo muy aburrida)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb16-bc2-1",
@@ -22186,12 +22158,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb17-bc2-1",
-                "text": "◯ Verdadero (Si llueve mañana, cancelarán la barbacoa y verán una película en casa)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb17-bc2-2",
-                "text": "× Falso (Harán la barbacoa en el parque aunque llueva fuerte)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb17-bc2-1",
@@ -22478,12 +22450,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb17-bc2-1",
-                "text": "◯ Verdadero (Si llueve mañana, cancelarán la barbacoa y verán una película en casa)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb17-bc2-2",
-                "text": "× Falso (Harán la barbacoa en el parque aunque llueva fuerte)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb17-bc2-1",
@@ -23271,12 +23243,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb18-bc2-1",
-                "text": "◯ Verdadero (Leyó el libro varias veces por adelantado para el examen)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb18-bc2-2",
-                "text": "× Falso (No ha abierto el libro de texto todavía)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb18-bc2-1",
@@ -23563,12 +23535,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb18-bc2-1",
-                "text": "◯ Verdadero (Leyó el libro varias veces por adelantado para el examen)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb18-bc2-2",
-                "text": "× Falso (No ha abierto el libro de texto todavía)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb18-bc2-1",
@@ -24367,12 +24339,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb19-bc2-1",
-                "text": "◯ Verdadero (El presidente ya se fue y pide llamar mañana por la mañana)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb19-bc2-2",
-                "text": "× Falso (El presidente está en su oficina esperando ahora mismo)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb19-bc2-1",
@@ -24659,12 +24631,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb19-bc2-1",
-                "text": "◯ Verdadero (El presidente ya se fue y pide llamar mañana por la mañana)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb19-bc2-2",
-                "text": "× Falso (El presidente está en su oficina esperando ahora mismo)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb19-bc2-1",
@@ -25445,12 +25417,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb20-bc2-1",
-                "text": "◯ Verdadero (Se ofrece humildemente a cargar el equipaje pesado)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb20-bc2-2",
-                "text": "× Falso (Pide ayuda para cargar su propio equipaje)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb20-bc2-1",
@@ -25737,12 +25709,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb20-bc2-1",
-                "text": "◯ Verdadero (Se ofrece humildemente a cargar el equipaje pesado)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb20-bc2-2",
-                "text": "× Falso (Pide ayuda para cargar su propio equipaje)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb20-bc2-1",
@@ -26541,12 +26513,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb21-bc2-1",
-                "text": "◯ Verdadero (Entró un ladrón a su casa y le robaron su computadora)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb21-bc2-2",
-                "text": "× Falso (Vendió su computadora usada en una tienda)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb21-bc2-1",
@@ -26833,12 +26805,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb21-bc2-1",
-                "text": "◯ Verdadero (Entró un ladrón a su casa y le robaron su computadora)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb21-bc2-2",
-                "text": "× Falso (Vendió su computadora usada en una tienda)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb21-bc2-1",
@@ -27630,12 +27602,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb22-bc2-1",
-                "text": "◯ Verdadero (Pide permiso para irse más temprano porque se siente mal)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb22-bc2-2",
-                "text": "× Falso (Pide quedarse horas extra en el trabajo hoy)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb22-bc2-1",
@@ -27922,12 +27894,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb22-bc2-1",
-                "text": "◯ Verdadero (Pide permiso para irse más temprano porque se siente mal)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb22-bc2-2",
-                "text": "× Falso (Pide quedarse horas extra en el trabajo hoy)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb22-bc2-1",
@@ -28722,12 +28694,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb23-bc2-1",
-                "text": "◯ Verdadero (Por muy difícil que sea, jamás abandonará sus estudios de japonés)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb23-bc2-2",
-                "text": "× Falso (Decidió dejar de estudiar japonés porque es demasiado difícil)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb23-bc2-1",
@@ -29014,12 +28986,12 @@ export const genkiCurriculum: Unit[] = [
             "options": [
               {
                 "id": "opt-wb23-bc2-1",
-                "text": "◯ Verdadero (Por muy difícil que sea, jamás abandonará sus estudios de japonés)",
+                "text": "◯ Verdadero",
                 "isCorrect": true
               },
               {
                 "id": "opt-wb23-bc2-2",
-                "text": "× Falso (Decidió dejar de estudiar japonés porque es demasiado difícil)"
+                "text": "× Falso"
               }
             ],
             "correctAnswerId": "opt-wb23-bc2-1",

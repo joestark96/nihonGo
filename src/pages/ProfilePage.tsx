@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { User, Flame, Zap, Heart, Gem, Database, RotateCcw, Award, CheckCircle2, Volume2, Moon, Sun, Type, Sparkles, Trophy, Target, Gift, Cloud, CloudUpload, CloudDownload, Share2, AlertCircle, Bell, Clock, Download, RefreshCw } from 'lucide-react';
+import { User, Flame, Zap, Heart, Gem, Database, RotateCcw, Award, CheckCircle2, Volume2, Moon, Sun, Type, Sparkles, Trophy, Target, Gift, Cloud, CloudUpload, CloudDownload, Share2, AlertCircle, Bell, Clock, Download, RefreshCw, Wrench, Unlock } from 'lucide-react';
 import { UserProfile, Unit } from '../types';
 import { sound, CHARACTER_VOICES } from '../services/sound';
 import { getLocalDateKey, getDailyQuestStats } from '../utils/dateUtils';
@@ -10,6 +10,8 @@ import { notificationService } from '../services/notificationService';
 import { loadJlptTowerProgress, getHighestJlptRank } from './JlptTowerPage';
 import { ConfirmModal } from '../components/UI/ConfirmModal';
 import { checkForAppUpdate, CURRENT_APP_VERSION, UpdateCheckResult } from '../services/updateChecker';
+import { JAPAN_REGIONS } from '../data/japanMapData';
+import { isDevModeEnabled, setDevModeEnabled, isDevUnlockAllEnabled, setDevUnlockAllEnabled } from '../utils/devMode';
 
 interface ProfilePageProps {
   profile: UserProfile;
@@ -253,6 +255,28 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
   const [pendingRestorePayload, setPendingRestorePayload] = useState<Partial<NihonGoBackupPayload> | null>(null);
   const [isExporting, setIsExporting] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Developer Mode (5 taps on version)
+  const [devMode, setDevMode] = useState<boolean>(() => isDevModeEnabled());
+  const [devUnlockAll, setDevUnlockAll] = useState<boolean>(() => isDevUnlockAllEnabled());
+  const [versionTapCount, setVersionTapCount] = useState<number>(0);
+  const [devFeedback, setDevFeedback] = useState<string | null>(null);
+
+  const handleVersionTap = () => {
+    if (devMode) return;
+    const next = versionTapCount + 1;
+    if (next >= 5) {
+      sound.playLessonComplete();
+      setDevModeEnabled(true);
+      setDevMode(true);
+      setDevUnlockAll(true);
+      setVersionTapCount(0);
+      setDevFeedback('🛠️ Modo Desarrollador activado');
+    } else {
+      sound.playTap();
+      setVersionTapCount(next);
+    }
+  };
 
   const handleExportToDrive = async () => {
     sound.playTap();
@@ -991,12 +1015,22 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
       <h3 className="text-sm font-black text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">Versión y Actualizaciones</h3>
       <div className="bg-white dark:bg-[#18272e] p-4 rounded-2xl border-2 border-duo-gray-200 dark:border-[#283842] shadow-duo-card dark:shadow-none mb-5 transition-colors">
         <div className="flex items-center justify-between gap-2 mb-2">
-          <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleVersionTap}
+            className="flex items-center gap-2 text-left cursor-pointer"
+            title="Toca 5 veces para Modo Desarrollador"
+          >
             <Sparkles className="w-5 h-5 text-duo-green" />
             <span className="text-xs font-black text-gray-800 dark:text-gray-100">
               NihonGo! v{CURRENT_APP_VERSION}
             </span>
-          </div>
+            {devMode && (
+              <span className="px-1.5 py-0.5 rounded-md bg-amber-500/20 text-amber-500 text-[10px] font-black">
+                DEV
+              </span>
+            )}
+          </button>
           <button
             type="button"
             onClick={() => {
@@ -1043,6 +1077,92 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
           </div>
         )}
       </div>
+
+      {/* Developer Mode Panel (visible when activated via 5 taps on version) */}
+      {devMode && (
+        <div className="bg-amber-50/80 dark:bg-[#231f14] p-4 rounded-2xl border-2 border-amber-400/60 mb-5 space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Wrench className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+              <h4 className="text-xs font-black uppercase tracking-wider text-amber-700 dark:text-amber-300">
+                Modo Desarrollador
+              </h4>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                sound.playTap();
+                setDevModeEnabled(false);
+                setDevMode(false);
+                setDevUnlockAll(false);
+                setDevFeedback(null);
+              }}
+              className="text-[11px] font-black text-red-500 hover:underline cursor-pointer"
+            >
+              Desactivar
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                sound.playTap();
+                const next = !devUnlockAll;
+                setDevUnlockAllEnabled(next);
+                setDevUnlockAll(next);
+                setDevFeedback(next ? '🔓 Todas las lecciones desbloqueadas (Roadmap y Teoría).' : '🔒 Bloqueo normal restaurado.');
+              }}
+              className={`w-full py-2.5 px-3 rounded-xl font-black text-xs border-2 flex items-center justify-between cursor-pointer ${
+                devUnlockAll
+                  ? 'bg-duo-green/15 border-duo-green text-duo-green'
+                  : 'bg-white dark:bg-[#18272e] border-amber-300 dark:border-amber-700 text-gray-800 dark:text-gray-100'
+              }`}
+            >
+              <span className="flex items-center gap-1.5">
+                <Unlock className="w-3.5 h-3.5" /> Desbloquear todas las lecciones
+              </span>
+              <span>{devUnlockAll ? 'ACTIVO' : 'OFF'}</span>
+            </button>
+
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  sound.playLessonComplete();
+                  onClaimQuestReward?.(500, 100);
+                  onRefillHearts();
+                  setDevFeedback('⚡ +500 XP, +100 💎 y 5 ❤️ agregados.');
+                }}
+                className="py-2 px-3 rounded-xl bg-duo-blue text-white font-black text-xs cursor-pointer"
+              >
+                +500 XP · +100 💎 · 5 ❤️
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  sound.playTap();
+                  try {
+                    localStorage.setItem(
+                      'nihongo_japan_stamps_v1',
+                      JSON.stringify(JAPAN_REGIONS.map(r => r.id))
+                    );
+                    setDevFeedback('🗾 8 sellos del Mapa de Japón desbloqueados.');
+                  } catch {}
+                }}
+                className="py-2 px-3 rounded-xl bg-rose-500 text-white font-black text-xs cursor-pointer"
+              >
+                🗾 Desbloquear 8 sellos
+              </button>
+            </div>
+          </div>
+
+          {devFeedback && (
+            <p className="text-[11px] font-bold text-amber-800 dark:text-amber-200">{devFeedback}</p>
+          )}
+        </div>
+      )}
 
       {/* SQLite Local Persistence Section */}
       <h3 className="text-sm font-black text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">Persistencia de Datos</h3>

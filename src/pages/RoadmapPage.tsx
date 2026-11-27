@@ -8,6 +8,7 @@ import { sound } from '../services/sound';
 import { createJumpAheadLesson, createMultiUnitJumpAheadLesson } from '../utils/jumpAhead';
 import { createPracticeLesson, createUnitReviewLesson } from '../utils/practiceLesson';
 import { expandLessonExercises } from '../utils/lessonExpander';
+import { isDevUnlockAllEnabled } from '../utils/devMode';
 
 interface RoadmapPageProps {
   units: Unit[];
@@ -35,6 +36,13 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
   const [isJumpAheadActive, setIsJumpAheadActive] = useState(false);
   const [isPracticeActive, setIsPracticeActive] = useState(false);
   const [showImprovableList, setShowImprovableList] = useState(false);
+  const [devUnlockAll, setDevUnlockAll] = useState<boolean>(() => isDevUnlockAllEnabled());
+
+  useEffect(() => {
+    const onDevChange = () => setDevUnlockAll(isDevUnlockAllEnabled());
+    window.addEventListener('nihongo-dev-mode-changed', onDevChange);
+    return () => window.removeEventListener('nihongo-dev-mode-changed', onDevChange);
+  }, []);
 
   // Close open lesson popover / improvable list on Android back gesture
   useEffect(() => {
@@ -206,6 +214,34 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
 
   return (
     <div className="max-w-md mx-auto w-full px-4 pt-4 pb-28 flex flex-col items-center relative">
+      {/* Floating Mode Switcher Pill (Libro <-> Workbook) */}
+      <div className="fixed bottom-20 left-4 z-20 p-1 rounded-2xl bg-white/95 dark:bg-[#18272e]/95 backdrop-blur-md border-2 border-duo-gray-200 dark:border-[#2c3f49] shadow-lg flex items-center gap-1">
+        <button
+          onClick={() => handleModeChange('textbook')}
+          title="Cambiar a Libro de Texto"
+          className={`py-2 px-2.5 rounded-xl font-black text-[11px] flex items-center gap-1 transition-all cursor-pointer ${
+            roadmapMode === 'textbook'
+              ? 'bg-duo-green text-white shadow-xs'
+              : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+          }`}
+        >
+          <BookOpen className="w-3.5 h-3.5 stroke-[2.5px]" />
+          <span>Libro</span>
+        </button>
+        <button
+          onClick={() => handleModeChange('workbook')}
+          title="Cambiar a Workbook"
+          className={`py-2 px-2.5 rounded-xl font-black text-[11px] flex items-center gap-1 transition-all cursor-pointer ${
+            roadmapMode === 'workbook'
+              ? 'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-xs'
+              : 'text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
+          }`}
+        >
+          <BookMarked className="w-3.5 h-3.5 stroke-[2.5px]" />
+          <span>Workbook</span>
+        </button>
+      </div>
+
       {/* Floating Action Buttons */}
       <div className="fixed bottom-20 right-4 z-20 flex flex-col items-end gap-3 pointer-events-none">
         {/* Practice Dumbbell Floating Button */}
@@ -362,15 +398,18 @@ export const RoadmapPage: React.FC<RoadmapPageProps> = ({
         }
 
         // Si la unidad está desbloqueada en libro de texto, asegurar que el primer ejercicio de workbook esté disponible
-        const isUnitUnlockedInTextbook = unit.nodes.some(n => !isWorkbookNode(n) && n.unlocked);
+        const isUnitUnlockedInTextbook = devUnlockAll || unit.nodes.some(n => !isWorkbookNode(n) && n.unlocked);
         const displayNodes = currentNodes.map((n, idx) => {
+          if (devUnlockAll && !n.unlocked) {
+            return { ...n, unlocked: true };
+          }
           if (isWorkbook && idx === 0 && isUnitUnlockedInTextbook && !n.unlocked) {
             return { ...n, unlocked: true };
           }
           return n;
         });
 
-        const isUnitUnlocked = displayNodes.some(n => n.unlocked);
+        const isUnitUnlocked = devUnlockAll || displayNodes.some(n => n.unlocked);
         const isUnitCompleted = displayNodes.length > 0 && displayNodes.every(n => n.stars > 0);
 
         return (

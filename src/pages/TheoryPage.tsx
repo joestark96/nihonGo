@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BookOpen, Volume2, Search, Lightbulb, Sparkles, BookMarked, ArrowLeft,
   ChevronDown, Headphones, PenTool, CheckCircle2, Play, Star, RotateCcw,
@@ -7,6 +7,7 @@ import {
 import { Unit, UserProfile } from '../types';
 import { unitTheories, TheorySection } from '../data/theoryData';
 import { genkiCurriculum } from '../data/genkiCurriculum';
+import { isDevUnlockAllEnabled } from '../utils/devMode';
 import { sound } from '../services/sound';
 import { CustomSelect } from '../components/UI/CustomSelect';
 import { TheoryChatMode } from '../components/Theory/TheoryChatMode';
@@ -30,6 +31,13 @@ export const TheoryPage: React.FC<TheoryPageProps> = ({
 }) => {
   const [selectedUnitId, setSelectedUnitId] = useState<number>(initialUnitId);
   const [lockedUnitNotice, setLockedUnitNotice] = useState<string | null>(null);
+  const [, setDevTick] = useState<number>(0);
+
+  useEffect(() => {
+    const onDevChange = () => setDevTick(t => t + 1);
+    window.addEventListener('nihongo-dev-mode-changed', onDevChange);
+    return () => window.removeEventListener('nihongo-dev-mode-changed', onDevChange);
+  }, []);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [studyMode, setStudyMode] = useState<'guide' | 'chat'>('guide');
@@ -38,7 +46,7 @@ export const TheoryPage: React.FC<TheoryPageProps> = ({
   // Curriculum source (from state or static master)
   const curriculumUnits = units && units.length > 0 ? units : genkiCurriculum;
   const isUnitUnlocked = (uId: number): boolean => {
-    if (uId === 0) return true;
+    if (uId === 0 || isDevUnlockAllEnabled()) return true;
     for (let i = 0; i < uId; i++) {
       const prev = curriculumUnits.find(u => u.id === i);
       const prevHasProgress = Boolean(

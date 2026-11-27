@@ -462,16 +462,29 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onEnterApp }) => {
           </div>
 
           <div className="space-y-4">
-            {/* v1.3.6 */}
+            {/* v1.3.7 */}
             <div className="p-5 sm:p-6 rounded-3xl bg-emerald-50/70 dark:bg-[#18272e] border-2 border-duo-green shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.3.6</span>
+                  <span className="px-2.5 py-1 rounded-xl bg-duo-green text-white font-black text-xs">v1.3.7</span>
                   <span className="text-xs font-black uppercase tracking-wider text-duo-green">Actual</span>
                 </div>
-                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Notas de Voz en Chat, Vocabulario Clave y Unidades Bloqueadas</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Modo Desarrollador, Barra Flotante y Pulido de Ejercicios</span>
               </div>
               <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+                <li>• <strong>Modo Desarrollador (5 toques en versión en Perfil):</strong> Permite desbloquear todas las lecciones, sumar XP/gemas/corazones, abrir los 8 sellos del mapa y navegar entre ejercicios viendo la respuesta dentro de cualquier lección.</li>
+                <li>• <strong>Barra flotante Libro ↔ Workbook:</strong> Píldora flotante en la esquina inferior izquierda del Roadmap para cambiar de modo desde cualquier altura.</li>
+                <li>• <strong>Ejercicios del Workbook corregidos:</strong> Traducción al español de textos en inglés, audio habilitado en ejercicios de emparejar precios (match-pairs) y limpieza de 88 pistas en opciones de Verdadero/Falso.</li>
+              </ul>
+            </div>
+
+            {/* v1.3.6 */}
+            <div className="p-5 sm:p-6 rounded-3xl bg-gray-50 dark:bg-[#18272e] border border-gray-200 dark:border-[#283842]">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <span className="px-2.5 py-1 rounded-xl bg-duo-green/15 text-duo-green font-black text-xs">v1.3.6</span>
+                <span className="text-xs font-bold text-gray-500 dark:text-gray-400">Notas de Voz en Chat, Vocabulario Clave y Unidades Bloqueadas</span>
+              </div>
+              <ul className="space-y-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300">
                 <li>• <strong>Notas de voz estilo WhatsApp en Chat con Sensei:</strong> Antes del Tema 1, escucha el diálogo de la unidad con reproducción secuencial corregida, ondas con barra de progreso animada y transcripción desplegable.</li>
                 <li>• <strong>Vocabulario clave en el chat:</strong> Tarjeta interactiva después de los diálogos para repasar y escuchar las palabras principales de cada lección.</li>
                 <li>• <strong>Progresión bloqueada en Roadmap y Estudio:</strong> Únicamente la primera lección de la Unidad 0 inicia desbloqueada; las unidades posteriores y su Guía de Teoría quedan bloqueadas (🔒) hasta avanzar.</li>
